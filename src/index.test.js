@@ -1,6 +1,6 @@
 import React from "react";
 import TestRenderer from "react-test-renderer";
-import * as utils from "./index";
+import { utils, ui } from "./index";
 import { mockDriver } from "../config/test_helpers";
 
 it("loads Cypher", () => {
@@ -14,6 +14,14 @@ it("loads DriverProvider", () => {
     <utils.DriverProvider driver={mockDriver()}>
       <div />
     </utils.DriverProvider>
+  );
+  expect(out.toJSON()).toMatchSnapshot();
+});
+it("loads Render (with output)", () => {
+  const out = TestRenderer.create(
+    <ui.Render if={true}>
+      <span>Hello</span>
+    </ui.Render>
   );
   expect(out.toJSON()).toMatchSnapshot();
 });

@@ -1,2 +1,4 @@
-export * from "./utils"; // exports * as utils from this file
-export * from "./ui";
+import * as utils from "./utils";
+import * as ui from "./ui";
+
+export { utils, ui };
