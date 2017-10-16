@@ -86,7 +86,7 @@ it("runs cypher query at an interval", () => {
   const query = "RETURN rand()";
 
   // When
-  const r = TestRenderer.create(
+  TestRenderer.create(
     <DriverProvider driver={mockDriver(spy)}>
       <Cypher
         interval={1} // every second
