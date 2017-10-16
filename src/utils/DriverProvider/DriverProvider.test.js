@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import TestRenderer from "react-test-renderer";
-
 import DriverProvider from "./DriverProvider";
 
 it("Passes driver in context to one child", () => {

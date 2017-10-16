@@ -7,6 +7,7 @@ import Cypher, {
   missingDriverError
 } from "./Cypher";
 import DriverProvider from "../DriverProvider";
+import { flushPromises } from "../../../config/test_helpers";
 
 it("renders without crashing", () => {
   const out = TestRenderer.create(
@@ -203,7 +204,3 @@ it("passes error argument to render function", () => {
     expect(tree).toMatchSnapshot();
   });
 });
-
-function flushPromises() {
-  return new Promise(resolve => setImmediate(resolve));
-}
