@@ -66,6 +66,6 @@ export const getActiveCredentials = (type, context) => {
   const activeGraph = getActiveGraph(context);
   if (!activeGraph || typeof activeGraph.connection === "undefined")
     return null;
-  const creds = getCredentials("bolt", activeGraph.connection);
+  const creds = getCredentials(type, activeGraph.connection);
   return creds || null;
 };

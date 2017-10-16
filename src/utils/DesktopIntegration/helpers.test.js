@@ -15,6 +15,7 @@ test("getActiveGraph handles non objects and non-active projects", () => {
     [1],
     { project: null },
     { projects: { x: 1 } },
+    { projects: [null] },
     { projects: [{ x: 1 }] },
     { projects: [{ graphs: [{ status: "NOPE" }] }] }
   ];
@@ -49,7 +50,13 @@ test("getActiveGraph handles expected objects", () => {
 
 test("getCredentials handles non objects", () => {
   // Given
-  const configs = [null, "string", undefined, [1]];
+  const configs = [
+    null,
+    "string",
+    undefined,
+    [1],
+    { configuration: { protocols: "hello" } }
+  ];
 
   // When && Then
   configs.forEach(config => {
@@ -221,5 +228,46 @@ test("getActiveCredentials finds the active connection from a context object and
   // Then
   expect(firstActive).toEqual(bolt1);
   expect(secondActive).toEqual(bolt2);
+  expect(zeroActive).toEqual(null);
+});
+
+test("getActiveCredentials returns null if no active graph", () => {
+  // Given
+  const bolt1 = {
+    username: "one",
+    password: "one1"
+  };
+  const bolt2 = {
+    username: "two",
+    password: "two2"
+  };
+  const createApiResponse = graphs => ({
+    projects: [{ graphs }]
+  });
+  const noBolt = createApiResponse([
+    {
+      id: 1,
+      status: "INACTIVE",
+      connection: {
+        configuration: {
+          protocols: { bolt: bolt1 }
+        }
+      }
+    },
+    {
+      id: 2,
+      status: "ACTIVE",
+      connection: {
+        configuration: {
+          protocols: { bolt: bolt2 }
+        }
+      }
+    }
+  ]);
+
+  // When
+  const zeroActive = getActiveCredentials("https", noBolt);
+
+  // Then
   expect(zeroActive).toEqual(null);
 });
