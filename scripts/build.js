@@ -18,7 +18,7 @@ const bundles = [
   },
   {
     format: "es",
-    ext: ".es6.js",
+    ext: ".esm.js",
     plugins: [resolve()],
     babelPresets: ["es2015-rollup", "react-app"],
     babelPlugins: []

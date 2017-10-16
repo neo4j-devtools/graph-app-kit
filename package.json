@@ -2,7 +2,7 @@
   "name": "bolt-components",
   "version": "0.2.0",
   "main": "dist/main.js",
-  "jsnext:main": "dist/main.es6.js",
+  "module": "dist/main.esm.js",
   "scripts": {
     "build": "npm run lint && node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
