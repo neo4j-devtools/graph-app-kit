@@ -1,45 +1,45 @@
-## graph-app-kit
+## Graph App Kit
 
 Build Neo4j Graph Apps using components and libraries from this kit.
+Browse source code and read README:s in sub directories for examples and docs.
 
 ## Install and import
 
 ```bash
 npm install graph-app-kit --registry https://neo.jfrog.io/neo/api/npm/npm
+// or
+yarn add graph-app-kit --registry https://neo.jfrog.io/neo/api/npm/npm
 ```
 
 ```javascript
 import { Cypher, DriverProvider } from 'graph-app-kit/utils'
-```
-
-## Usage
-
-```javascript
-<Cypher
-  query='RETURN rand() as n' // Cypher query. (required)
-  render={({pending, error, result}) => { // Function to be called on render (required)
-    return pending ? 'pending' : error ? error.message : result.records[0].get('n')
-  }}
-  driver={driver} // neo4j-driver (optional)
-  params={{id: 1}} // Params to be passed with the query (optional)
-  interval={10} // Run every 10 seconds (optional)
-/>
-```
-
-```javascript
-<DriverProvider driver={driver}>
-  // driver is now available in the context
-  <App />
-</DriverProvider>
-
+import { Render } from 'graph-app-kit/ui'
 ```
 
 ## Development
 
 ```bash
-git clone git@github.com:oskarhane/bolt-components.git bolt-components
-cd bolt-components
+git clone git@github.com:neo4j-contrib/graph-app-kit.git graph-app-kit
+cd graph-app-kit
 yarn install
+```
+
+### Linting
+
+```bash
+yarn lint
+```
+
+### Testing
+
+One run with coverage report:
+
+```bash
 yarn test --coverage
+```
+
+Continous testing (watch mode):
+
+```bash
 yarn test
 ```
