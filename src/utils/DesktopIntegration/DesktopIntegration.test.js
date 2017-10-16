@@ -27,6 +27,44 @@ describe("<DesktopIntegration>", () => {
     // Then
     expect(out.toJSON()).toEqual(null);
   });
+  test("does not break if theres no onMount", () => {
+    // Given
+    const integrationPoint = {
+      getContext: () => {
+        return {
+          // Fake promise
+          then: fn => {
+            fn({ x: 1 });
+            return { catch: () => {} };
+          }
+        };
+      }
+    };
+
+    // When
+    const out = TestRenderer.create(
+      <DesktopIntegration integrationPoint={integrationPoint} />
+    );
+
+    // Then
+    expect(out.toJSON()).toEqual(null);
+  });
+  test("catches errors in onMount", () => {
+    // Given
+    const mFn = jest.fn();
+    const integrationPoint = {
+      getContext: () => Promise.reject()
+    };
+
+    // When
+    const out = TestRenderer.create(
+      <DesktopIntegration integrationPoint={integrationPoint} onMount={mFn} />
+    );
+
+    // Then
+    expect(out.toJSON()).toEqual(null);
+    expect(mFn).not.toHaveBeenCalled();
+  });
   test("calls onMount with data on mounting", () => {
     // Given
     const mFn = jest.fn();
@@ -69,6 +107,32 @@ describe("<DesktopIntegration>", () => {
     expect(mFn).toHaveBeenCalledTimes(1);
     out.update(<DesktopIntegration {...props} x={1} />);
     expect(mFn).toHaveBeenCalledTimes(1);
+  });
+  test("does not break on strange event names", () => {
+    // Given
+    let componentOnContextUpdate;
+    const fn = jest.fn();
+    const oldContext = { projects: [] };
+    const newContext = { projects: [{ project: {} }] };
+    const event = { type: 1 };
+    const integrationPoint = {
+      onContextUpdate: fn => (componentOnContextUpdate = fn)
+    };
+    // We want to get called onXxx for XXX type events
+    const props = { integrationPoint };
+
+    // When
+    const out = TestRenderer.create(<DesktopIntegration {...props} />);
+
+    // Then
+    expect(out.toJSON()).toEqual(null);
+    expect(fn).toHaveBeenCalledTimes(0);
+
+    // When
+    componentOnContextUpdate(event, newContext, oldContext);
+
+    // Then
+    expect(fn).not.toHaveBeenCalled();
   });
   test("calls onXxx with data on event XXX", () => {
     // Given
