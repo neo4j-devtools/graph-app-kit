@@ -1,0 +1,9 @@
+config/
+coverage/
+scripts/
+src/
+.babelrc
+.travis.yml
+package-lock.json
+yarn.lock
+.npmrc

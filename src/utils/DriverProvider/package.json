@@ -1,0 +1,4 @@
+{
+  "name": "DriverProvider",
+  "main": "./DriverProvider.js"
+}

@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`passes error argument to render function 1`] = `"pending"`;
+
+exports[`passes error argument to render function 2`] = `"ERROR"`;
+
+exports[`passes result argument to render function 1`] = `"pending"`;
+
+exports[`passes result argument to render function 2`] = `"10"`;

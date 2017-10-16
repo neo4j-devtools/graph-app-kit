@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Passes driver in context to array of children 1`] = `
+<div>
+  Check this out
+</div>
+`;
