@@ -1,7 +1,7 @@
 import { Component } from "react";
 import * as PropTypes from "prop-types";
 
-class DriverProvider extends Component {
+export class DriverProvider extends Component {
   getChildContext() {
     return {
       driver: this.props.driver
@@ -21,5 +21,3 @@ DriverProvider.propTypes = {
   driver: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired
 };
-
-export default DriverProvider;

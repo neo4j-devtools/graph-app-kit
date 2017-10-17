@@ -8,7 +8,7 @@ export const missingQueryError =
 export const missingDriverError =
   "A property or conext object named 'driver' is missing. Component needs a connected driver to send queries over. See <Provider>.";
 
-class Cypher extends Component {
+export class Cypher extends Component {
   constructor(props, context) {
     super(props, context);
     this.driver = props.driver || context.driver;
@@ -69,5 +69,3 @@ class Cypher extends Component {
 Cypher.contextTypes = {
   driver: PropTypes.object
 };
-
-export default Cypher;

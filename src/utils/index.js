@@ -1,2 +1,3 @@
-export { default as Cypher } from "./Cypher";
-export { default as DriverProvider } from "./DriverProvider";
+export { Cypher } from "./Cypher";
+export { DriverProvider } from "./DriverProvider";
+export { DesktopIntegration } from "./DesktopIntegration";

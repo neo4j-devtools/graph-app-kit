@@ -1,12 +1,13 @@
 import React from "react";
 import TestRenderer from "react-test-renderer";
 import { mockDriver, flushPromises } from "../../../config/test_helpers";
-import Cypher, {
+import {
+  Cypher,
   missingRenderPropError,
   missingQueryError,
   missingDriverError
 } from "./Cypher";
-import DriverProvider from "../DriverProvider";
+import { DriverProvider } from "../DriverProvider";
 
 it("renders without crashing", () => {
   const out = TestRenderer.create(

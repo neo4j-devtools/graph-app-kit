@@ -7,23 +7,42 @@ const resolve = require("rollup-plugin-node-resolve");
 const pkg = require("../package.json");
 
 process.env.NODE_ENV = "production";
-
-const bundles = [
+const inputs = [
+  "index",
+  "ui/index",
+  "ui/Render/index",
+  "utils/index",
+  "utils/Cypher/index",
+  "utils/DriverProvider/index",
+  "utils/DesktopIntegration/index"
+];
+const bundleTypes = [
   {
     format: "cjs",
     ext: ".js",
     plugins: [resolve(), commonjs()],
     babelPresets: ["es2015-rollup", "react-app"],
     babelPlugins: []
-  },
-  {
-    format: "es",
-    ext: ".esm.js",
-    plugins: [resolve()],
-    babelPresets: ["es2015-rollup", "react-app"],
-    babelPlugins: []
   }
+  // {
+  //   format: "es",
+  //   ext: ".esm.js",
+  //   plugins: [resolve()],
+  //   babelPresets: ["es2015-rollup", "react-app"],
+  //   babelPlugins: []
+  // }
 ];
+
+let bundles = [];
+bundleTypes.forEach(bType => {
+  inputs.forEach(input => {
+    bundles.push({
+      ...bType,
+      input: `src/${input}.js`,
+      moduleName: input
+    });
+  });
+});
 
 let promise = Promise.resolve();
 
@@ -35,7 +54,7 @@ for (const config of bundles) {
   promise = promise.then(() =>
     rollup
       .rollup({
-        input: "src/index.js",
+        input: config.input,
         external: ["react", "prop-types"],
         plugins: [
           babel({
