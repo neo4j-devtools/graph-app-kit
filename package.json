@@ -12,7 +12,7 @@
   "lint-staged": {
     "*.{js,json,css}": ["prettier --write", "git add"]
   },
-  "license": "GPL-3.0",
+  "license": "Apache-2.0",
   "devDependencies": {
     "babel-core": "6.25.0",
     "babel-eslint": "7.2.3",
