@@ -38,12 +38,6 @@ Single run:
 yarn test
 ```
 
-One run with coverage report:
-
-```bash
-yarn test --coverage
-```
-
 Continous testing (watch mode):
 
 ```bash
