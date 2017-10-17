@@ -1,5 +1,5 @@
 {
-  "name": "bolt-components",
+  "name": "graph-app-kit",
   "version": "0.2.0",
   "main": "dist/main.js",
   "module": "dist/main.esm.js",
