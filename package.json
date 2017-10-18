@@ -8,8 +8,9 @@
     "dev": "node scripts/test.js --env=jsdom",
     "lint": "eslint --fix --ext .js src",
     "precommit": "lint-staged",
-    "preprare-dist": "node scripts/release.js",
-    "dist": "cd dist && npm publish"
+    "prepare-dist": "node scripts/release.js",
+    "dist": "cd dist && npm publish",
+    "clean-dist": "cat ./.npmrc > dist/.npmrc"
   },
   "lint-staged": {
     "*.{js,json,css}": ["prettier --write", "git add"]
