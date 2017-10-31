@@ -1,6 +1,8 @@
 ## Graph App Kit
 
-Build Neo4j Graph Apps using components and libraries from this kit.
+Build Neo4j Graph Apps using components and utilities from this graph app kit.  
+This kit should be considered to be 'under development' and the components in it can have breaking changes (i.e. until version `1.0.0` semver does not apply).
+
 Browse source code and read README:s in sub directories for examples and docs.
 
 ## Install and import
