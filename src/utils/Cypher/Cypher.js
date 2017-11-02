@@ -69,3 +69,12 @@ export class Cypher extends Component {
 Cypher.contextTypes = {
   driver: PropTypes.object
 };
+
+Cypher.propTypes = {
+  driver: PropTypes.object,
+  params: PropTypes.object,
+  query: PropTypes.string.isRequired,
+  render: PropTypes.func.isRequired
+};
+
+export default Cypher;

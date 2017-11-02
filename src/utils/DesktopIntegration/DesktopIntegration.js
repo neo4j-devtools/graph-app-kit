@@ -1,7 +1,8 @@
 import { Component } from "react";
+import * as PropTypes from "prop-types";
 import { getActiveGraph, getCredentials, eventToHandler } from "./helpers";
 
-export default class DesktopIntegration extends Component {
+export class DesktopIntegration extends Component {
   setupListener() {
     const { integrationPoint } = this.props;
     if (integrationPoint && integrationPoint.onContextUpdate) {
@@ -39,3 +40,11 @@ export default class DesktopIntegration extends Component {
     return null;
   }
 }
+
+DesktopIntegration.propTypes = {
+  integrationPoint: PropTypes.object,
+  onMount: PropTypes.func,
+  onEventType: PropTypes.func
+};
+
+export default DesktopIntegration;
