@@ -20,13 +20,8 @@ export class DesktopIntegration extends Component {
       integrationPoint
         .getContext()
         .then(context => {
-          const activeGraph = getActiveGraph(context);
           if (onMount) {
-            const connectionCredentials = getCredentials(
-              "bolt",
-              activeGraph.connection
-            );
-            onMount(activeGraph, connectionCredentials, context);
+            onMount(context);
           }
         })
         .catch(e => {}); // Catch but don't bother
