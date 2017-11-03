@@ -259,6 +259,12 @@ asap@~2.0.3:
   version "2.0.6"
   resolved "https://neo.jfrog.io/neo/api/npm/npm/asap/-/asap-2.0.6.tgz#e50347611d7e690943208bbdafebcbc2fb866d46"
 
+ascii-data-table@^2.1.1:
+  version "2.1.1"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/ascii-data-table/-/ascii-data-table-2.1.1.tgz#8f62f67c0f2625339a7e0b568c2aeed875a410fe"
+  dependencies:
+    core-js "^2.4.1"
+
 asn1.js@^4.0.0:
   version "4.9.2"
   resolved "https://neo.jfrog.io/neo/api/npm/npm/asn1.js/-/asn1.js-4.9.2.tgz#8117ef4f7ed87cd8f89044b5bff97ac243a16c9a"

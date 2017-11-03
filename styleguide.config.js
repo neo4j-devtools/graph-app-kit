@@ -2,7 +2,7 @@ const path = require("path");
 module.exports = {
   title: "Graph Apps Kit Playground",
   showCode: true,
-  showUsage: true,
+  showUsage: false,
   sections: [
     {
       name: "Playground intro",
