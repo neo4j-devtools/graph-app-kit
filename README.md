@@ -12,7 +12,7 @@ Browse source code and read README:s in sub directories for examples and docs.
 | Component  | Description  |
 |---|---|
 | [&lt;Render>](https://github.com/neo4j-contrib/graph-app-kit/tree/master/src/ui/Render) | A declarative toggling component to mount / unmount child components under certain conditions.  |
-| ]&lt;AsciiTable>](https://github.com/neo4j-contrib/graph-app-kit/tree/master/src/ui/AsciiTable) | Render your data in an text/ascii table with fixed width font.  |
+| [&lt;AsciiTable>](https://github.com/neo4j-contrib/graph-app-kit/tree/master/src/ui/AsciiTable) | Render your data in an text/ascii table with fixed width font.  |
 
 ### Utility components
 
