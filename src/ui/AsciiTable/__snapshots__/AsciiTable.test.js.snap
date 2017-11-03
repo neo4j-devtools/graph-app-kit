@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loads AsciiTable data 1`] = `
+"╒══════╕
+│\\"h1\\"  │
+╞══════╡
+│\\"r1c1\\"│
+└──────┘"
+`;
+
+exports[`re-renders on new data 1`] = `
+"╒══════╕
+│\\"h1\\"  │
+╞══════╡
+│\\"r1c1\\"│
+└──────┘"
+`;
+
+exports[`re-renders on new data 2`] = `
+"╒══════╕
+│\\"h2\\"  │
+╞══════╡
+│\\"r1c1\\"│
+└──────┘"
+`;
