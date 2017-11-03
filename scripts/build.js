@@ -11,6 +11,7 @@ const inputs = [
   "index",
   "ui/index",
   "ui/Render/index",
+  "ui/AsciiTable/index",
   "utils/index",
   "utils/Cypher/index",
   "utils/DriverProvider/index",
