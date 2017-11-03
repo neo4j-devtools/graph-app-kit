@@ -10,6 +10,7 @@ dist/
 
 # production
 /build
+/styleguide
 
 # misc
 .DS_Store

@@ -11,8 +11,8 @@
     "prepare-dist": "node scripts/release.js",
     "dist": "cd dist && npm publish",
     "clean-dist": "cat ./.npmrc > dist/.npmrc",
-    "styleguide": "styleguidist server",
-    "styleguide:build": "styleguidist build"
+    "playground": "styleguidist server",
+    "playground:build": "styleguidist build"
   },
   "lint-staged": {
     "*.{js,json,css}": ["prettier --write", "git add"]
