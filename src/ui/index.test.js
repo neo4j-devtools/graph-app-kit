@@ -1,6 +1,6 @@
 import React from "react";
 import TestRenderer from "react-test-renderer";
-import { Render } from "./index";
+import { Render } from "./";
 
 it("loads Render (no output)", () => {
   const out = TestRenderer.create(<Render if={1 === 2}>Hello</Render>);

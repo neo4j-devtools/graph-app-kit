@@ -21,3 +21,5 @@ DriverProvider.propTypes = {
   driver: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired
 };
+
+export default DriverProvider;
