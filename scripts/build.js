@@ -12,6 +12,7 @@ const inputs = [
   "ui/index",
   "ui/Render/index",
   "ui/AsciiTable/index",
+  "ui/Chart/index",
   "utils/index",
   "utils/Cypher/index",
   "utils/DriverProvider/index",
@@ -21,7 +22,46 @@ const bundleTypes = [
   {
     format: "cjs",
     ext: ".js",
-    plugins: [resolve(), commonjs()],
+    plugins: [
+      resolve(),
+      commonjs({
+        namedExports: {
+          "node_modules/@vx/scale/build/index.js": [
+            "scaleTime",
+            "scaleLinear",
+            "scaleOrdinal"
+          ],
+          "node_modules/@vx/curve/build/index.js": [
+            "curveBasis",
+            "curveMonotoneX"
+          ],
+          "node_modules/@vx/gradient/build/index.js": ["LinearGradient"],
+          "node_modules/@vx/group/build/index.js": ["Group"],
+          "node_modules/@vx/shape/build/index.js": [
+            "AxisLeft",
+            "AreaClosed",
+            "LinePath"
+          ],
+          "node_modules/@vx/glyph/build/index.js": ["GlyphDot"],
+          "node_modules/@vx/axis/build/index.js": ["AxisLeft", "AxisBottom"],
+          "node_modules/@vx/legend/build/index.js": ["LegendOrdinal"],
+          "node_modules/@data-ui/xy-chart/build/index.js": [
+            "XYChart",
+            "XAxis",
+            "YAxis",
+            "BarSeries",
+            "CrossHair",
+            "LineSeries"
+          ],
+          "node_modules/@data-ui/radial-chart/build/index.js": [
+            "RadialChart",
+            "ArcSeries",
+            "ArcLabel"
+          ],
+          "node_modules/@data-ui/theme/build/index.js": ["chartTheme"]
+        }
+      })
+    ],
     babelPresets: ["es2015-rollup", "react-app"],
     babelPlugins: []
   }

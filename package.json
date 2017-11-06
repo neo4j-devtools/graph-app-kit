@@ -15,10 +15,7 @@
     "playground:build": "styleguidist build"
   },
   "lint-staged": {
-    "*.{js,json,css}": [
-      "prettier --write",
-      "git add"
-    ]
+    "*.{js,json,css}": ["prettier --write", "git add"]
   },
   "license": "Apache-2.0",
   "devDependencies": {
@@ -61,12 +58,8 @@
     "react": "^16.0.0"
   },
   "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx}"
-    ],
-    "setupFiles": [
-      "<rootDir>/config/polyfills.js"
-    ],
+    "collectCoverageFrom": ["src/**/*.{js,jsx}"],
+    "setupFiles": ["<rootDir>/config/polyfills.js"],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.js?(x)",
       "<rootDir>/src/**/?(*.)(spec|test).js?(x)"
@@ -75,27 +68,35 @@
     "transform": {
       "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest"
     },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
-    ],
+    "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"],
     "moduleNameMapper": {
       "^react-native$": "react-native-web"
     },
-    "moduleFileExtensions": [
-      "web.js",
-      "js",
-      "json",
-      "web.jsx",
-      "jsx",
-      "node"
-    ]
+    "moduleFileExtensions": ["web.js", "js", "json", "web.jsx", "jsx", "node"]
   },
   "babel": {
-    "presets": [
-      "react-app"
-    ]
+    "presets": ["react-app"]
   },
   "dependencies": {
-    "ascii-data-table": "^2.1.1"
+    "@data-ui/radial-chart": "0.0.11",
+    "@data-ui/theme": "0.0.9",
+    "@data-ui/xy-chart": "0.0.25",
+    "@vx/axis": "^0.0.142",
+    "@vx/glyph": "0.0.140",
+    "@vx/gradient": "^0.0.140",
+    "@vx/grid": "^0.0.142",
+    "@vx/group": "^0.0.140",
+    "@vx/legend": "0.0.143",
+    "@vx/mock-data": "^0.0.136",
+    "@vx/scale": "^0.0.143",
+    "@vx/shape": "0.0.142",
+    "ascii-data-table": "^2.1.1",
+    "bolt-components": "^0.2.0",
+    "neo4j-driver": "^1.4.1",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-scripts": "1.0.14",
+    "semantic-ui-css": "^2.2.12",
+    "semantic-ui-react": "^0.74.2"
   }
 }

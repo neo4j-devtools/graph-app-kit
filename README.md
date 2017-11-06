@@ -13,6 +13,7 @@ Browse source code and read README:s in sub directories for examples and docs.
 |---|---|
 | [&lt;Render>](https://github.com/neo4j-contrib/graph-app-kit/tree/master/src/ui/Render) | A declarative toggling component to mount / unmount child components under certain conditions.  |
 | [&lt;AsciiTable>](https://github.com/neo4j-contrib/graph-app-kit/tree/master/src/ui/AsciiTable) | Render your data in an text/ascii table with fixed width font.  |
+| [&lt;Chart>](https://github.com/neo4j-contrib/graph-app-kit/tree/master/src/ui/Chart) | Render your data in a chart visualization.  |
 
 ### Utility components
 
@@ -32,7 +33,7 @@ yarn add graph-app-kit --registry https://neo.jfrog.io/neo/api/npm/npm
 
 ```javascript
 import { Cypher, DriverProvider } from 'graph-app-kit/utils'
-import { Render } from 'graph-app-kit/ui'
+import { Render, Chart } from 'graph-app-kit/ui'
 ```
 
 ## Component playground / library
