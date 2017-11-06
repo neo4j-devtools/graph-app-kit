@@ -4,7 +4,7 @@ Render data in a Chart visualization
 <Chart
   data={[{ x: 1, y: "2" }, { x: 2, y: "4" }]}
   title="Static Data"
-  chartType="line"
+  chartType="area"
   type="json"
 />
 ```
