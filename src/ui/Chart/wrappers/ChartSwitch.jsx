@@ -5,7 +5,6 @@ import GlyphGraph from "../charts/xy/GlyphGraph";
 import LineGraph from "../charts/xy/LineGraph";
 import RadialChart from "../charts/circular/RadialChart";
 import Textual from "../charts/Textual";
-import { Segment } from "semantic-ui-react";
 
 export default props => {
   const getChart = type => {
@@ -29,9 +28,9 @@ export default props => {
     }
   };
   return (
-    <Segment>
+    <div>
       {getChart(props.chartType)}
       {props.chartType !== "text" ? <h2>{props.title}</h2> : null}
-    </Segment>
+    </div>
   );
 };

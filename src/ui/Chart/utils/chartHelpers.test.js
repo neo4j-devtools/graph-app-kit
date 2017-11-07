@@ -1,4 +1,4 @@
-import { applyDataLimit } from "./chartHelpers";
+import { applyDataLimit, asPercentage } from "./chartHelpers";
 
 describe("applyDataLimit", () => {
   it("returns array items if array length is smaller than the limit", () => {
@@ -27,5 +27,23 @@ describe("applyDataLimit", () => {
     expect(applyDataLimit(array, limit)).toEqual(
       expect.arrayContaining(expected)
     );
+  });
+});
+
+describe("calculates percentage", () => {
+  it("should be 50", () => {
+    const total = 10;
+    const value = 5;
+    expect(asPercentage(total, value)).toBe("50.00");
+  });
+  it("should handle 2 decial places", () => {
+    const total = 100;
+    const value = 99.514;
+    expect(asPercentage(total, value)).toBe("99.51");
+  });
+  it("should be 50", () => {
+    const total = 15.0;
+    const value = 7.5;
+    expect(asPercentage(total, value)).toBe("50.00");
   });
 });

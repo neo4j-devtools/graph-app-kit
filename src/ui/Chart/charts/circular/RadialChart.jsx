@@ -4,6 +4,7 @@ import { scaleOrdinal } from "@vx/scale";
 import { LegendOrdinal } from "@vx/legend";
 import { chartTheme } from "@data-ui/theme";
 import { RadialChart, ArcSeries, ArcLabel } from "@data-ui/radial-chart";
+import { asPercentage } from "../../utils/chartHelpers";
 
 export default ({
   data = [],
@@ -39,7 +40,7 @@ export default ({
           fill={arc => colorScale(arc.data.label)}
           stroke="#fff"
           strokeWidth={1}
-          label={arc => `${(100 * arc.data.value / total).toFixed(1)}%`}
+          label={arc => `${asPercentage(total, arc.data.value)}%`}
           labelComponent={<ArcLabel />}
           innerRadius={
             chartType !== "pie" ? radius => 0.35 * radius : radius => 0 * radius

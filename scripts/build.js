@@ -21,9 +21,10 @@ const inputs = [
 const bundleTypes = [
   {
     format: "cjs",
-    ext: ".js",
     plugins: [
-      resolve(),
+      resolve({
+        extensions: [".js", ".jsx"]
+      }),
       commonjs({
         namedExports: {
           "node_modules/@vx/scale/build/index.js": [
@@ -108,7 +109,7 @@ for (const config of bundles) {
       })
       .then(bundle =>
         bundle.write({
-          file: `dist/${config.moduleName || "main"}${config.ext}`,
+          file: `dist/${config.moduleName || "main"}.js`,
           format: config.format,
           sourcemap: !config.minify,
           name: config.moduleName,

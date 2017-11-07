@@ -21,3 +21,5 @@ export const toHumanReadableBytes = input => {
   }
   return `${number.toFixed(2)} PiB`;
 };
+export const asPercentage = (total, number) =>
+  (number / total * 100).toFixed(2);

@@ -6,7 +6,7 @@
     "build": "npm run lint && node scripts/build.js",
     "test": "npm run dev -- --coverage",
     "dev": "node scripts/test.js --env=jsdom",
-    "lint": "eslint --fix --ext .js src",
+    "lint": "eslint --fix --ext .js --ext .jsx src",
     "precommit": "lint-staged",
     "prepare-dist": "node scripts/release.js",
     "dist": "cd dist && npm publish",
@@ -15,7 +15,7 @@
     "playground:build": "styleguidist build"
   },
   "lint-staged": {
-    "*.{js,json,css}": ["prettier --write", "git add"]
+    "*.{js,jsx,json,css}": ["prettier --write", "git add"]
   },
   "license": "Apache-2.0",
   "devDependencies": {
@@ -91,11 +91,7 @@
     "@vx/scale": "^0.0.143",
     "@vx/shape": "0.0.142",
     "ascii-data-table": "^2.1.1",
-    "bolt-components": "^0.2.0",
     "neo4j-driver": "^1.4.1",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
-    "react-scripts": "1.0.14",
     "semantic-ui-css": "^2.2.12",
     "semantic-ui-react": "^0.74.2"
   }

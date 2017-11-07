@@ -2,7 +2,7 @@ import React from "react";
 import CypherChartWrapper from "./wrappers/CypherChartWrapper";
 import ChartSwitch from "./wrappers/ChartSwitch";
 
-export default props => {
+export const Chart = props => {
   if (!props.type) return "No chart type set";
   switch (props.type) {
     case "cypher":
@@ -13,3 +13,5 @@ export default props => {
       return `${props.type} is an invalid chart type`;
   }
 };
+
+export default Chart;
