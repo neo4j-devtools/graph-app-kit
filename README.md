@@ -11,17 +11,17 @@ Browse source code and read README:s in sub directories for examples and docs.
 
 | Component  | Description  |
 |---|---|
-| [&lt;Render>](https://github.com/neo4j-contrib/graph-app-kit/tree/master/src/ui/Render) | A declarative toggling component to mount / unmount child components under certain conditions.  |
-| [&lt;AsciiTable>](https://github.com/neo4j-contrib/graph-app-kit/tree/master/src/ui/AsciiTable) | Render your data in an text/ascii table with fixed width font.  |
-| [&lt;Chart>](https://github.com/neo4j-contrib/graph-app-kit/tree/master/src/ui/Chart) | Render your data in a chart visualization.  |
+| [&lt;Render>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/ui/Render) | A declarative toggling component to mount / unmount child components under certain conditions.  |
+| [&lt;AsciiTable>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/ui/AsciiTable) | Render your data in an text/ascii table with fixed width font.  |
+| [&lt;Chart>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/ui/Chart) | Render your data in a chart visualization.  |
 
 ### Utility components
 
 | Component  | Description  |
 |---|---|
-| [&lt;Cypher>](https://github.com/neo4j-contrib/graph-app-kit/tree/master/src/utils/Cypher)  | A simple component to execute a Cypher query and return the result to your render function.  |
-| [&lt;DesktopIntegration>](https://github.com/neo4j-contrib/graph-app-kit/tree/master/src/utils/DesktopIntegration) | Easy integration for your app into the Neo4j Desktop API. Subscribe to events etc.  |
-| [&lt;DriverProvider>](https://github.com/neo4j-contrib/graph-app-kit/tree/master/src/utils/DriverProvider) | Provide your React application with a [`neo4j-driver`](https://github.com/neo4j/neo4j-javascript-driver) in application context. |
+| [&lt;Cypher>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/utils/Cypher)  | A simple component to execute a Cypher query and return the result to your render function.  |
+| [&lt;DesktopIntegration>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/utils/DesktopIntegration) | Easy integration for your app into the Neo4j Desktop API. Subscribe to events etc.  |
+| [&lt;DriverProvider>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/utils/DriverProvider) | Provide your React application with a [`neo4j-driver`](https://github.com/neo4j/neo4j-javascript-driver) in application context. |
 
 ## Install and import
 
@@ -47,7 +47,7 @@ To use the playground when developing components: `yarn playground` and to gener
 ## Development mode
 
 ```bash
-git clone git@github.com:neo4j-contrib/graph-app-kit.git graph-app-kit
+git clone git@github.com:neo4j-apps/graph-app-kit.git graph-app-kit
 cd graph-app-kit
 yarn install
 ```
