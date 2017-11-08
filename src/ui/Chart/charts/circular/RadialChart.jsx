@@ -11,7 +11,8 @@ export default ({
   width = 500,
   height = 500,
   margin = { top: 50, right: 50, bottom: 50, left: 50 },
-  chartType
+  chartType,
+  innerRadius = 0
 }) => {
   const filteredList = data.filter(i => i !== undefined);
   if (filteredList.length === 0) {
@@ -42,9 +43,7 @@ export default ({
           strokeWidth={1}
           label={arc => `${asPercentage(total, arc.data.value)}%`}
           labelComponent={<ArcLabel />}
-          innerRadius={
-            chartType !== "pie" ? radius => 0.35 * radius : radius => 0 * radius
-          }
+          innerRadius={radius => innerRadius * radius}
           outerRadius={radius => 0.6 * radius}
           labelRadius={radius => 0.75 * radius}
         />

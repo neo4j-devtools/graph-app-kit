@@ -1,6 +1,7 @@
 import React from "react";
-import AreaGraph from "../charts/xy/AreaGraph";
-import BarGraph from "../charts/xy/BarGraph";
+import AreaChart from "../charts/xy/AreaChart";
+import LineChart from "../charts/xy/LineChart";
+import BarChart from "../charts/xy/BarChart";
 import RadialChart from "../charts/circular/RadialChart";
 import Textual from "../charts/Textual";
 
@@ -8,17 +9,23 @@ export default props => {
   const getChart = type => {
     switch (type) {
       case "area":
-        return <AreaGraph {...props} />;
+        return <AreaChart {...props} />;
       case "bar":
-        return <BarGraph {...props} />;
+        return <BarChart {...props} />;
       case "pie":
         return <RadialChart {...props} />;
       case "doughnut":
-        return <RadialChart {...props} />;
+        return <RadialChart {...props} innerRadius={0.35} />;
+      case "line":
+        return <LineChart {...props} withLines />;
+      case "point":
+        return <LineChart {...props} withPoints />;
+      case "line-point":
+        return <LineChart {...props} withPoints withLines />;
       case "text":
         return <Textual {...props} />;
       default:
-        return <AreaGraph {...props} />;
+        return <AreaChart {...props} />;
     }
   };
   return (

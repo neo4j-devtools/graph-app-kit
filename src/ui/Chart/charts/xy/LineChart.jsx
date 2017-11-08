@@ -1,11 +1,22 @@
 import React from "react";
-import { XYChart, BarSeries, CrossHair, XAxis, YAxis } from "@data-ui/xy-chart";
+import {
+  XYChart,
+  LineSeries,
+  PointSeries,
+  CrossHair,
+  XAxis,
+  YAxis
+} from "@data-ui/xy-chart";
 
 export default ({
   data = [],
   width = 500,
   height = 500,
-  margin = { top: 50, right: 50, bottom: 50, left: 50 }
+  margin = { top: 50, right: 50, bottom: 50, left: 50 },
+  withLines,
+  withPoints,
+  xAxisLabel,
+  yAxisLabel
 }) => (
   <XYChart
     ariaLabel="Bar chart showing ..."
@@ -28,9 +39,10 @@ export default ({
       </div>
     )}
   >
-    <XAxis label="X-axis Label" />
-    <YAxis label="Y-axis Label" />
-    <BarSeries data={data} />
+    <XAxis label={xAxisLabel} />
+    <YAxis label={yAxisLabel} />
+    {withLines ? <LineSeries data={data} /> : null}
+    {withPoints ? <PointSeries data={data} /> : null}
     <CrossHair showHorizontalLine={false} fullHeight stroke="pink" />
   </XYChart>
 );
