@@ -5,7 +5,7 @@ export default ({
   data = [],
   width = 500,
   height = 500,
-  margin = { top: 10, right: 10, bottom: 10, left: 10 }
+  margin = { top: 50, right: 50, bottom: 50, left: 50 }
 }) => (
   <XYChart
     ariaLabel="Bar chart showing ..."
