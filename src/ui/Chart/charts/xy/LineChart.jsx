@@ -16,7 +16,8 @@ export default ({
   withLines,
   withPoints,
   xAxisLabel,
-  yAxisLabel
+  yAxisLabel,
+  crossHair
 }) => (
   <XYChart
     ariaLabel="Bar chart showing ..."
@@ -39,10 +40,12 @@ export default ({
       </div>
     )}
   >
-    <XAxis label={xAxisLabel} />
-    <YAxis label={yAxisLabel} />
+    {xAxisLabel ? <XAxis label={xAxisLabel} /> : null}
+    {yAxisLabel ? <YAxis label={yAxisLabel} /> : null}
     {withLines ? <LineSeries data={data} /> : null}
     {withPoints ? <PointSeries data={data} /> : null}
-    <CrossHair showHorizontalLine={false} fullHeight stroke="pink" />
+    {crossHair ? (
+      <CrossHair showHorizontalLine={false} fullHeight stroke="grey" />
+    ) : null}
   </XYChart>
 );

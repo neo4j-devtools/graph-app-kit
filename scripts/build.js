@@ -51,6 +51,7 @@ const bundleTypes = [
             "XAxis",
             "YAxis",
             "BarSeries",
+            "PointSeries",
             "CrossHair",
             "LineSeries"
           ],

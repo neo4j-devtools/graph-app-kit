@@ -6,8 +6,11 @@ export default ({
   width = 500,
   height = 500,
   margin = { top: 50, right: 50, bottom: 50, left: 50 },
+  xLabelName,
+  yLabelName,
   xAxisLabel,
-  yAxisLabel
+  yAxisLabel,
+  crossHair
 }) => (
   <XYChart
     ariaLabel="Bar chart showing ..."
@@ -20,19 +23,21 @@ export default ({
       <div>
         <strong style={{ color }}>{datum.label}</strong>
         <div>
-          <strong>x </strong>
+          <strong>{xLabelName}</strong>
           {datum.x}
         </div>
         <div>
-          <strong>y </strong>
+          <strong>{yLabelName}</strong>
           {datum.y}
         </div>
       </div>
     )}
   >
-    <XAxis label={xAxisLabel} />
-    <YAxis label={yAxisLabel} />
+    {xAxisLabel ? <XAxis label={xAxisLabel} /> : null}
+    {yAxisLabel ? <YAxis label={yAxisLabel} /> : null}
     <BarSeries data={data} />
-    <CrossHair showHorizontalLine={false} fullHeight stroke="pink" />
+    {crossHair ? (
+      <CrossHair showHorizontalLine={false} fullHeight stroke="grey" />
+    ) : null}
   </XYChart>
 );
