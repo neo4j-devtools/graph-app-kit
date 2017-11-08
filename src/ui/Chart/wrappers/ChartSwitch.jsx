@@ -1,8 +1,6 @@
 import React from "react";
 import AreaGraph from "../charts/xy/AreaGraph";
 import BarGraph from "../charts/xy/BarGraph";
-import GlyphGraph from "../charts/xy/GlyphGraph";
-import LineGraph from "../charts/xy/LineGraph";
 import RadialChart from "../charts/circular/RadialChart";
 import Textual from "../charts/Textual";
 
@@ -13,10 +11,6 @@ export default props => {
         return <AreaGraph {...props} />;
       case "bar":
         return <BarGraph {...props} />;
-      case "glyph":
-        return <GlyphGraph {...props} />;
-      case "line":
-        return <LineGraph {...props} />;
       case "pie":
         return <RadialChart {...props} />;
       case "doughnut":

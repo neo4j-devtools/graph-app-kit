@@ -1,6 +1,6 @@
 Render data in a Chart visualization
 
-Static data (XY):
+Static data (XY)
 ```jsx
 <Chart
   data={[{ x: 1, y: "116" }, { x: 2, y: "145" }, { x: 3, y: "157" }, { x: 4, y: "64" }, { x: 5, y: "152" }]}
