@@ -3,11 +3,10 @@ Render data in a Chart visualization
 Static data (XY)
 ```jsx
 <Chart
-  data={[{ x: 1, y: "116" }, { x: 2, y: "145" }, { x: 3, y: "157" }, { x: 4, y: "64" }, { x: 5, y: "152" }]}
+  data={[{ x: 1, y: 116 }, { x: 2, y: 145 }, { x: 3, y: 157 }, { x: 4, y: 64 }, { x: 5, y: 152 }]}
   title="Static xy data"
   chartType="area"
   type="json"
-  setYAxis="200"
 />
 ```
 Static data (curcular):
