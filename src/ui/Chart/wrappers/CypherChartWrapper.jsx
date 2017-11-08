@@ -28,6 +28,8 @@ class CypherChartWrapper extends Component {
   render() {
     return (
       <Cypher
+        params={this.props.params}
+        driver={this.props.driver}
         interval={this.props.refreshInterval || 2}
         query={this.props.query}
         render={({ pending, error, result, tick }) =>
