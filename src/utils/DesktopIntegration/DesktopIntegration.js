@@ -1,6 +1,6 @@
 import { Component } from "react";
 import * as PropTypes from "prop-types";
-import { getActiveGraph, getCredentials, eventToHandler } from "./helpers";
+import { eventToHandler } from "./helpers";
 
 export class DesktopIntegration extends Component {
   setupListener() {

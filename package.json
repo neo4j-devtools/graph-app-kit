@@ -4,9 +4,11 @@
   "main": "index.js",
   "scripts": {
     "build": "npm run lint && node scripts/build.js",
+    "build:analyze":
+      "npm run lint && NODE_ENV=development node scripts/build.js",
     "test": "npm run dev -- --coverage",
     "dev": "node scripts/test.js --env=jsdom",
-    "lint": "eslint --fix --ext .js src",
+    "lint": "eslint --fix --ext .js --ext .jsx src",
     "precommit": "lint-staged",
     "prepare-dist": "node scripts/release.js",
     "dist": "cd dist && npm publish",
@@ -15,10 +17,7 @@
     "playground:build": "styleguidist build"
   },
   "lint-staged": {
-    "*.{js,json,css}": [
-      "prettier --write",
-      "git add"
-    ]
+    "*.{js,jsx,json,css}": ["prettier --write", "git add"]
   },
   "license": "Apache-2.0",
   "devDependencies": {
@@ -50,23 +49,22 @@
     "react-styleguidist": "^6.0.32",
     "react-test-renderer": "^16.0.0",
     "rollup": "^0.50.0",
+    "rollup-analyzer": "^1.1.0",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-commonjs": "^8.2.1",
     "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-replace": "^2.0.0",
     "webpack": "^3.8.1",
     "whatwg-fetch": "2.0.3"
   },
   "peerDependencies": {
     "prop-types": "^15.6.0",
+    "react-dom": "^16.0.0",
     "react": "^16.0.0"
   },
   "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx}"
-    ],
-    "setupFiles": [
-      "<rootDir>/config/polyfills.js"
-    ],
+    "collectCoverageFrom": ["src/**/*.{js,jsx}"],
+    "setupFiles": ["<rootDir>/config/polyfills.js"],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.js?(x)",
       "<rootDir>/src/**/?(*.)(spec|test).js?(x)"
@@ -75,27 +73,30 @@
     "transform": {
       "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest"
     },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
-    ],
+    "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"],
     "moduleNameMapper": {
       "^react-native$": "react-native-web"
     },
-    "moduleFileExtensions": [
-      "web.js",
-      "js",
-      "json",
-      "web.jsx",
-      "jsx",
-      "node"
-    ]
+    "moduleFileExtensions": ["web.js", "js", "json", "web.jsx", "jsx", "node"]
   },
   "babel": {
-    "presets": [
-      "react-app"
-    ]
+    "presets": ["react-app"]
   },
   "dependencies": {
-    "ascii-data-table": "^2.1.1"
+    "@data-ui/radial-chart": "0.0.11",
+    "@data-ui/theme": "0.0.9",
+    "@data-ui/xy-chart": "0.0.25",
+    "@vx/axis": "^0.0.142",
+    "@vx/glyph": "0.0.140",
+    "@vx/gradient": "^0.0.140",
+    "@vx/grid": "^0.0.142",
+    "@vx/group": "^0.0.140",
+    "@vx/legend": "0.0.143",
+    "@vx/mock-data": "^0.0.136",
+    "@vx/scale": "^0.0.143",
+    "@vx/shape": "0.0.142",
+    "ascii-data-table": "^2.1.1",
+    "semantic-ui-css": "^2.2.12",
+    "semantic-ui-react": "^0.74.2"
   }
 }

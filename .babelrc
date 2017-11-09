@@ -1,4 +1,5 @@
 {
   "presets": ["env", "react-app"],
-  "ignore": ["dist/**/*.js"]
+  "ignore": ["dist/", "coverage/"],
+  "plugins": ["babel-plugin-transform-object-rest-spread"]
 }
