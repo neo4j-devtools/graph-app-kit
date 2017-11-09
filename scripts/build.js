@@ -1,12 +1,14 @@
-const fs = require("fs");
+const replace = require("rollup-plugin-replace");
 const del = require("del");
 const rollup = require("rollup");
 const babel = require("rollup-plugin-babel");
 const commonjs = require("rollup-plugin-commonjs");
 const resolve = require("rollup-plugin-node-resolve");
-const pkg = require("../package.json");
+const rollupAnalyzer = require("rollup-analyzer")({ limit: 10 });
 
-process.env.NODE_ENV = "production";
+process.env.NODE_ENV = process.env.NODE_ENV || "production";
+const isProduction = process.env.NODE_ENV === "production";
+
 const inputs = [
   "index",
   "ui/index",
@@ -23,9 +25,13 @@ const bundleTypes = [
     format: "cjs",
     plugins: [
       resolve({
+        jsnext: true,
+        main: true,
+        browser: true,
         extensions: [".js", ".jsx"]
       }),
       commonjs({
+        sourceMap: false,
         namedExports: {
           "node_modules/@vx/scale/build/index.js": [
             "scaleTime",
@@ -67,13 +73,6 @@ const bundleTypes = [
     babelPresets: ["es2015-rollup", "react-app"],
     babelPlugins: []
   }
-  // {
-  //   format: "es",
-  //   ext: ".esm.js",
-  //   plugins: [resolve()],
-  //   babelPresets: ["es2015-rollup", "react-app"],
-  //   babelPlugins: []
-  // }
 ];
 
 let bundles = [];
@@ -100,25 +99,42 @@ for (const config of bundles) {
         input: config.input,
         external: ["react", "prop-types"],
         plugins: [
+          replace({ "process.env.NODE_ENV": JSON.stringify("production") }),
           babel({
             babelrc: false,
-            exclude: "node_modules/**",
+            exclude: [
+              "**/node_modules/**",
+              "dist/**",
+              "**/coverage/**",
+              "**/styleguide/**"
+            ],
             presets: config.babelPresets,
             plugins: config.babelPlugins
           })
         ].concat(config.plugins)
       })
-      .then(bundle =>
+      .then(bundle => {
         bundle.write({
           file: `dist/${config.moduleName || "main"}.js`,
           format: config.format,
-          sourcemap: !config.minify,
+          sourcemap: !isProduction,
           name: config.moduleName,
           globals: {
             react: "React",
+            "react-dom": "ReactDOM",
             "prop-types": "PropTypes"
           }
-        })
+        });
+        return bundle;
+      })
+      .then(
+        bundle =>
+          isProduction
+            ? null
+            : rollupAnalyzer
+                .formatted(bundle)
+                .then(console.log)
+                .catch(console.error)
       )
   );
 }

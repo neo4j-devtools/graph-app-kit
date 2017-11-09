@@ -35,7 +35,8 @@ class CypherChartWrapper extends Component {
         render={({ pending, error, result, tick }) =>
           pending
             ? this.renderChart()
-            : error ? error.message : this.renderChart(result, tick)}
+            : error ? error.message : this.renderChart(result, tick)
+        }
       />
     );
   }
