@@ -1,142 +1,150 @@
-const replace = require("rollup-plugin-replace");
-const del = require("del");
-const rollup = require("rollup");
-const babel = require("rollup-plugin-babel");
-const commonjs = require("rollup-plugin-commonjs");
-const resolve = require("rollup-plugin-node-resolve");
-const rollupAnalyzer = require("rollup-analyzer")({ limit: 10 });
+"use strict";
 
-process.env.NODE_ENV = process.env.NODE_ENV || "production";
-const isProduction = process.env.NODE_ENV === "production";
+// Do this as the first thing so that any code reading it knows the right env.
+process.env.BABEL_ENV = "production";
+process.env.NODE_ENV = "production";
 
-const inputs = [
-  "index",
-  "ui/index",
-  "ui/Render/index",
-  "ui/AsciiTable/index",
-  "ui/Chart/index",
-  "utils/index",
-  "utils/Cypher/index",
-  "utils/DriverProvider/index",
-  "utils/DesktopIntegration/index"
-];
-const bundleTypes = [
-  {
-    format: "cjs",
-    plugins: [
-      resolve({
-        jsnext: true,
-        main: true,
-        browser: true,
-        extensions: [".js", ".jsx"]
-      }),
-      commonjs({
-        sourceMap: false,
-        namedExports: {
-          "node_modules/@vx/scale/build/index.js": [
-            "scaleTime",
-            "scaleLinear",
-            "scaleOrdinal"
-          ],
-          "node_modules/@vx/curve/build/index.js": [
-            "curveBasis",
-            "curveMonotoneX"
-          ],
-          "node_modules/@vx/gradient/build/index.js": ["LinearGradient"],
-          "node_modules/@vx/group/build/index.js": ["Group"],
-          "node_modules/@vx/shape/build/index.js": [
-            "AxisLeft",
-            "AreaClosed",
-            "LinePath"
-          ],
-          "node_modules/@vx/glyph/build/index.js": ["GlyphDot"],
-          "node_modules/@vx/axis/build/index.js": ["AxisLeft", "AxisBottom"],
-          "node_modules/@vx/legend/build/index.js": ["LegendOrdinal"],
-          "node_modules/@data-ui/xy-chart/build/index.js": [
-            "XYChart",
-            "XAxis",
-            "YAxis",
-            "BarSeries",
-            "PointSeries",
-            "CrossHair",
-            "LineSeries"
-          ],
-          "node_modules/@data-ui/radial-chart/build/index.js": [
-            "RadialChart",
-            "ArcSeries",
-            "ArcLabel"
-          ],
-          "node_modules/@data-ui/theme/build/index.js": ["chartTheme"]
-        }
-      })
-    ],
-    babelPresets: ["es2015-rollup", "react-app"],
-    babelPlugins: []
-  }
-];
-
-let bundles = [];
-bundleTypes.forEach(bType => {
-  inputs.forEach(input => {
-    bundles.push({
-      ...bType,
-      input: `src/${input}.js`,
-      moduleName: input
-    });
-  });
+// Makes the script crash on unhandled rejections instead of silently
+// ignoring them. In the future, promise rejections that are not handled will
+// terminate the Node.js process with a non-zero exit code.
+process.on("unhandledRejection", err => {
+  throw err;
 });
 
-let promise = Promise.resolve();
+// Ensure environment variables are read.
+require("../config/env");
 
-// Clean up the output directory
-promise = promise.then(() => del(["dist/*"]));
+const path = require("path");
+const chalk = require("chalk");
+const fs = require("fs-extra");
+const webpack = require("webpack");
+const config = require("../config/webpack.config.prod");
+const paths = require("../config/paths");
+const checkRequiredFiles = require("react-dev-utils/checkRequiredFiles");
+const formatWebpackMessages = require("react-dev-utils/formatWebpackMessages");
+const printHostingInstructions = require("react-dev-utils/printHostingInstructions");
+const FileSizeReporter = require("react-dev-utils/FileSizeReporter");
+const printBuildError = require("react-dev-utils/printBuildError");
 
-// Compile source code into a distributable format with Babel and Rollup
-for (const config of bundles) {
-  promise = promise.then(() =>
-    rollup
-      .rollup({
-        input: config.input,
-        external: ["react", "prop-types"],
-        plugins: [
-          replace({ "process.env.NODE_ENV": JSON.stringify("production") }),
-          babel({
-            babelrc: false,
-            exclude: [
-              "**/node_modules/**",
-              "dist/**",
-              "**/coverage/**",
-              "**/styleguide/**"
-            ],
-            presets: config.babelPresets,
-            plugins: config.babelPlugins
-          })
-        ].concat(config.plugins)
-      })
-      .then(bundle => {
-        bundle.write({
-          file: `dist/${config.moduleName || "main"}.js`,
-          format: config.format,
-          sourcemap: !isProduction,
-          name: config.moduleName,
-          globals: {
-            react: "React",
-            "react-dom": "ReactDOM",
-            "prop-types": "PropTypes"
-          }
-        });
-        return bundle;
-      })
-      .then(
-        bundle =>
-          isProduction
-            ? null
-            : rollupAnalyzer
-                .formatted(bundle)
-                .then(console.log)
-                .catch(console.error)
-      )
-  );
+const measureFileSizesBeforeBuild =
+  FileSizeReporter.measureFileSizesBeforeBuild;
+const printFileSizesAfterBuild = FileSizeReporter.printFileSizesAfterBuild;
+const useYarn = fs.existsSync(paths.yarnLockFile);
+
+// These sizes are pretty large. We'll warn for bundles exceeding them.
+const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
+const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
+
+// Warn and crash if required files are missing
+if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
+  process.exit(1);
 }
 
-promise.catch(err => console.error(err.stack)); // eslint-disable-line no-console
+// First, read the current file sizes in build directory.
+// This lets us display how much they changed later.
+measureFileSizesBeforeBuild(paths.appBuild)
+  .then(previousFileSizes => {
+    // Remove all content but keep the directory so that
+    // if you're in it, you don't end up in Trash
+    fs.emptyDirSync(paths.appBuild);
+    // Merge with the public folder
+    copyPublicFolder();
+    // Start the webpack build
+    return build(previousFileSizes);
+  })
+  .then(
+    ({ stats, previousFileSizes, warnings }) => {
+      if (warnings.length) {
+        console.log(chalk.yellow("Compiled with warnings.\n"));
+        console.log(warnings.join("\n\n"));
+        console.log(
+          "\nSearch for the " +
+            chalk.underline(chalk.yellow("keywords")) +
+            " to learn more about each warning."
+        );
+        console.log(
+          "To ignore, add " +
+            chalk.cyan("// eslint-disable-next-line") +
+            " to the line before.\n"
+        );
+      } else {
+        console.log(chalk.green("Compiled successfully.\n"));
+      }
+
+      console.log("File sizes after gzip:\n");
+      printFileSizesAfterBuild(
+        stats,
+        previousFileSizes,
+        paths.appBuild,
+        WARN_AFTER_BUNDLE_GZIP_SIZE,
+        WARN_AFTER_CHUNK_GZIP_SIZE
+      );
+      console.log();
+
+      const appPackage = require(paths.appPackageJson);
+      const publicUrl = paths.publicUrl;
+      const publicPath = config.output.publicPath;
+      const buildFolder = path.relative(process.cwd(), paths.appBuild);
+      printHostingInstructions(
+        appPackage,
+        publicUrl,
+        publicPath,
+        buildFolder,
+        useYarn
+      );
+    },
+    err => {
+      console.log(chalk.red("Failed to compile.\n"));
+      printBuildError(err);
+      process.exit(1);
+    }
+  );
+
+// Create the production build and print the deployment instructions.
+function build(previousFileSizes) {
+  console.log("Creating an optimized production build...");
+
+  let compiler = webpack(config);
+  return new Promise((resolve, reject) => {
+    compiler.run((err, stats) => {
+      if (err) {
+        return reject(err);
+      }
+      const messages = formatWebpackMessages(stats.toJson({}, true));
+      if (messages.errors.length) {
+        // Only keep the first error. Others are often indicative
+        // of the same problem, but confuse the reader with noise.
+        if (messages.errors.length > 1) {
+          messages.errors.length = 1;
+        }
+        return reject(new Error(messages.errors.join("\n\n")));
+      }
+      if (
+        process.env.CI &&
+        (typeof process.env.CI !== "string" ||
+          process.env.CI.toLowerCase() !== "false") &&
+        messages.warnings.length
+      ) {
+        console.log(
+          chalk.yellow(
+            "\nTreating warnings as errors because process.env.CI = true.\n" +
+              "Most CI servers set it automatically.\n"
+          )
+        );
+        return reject(new Error(messages.warnings.join("\n\n")));
+      }
+      return resolve({
+        stats,
+        previousFileSizes,
+        warnings: messages.warnings
+      });
+    });
+  });
+}
+
+function copyPublicFolder() {
+  fs.copySync(paths.appPublic, paths.appBuild, {
+    dereference: true,
+    filter: file => file !== paths.appHtml
+  });
+}
