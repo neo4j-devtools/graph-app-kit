@@ -5,6 +5,8 @@ This kit should be considered to be 'under development' and the components in it
 
 Browse source code and read README:s in sub directories for examples and docs.
 
+Check out the [playground](https://styleguide-yzlwxalcms.now.sh).
+
 ## What's in here (so far)
 
 ### User interface components
@@ -39,7 +41,7 @@ import { Render, Chart } from 'graph-app-kit/ui'
 ## Component playground / library
 
 There's an interactive playground to view and modify the components.  
-This is temporarily hosted at https://styleguide-oipiezsosg.now.sh.  
+This is temporarily hosted at https://styleguide-yzlwxalcms.now.sh.  
 Feedback wanted!
 
 To use the playground when developing components: `yarn playground` and to generate a static version to deploy: `yarn playground:build` (the artifacts end up in `styleguide/`)
