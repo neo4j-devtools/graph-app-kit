@@ -25,4 +25,3 @@ yarn-error.log*
 
 .eslintrc.json
 .vscode
-bundle-report.html
