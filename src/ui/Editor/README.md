@@ -1,0 +1,5 @@
+Editor component.
+
+```javascript
+<Editor />
+```
