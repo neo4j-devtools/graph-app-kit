@@ -54,6 +54,26 @@ cd graph-app-kit
 yarn install
 ```
 
+### Dev environment setup
+The preferred way to develop new components is to either develop it directly in `src/dev/Component` or import there.  
+To start dev server on http://localhost:3000/ (loads `src/dev/index.js` in webpack): `yarn start`  
+To have continous testing (add tests to `src/dev/Component.test.js`): `yarn dev`
+
+### Exposing components 
+Here's a checklist for things to be done before opening a PR with a new component:
+
+1. Restore `src/dev` to it's initial state.
+1. Name the component file `ComponentName.js` and the test file `ComponentName.test.js`.
+1. Export the component as a named export + a default export. Named for the kit users and default for placing it in the playground.
+1. Add an `index.js` in the components directory, which just exports the named import. i.e. `export { ComponentName } from './ComponentName'`.
+1. Execute `yarn test` and make sure the test coverage for the component is reasonable.
+1. Add a `README.md` in the components directory where you showcase one (or more) example usages and instructions of the component.
+1. Execute `yarn playground` to see it in action. Make sure it looks good and makes sense.
+1. Add an import test for the component in `test_package/package.test.js`. Execute `yarn test:package` and watch it fail.
+1. Add the component to the file `conf/kit_exports.js`. Follow the named / path convention.
+1. Execute `yarn test:package` again and watch it pass.
+1. Open a PR and wait for praise.
+
 ### Linting
 
 ```bash
