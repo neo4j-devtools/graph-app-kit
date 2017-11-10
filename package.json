@@ -7,6 +7,7 @@
     "test": "npm run dev -- --coverage",
     "test:package":
       "yarn build && CI=true node scripts/test.js --env=jsdom test_package",
+    "test:all": "yarn test && yarn test:package",
     "dev": "node scripts/test.js --env=jsdom src",
     "lint": "eslint --fix --ext .js --ext .jsx src",
     "precommit": "lint-staged",
