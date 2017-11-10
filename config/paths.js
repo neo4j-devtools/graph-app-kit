@@ -1,3 +1,5 @@
+const kitExports = require("./kit_exports");
+
 const path = require("path");
 const fs = require("fs");
 const url = require("url");
@@ -51,12 +53,5 @@ module.exports = {
   appNodeModules: resolveApp("node_modules"),
   publicUrl: getPublicUrl(resolveApp("package.json")),
   servedPath: getServedPath(resolveApp("package.json")),
-  bundleEntries: {
-    "ui/Render": resolveApp("src/ui/Render"),
-    "ui/AsciiTable": resolveApp("src/ui/AsciiTable"),
-    "ui/Chart": resolveApp("src/ui/Chart"),
-    "utils/Cypher": resolveApp("src/utils/Cypher"),
-    "utils/DesktopIntegration": resolveApp("src/utils/DesktopIntegration"),
-    "utils/DriverProvider": resolveApp("src/utils/DriverProvider")
-  }
+  bundleEntries: kitExports
 };

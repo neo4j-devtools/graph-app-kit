@@ -3,7 +3,7 @@
   "version": "0.3.2",
   "main": "index.js",
   "scripts": {
-    "build": "npm run lint && node scripts/build.js",
+    "build": "node scripts/build.js",
     "test": "npm run dev -- --coverage",
     "test:package":
       "yarn build && CI=true node scripts/test.js --env=jsdom test_package",
@@ -85,7 +85,8 @@
     },
     "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"],
     "moduleNameMapper": {
-      "^react-native$": "react-native-web"
+      "^react-native$": "react-native-web",
+      "^graph-app-kit(.*)": "<rootDir>/src$1"
     },
     "moduleFileExtensions": ["web.js", "js", "json", "web.jsx", "jsx", "node"]
   },
