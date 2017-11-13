@@ -1,5 +1,8 @@
 Editor component.
 
 ```javascript
-<Editor />
+<Editor
+  content="foobar"
+  labels={['about', 'able' ]}
+/>
 ```

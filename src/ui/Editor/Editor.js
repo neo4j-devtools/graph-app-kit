@@ -1,42 +1,40 @@
 /* eslint-disable no-octal-escape */
 import React, { Component } from "react";
+import { findDOMNode } from "react-dom";
 import * as PropTypes from "prop-types";
-// import { connect } from 'preact-redux'
-// import { withBus } from 'preact-suber'
-import uuid from "uuid";
-// import {
-//   executeCommand,
-//   executeSystemCommand
-// } from 'shared/modules/commands/commandsDuck'
-// import * as favorites from 'shared/modules/favorites/favoritesDuck'
-// import {
-//   SET_CONTENT,
-//   EDIT_CONTENT,
-//   FOCUS,
-//   EXPAND,
-//   editContent
-// } from 'shared/modules/editor/editorDuck'
-// import { getHistory } from 'shared/modules/history/historyDuck'
-// import {
-//   getCmdChar,
-//   shouldEditorAutocomplete
-// } from 'shared/modules/settings/settingsDuck'
-// import { Bar, ActionButtonSection, EditorWrapper } from './styled'
-import { Container } from "semantic-ui-react";
-
-// import { EditorButton, EditModeEditorButton } from 'browser-components/buttons'
-// import { CYPHER_REQUEST } from 'shared/modules/cypher/cypherDuck'
-// import { debounce } from 'services/utils'
-// import * as viewTypes from 'shared/modules/stream/frameViewTypes'
+import { Container, Button } from "semantic-ui-react";
 import Codemirror from "./Codemirror";
 import * as schemaConvert from "./editorSchemaConverter";
 import cypherFunctions from "./cypher/functions";
 import consoleCommands from "./language/consoleCommands";
-import Render from "./../Render";
+import { Render } from "./../Render";
 
 export class Editor extends Component {
   constructor(props) {
     super(props);
+    this.onExecute = this.props.onExecute || (() => {});
+    this.onFavoriteUpdateClick = this.props.eventHandler
+      ? this.props.eventHandler.onFavoriteUpdateClick || (() => {})
+      : () => {};
+    this.schema = {
+      consoleCommands: consoleCommands,
+      parameters: this.parameters || [],
+      labels: this.props.labels
+        ? this.props.labels.map(schemaConvert.toLabel)
+        : [],
+      relationshipTypes: this.props.relationshipTypes
+        ? this.props.relationshipTypes.map(schemaConvert.toRelationshipType)
+        : [],
+      propertyKeys: this.props.properties
+        ? this.props.properties.map(schemaConvert.toPropertyKey)
+        : [],
+      functions: this.props.functions
+        ? this.props.functions.map(schemaConvert.toFunction)
+        : [...cypherFunctions],
+      procedures: this.props.procedures
+        ? this.props.procedures.map(schemaConvert.toProcedure)
+        : []
+    };
     this.state = {
       historyIndex: -1,
       buffer: "",
@@ -75,7 +73,7 @@ export class Editor extends Component {
   execCurrent() {
     const value = this.getEditorValue();
     if (!value) return;
-    this.props.onExecute(value);
+    this.onExecute(value);
     this.clearEditor();
     this.clearHints();
     this.setState({ historyIndex: -1, buffer: null, expanded: false });
@@ -112,7 +110,7 @@ export class Editor extends Component {
     }
     this.setState({
       historyIndex: this.state.historyIndex + 1,
-      editorHeight: this.editor && this.editor.base.clientHeight
+      editorHeight: this.editor && findDOMNode(this.editor).clientHeight
     });
     this.setEditorValue(this.props.history[this.state.historyIndex]);
   }
@@ -128,12 +126,13 @@ export class Editor extends Component {
     }
     this.setState({
       historyIndex: this.state.historyIndex - 1,
-      editorHeight: this.editor && this.editor.base.clientHeight
+      editorHeight: this.editor && findDOMNode(this.editor).clientHeight
     });
     this.setEditorValue(this.props.history[this.state.historyIndex]);
   }
 
   triggerAutocompletion(cm, changed) {
+    debugger;
     if (changed.text.length !== 1 || !this.props.enableEditorAutocomplete) {
       return;
     }
@@ -215,7 +214,7 @@ export class Editor extends Component {
         .toUpperCase()
         .startsWith("PROFILE")
     ) {
-      this.debouncedCheckForHints(newCode);
+      // this.debouncedCheckForHints(newCode);
     }
 
     const lastPosition = change && change.to;
@@ -226,30 +225,30 @@ export class Editor extends Component {
         lastPosition: lastPosition
           ? { line: lastPosition.line, column: lastPosition.ch }
           : this.state.lastPosition,
-        editorHeight: this.editor && this.editor.base.clientHeight
+        editorHeight: this.editor && findDOMNode(this.editor).clientHeight
       },
       cb
     );
   }
 
-  checkForHints(code) {
-    this.props.bus.self(
-      CYPHER_REQUEST,
-      { query: "EXPLAIN " + code },
-      response => {
-        if (
-          response.success === true &&
-          response.result.summary.notifications.length > 0
-        ) {
-          this.setState({
-            notifications: response.result.summary.notifications
-          });
-        } else {
-          this.clearHints();
-        }
-      }
-    );
-  }
+  // checkForHints(code) {
+  //   this.props.bus.self(
+  //     CYPHER_REQUEST,
+  //     { query: "EXPLAIN " + code },
+  //     response => {
+  //       if (
+  //         response.success === true &&
+  //         response.result.summary.notifications.length > 0
+  //       ) {
+  //         this.setState({
+  //           notifications: response.result.summary.notifications
+  //         });
+  //       } else {
+  //         this.clearHints();
+  //       }
+  //     }
+  //   );
+  // }
 
   clearHints() {
     this.setState({ notifications: [] });
@@ -269,9 +268,6 @@ export class Editor extends Component {
               '<i class="fa fa-exclamation-triangle gutter-warning gutter-warning" aria-hidden="true"></i>';
             gutter.title = `${notification.title}\n${notification.description}`;
             gutter.onclick = () => {
-              const action = executeSystemCommand(
-                `EXPLAIN ${this.getEditorValue()}`
-              );
               action.forceView = viewTypes.WARNINGS;
               this.props.bus.send(action.type, action);
             };
@@ -292,7 +288,7 @@ export class Editor extends Component {
 
   componentDidUpdate() {
     if (this.editor) {
-      const editorHeight = this.editor.base.clientHeight;
+      const editorHeight = findDOMNode(this.editor).clientHeight;
       if (editorHeight !== this.state.editorHeight) {
         this.setState({ editorHeight });
       }
@@ -335,27 +331,88 @@ export class Editor extends Component {
     };
     const updateCode = (val, change) => this.updateCode(val, change);
 
+    this.setGutterMarkers();
+
     return (
       <Container>
-        <Codemirror
-          ref={ref => {
-            console.log("red before", this.editor);
-            this.editor = ref;
-            console.log("ref after", this.editor);
-          }}
-          onChange={updateCode}
-          options={options}
-          schema={this.props.schema}
-          initialPosition={this.state.lastPosition}
-        />
+        <Container>
+          <Codemirror
+            ref={ref => {
+              this.editor = ref;
+            }}
+            onChange={updateCode}
+            options={options}
+            schema={this.schema}
+            initialPosition={this.state.lastPosition}
+          />
+        </Container>
+        <Container>
+          <Render if={this.state.contentId}>
+            <Button
+              onClick={() =>
+                this.onFavoriteUpdateClick(
+                  this.state.contentId,
+                  this.getEditorValue()
+                )
+              }
+              content="Favorite"
+            />
+          </Render>
+          <Render if={!this.state.contentId}>
+            <Button content="Update favorite" />
+          </Render>
+          <Button onClick={() => this.clearEditor()} content="Clear" />
+          <Button onClick={() => this.execCurrent()} content="Submit" />
+        </Container>
       </Container>
     );
 
-    // this.setGutterMarkers()
-
+    //   <Container>
+    //   <Render if={this.state.contentId}>
+    //     <EditModeEditorButton
+    //       onClick={() =>
+    //         this.props.onFavoriteUpdateClick(
+    //           this.state.contentId,
+    //           this.getEditorValue()
+    //         )}
+    //       disabled={this.getEditorValue().length < 1}
+    //       color='#ffaf00'
+    //       title='Favorite'
+    //       hoverIcon='&quot;\74&quot;'
+    //       icon='&quot;\25&quot;'
+    //     />
+    //   </Render>
+    //   <Render if={!this.state.contentId}>
+    //     <EditorButton
+    //       onClick={() => {
+    //         this.props.onFavoriteClick(this.getEditorValue())
+    //       }}
+    //       disabled={this.getEditorValue().length < 1}
+    //       title='Update favorite'
+    //       hoverIcon='&quot;\58&quot;'
+    //       icon='&quot;\73&quot;'
+    //     />
+    //   </Render>
+    //   <EditorButton
+    //     data-test-id='clearEditorContent'
+    //     onClick={() => this.clearEditor()}
+    //     disabled={this.getEditorValue().length < 1}
+    //     title='Clear'
+    //     hoverIcon='&quot;\e005&quot;'
+    //     icon='&quot;\5e&quot;'
+    //   />
+    //   <EditorButton
+    //     data-test-id='submitQuery'
+    //     onClick={() => this.execCurrent()}
+    //     disabled={this.getEditorValue().length < 1}
+    //     title='Play'
+    //     hoverIcon='&quot;\e002&quot;'
+    //     icon='&quot;\77&quot;'
+    //   />
+    // </Container>
     // return (
     //   <Bar expanded={this.state.expanded} minHeight={this.state.editorHeight}>
-    //     <Container>
+    //     <EditorWrapper>
     //       expanded={this.state.expanded}
     //       minHeight={this.state.editorHeight}
     //     >
@@ -369,49 +426,7 @@ export class Editor extends Component {
     //         initialPosition={this.state.lastPosition}
     //       />
     //     </EditorWrapper>
-    //     <ActionButtonSection>
-    //       <Render if={this.state.contentId}>
-    //         <EditModeEditorButton
-    //           onClick={() =>
-    //             this.props.onFavoriteUpdateClick(
-    //               this.state.contentId,
-    //               this.getEditorValue()
-    //             )}
-    //           disabled={this.getEditorValue().length < 1}
-    //           color='#ffaf00'
-    //           title='Favorite'
-    //           hoverIcon='&quot;\74&quot;'
-    //           icon='&quot;\25&quot;'
-    //         />
-    //       </Render>
-    //       <Render if={!this.state.contentId}>
-    //         <EditorButton
-    //           onClick={() => {
-    //             this.props.onFavoriteClick(this.getEditorValue())
-    //           }}
-    //           disabled={this.getEditorValue().length < 1}
-    //           title='Update favorite'
-    //           hoverIcon='&quot;\58&quot;'
-    //           icon='&quot;\73&quot;'
-    //         />
-    //       </Render>
-    //       <EditorButton
-    //         data-test-id='clearEditorContent'
-    //         onClick={() => this.clearEditor()}
-    //         disabled={this.getEditorValue().length < 1}
-    //         title='Clear'
-    //         hoverIcon='&quot;\e005&quot;'
-    //         icon='&quot;\5e&quot;'
-    //       />
-    //       <EditorButton
-    //         data-test-id='submitQuery'
-    //         onClick={() => this.execCurrent()}
-    //         disabled={this.getEditorValue().length < 1}
-    //         title='Play'
-    //         hoverIcon='&quot;\e002&quot;'
-    //         icon='&quot;\77&quot;'
-    //       />
-    //     </ActionButtonSection>
+    //
     //   </Bar>
     // )
   }
@@ -463,11 +478,11 @@ export class Editor extends Component {
 // }
 
 Editor.propTypes = {
+  expanded: PropTypes.string,
   eventHandler: PropTypes.object,
   enableEditorAutocomplete: PropTypes.bool,
   content: PropTypes.string,
   history: PropTypes.array,
-  cmdchar: PropTypes.string,
   consoleCommands: PropTypes.object,
   parameters: PropTypes.array,
   labels: PropTypes.array,
