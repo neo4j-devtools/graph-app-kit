@@ -20,16 +20,31 @@ export class Cypher extends Component {
     tick: 0
   };
   componentDidMount() {
-    this.query(this.props);
-    if (this.props.interval) {
-      this.interval = setInterval(
-        () => this.query(this.props),
-        this.props.interval * 1000
-      );
+    this.setupQuery(this.props);
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.pending !== nextState.pending) return true;
+    if (this.state.tick !== nextState.tick) return true;
+    if (nextProps.cTag && this.props.cTag !== nextProps.cTag) return true;
+    return false;
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.cTag && this.props.cTag !== nextProps.cTag) {
+      clearInterval(this.interval);
+      this.setupQuery(nextProps);
     }
   }
   componentWillUnmount() {
     clearInterval(this.interval);
+  }
+  setupQuery(props) {
+    this.query(props);
+    if (props.interval) {
+      this.interval = setInterval(
+        () => this.query(props),
+        props.interval * 1000
+      );
+    }
   }
   query(props) {
     const { query, params = undefined } = props;
@@ -41,20 +56,20 @@ export class Cypher extends Component {
         .run(query, params)
         .then(res => {
           session.close();
-          this.setState({
+          this.setState(state => ({
             pending: false,
             result: res,
             error: null,
-            tick: this.state.tick + 1
-          });
+            tick: state.tick + 1
+          }));
         })
         .catch(error => {
-          this.setState({
+          this.setState(state => ({
             pending: false,
             result: null,
             error: error,
-            tick: this.state.tick + 1
-          });
+            tick: state.tick + 1
+          }));
         });
     });
   }
@@ -74,7 +89,8 @@ Cypher.propTypes = {
   driver: PropTypes.object,
   params: PropTypes.object,
   query: PropTypes.string.isRequired,
-  render: PropTypes.func.isRequired
+  render: PropTypes.func.isRequired,
+  cTag: PropTypes.any
 };
 
 export default Cypher;
