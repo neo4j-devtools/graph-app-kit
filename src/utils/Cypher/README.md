@@ -3,6 +3,9 @@ Does not render anything by itself, so a `render` property is required, which is
 This `render` property gets passed the state properties of the `Cypher` component, like `pending`, `error`, `result` and `tick`.
 See below for the complete signature.
 
+If you want to send a new query (or re-run the original one, but not at an interval) you can pass the component a new value to the property `cTag` (stands for cache-tag).  
+When this property changes, the component sends the query once again (or sets up a new interval to run the query at).
+
 ```jsx
 <Cypher
   driver={rejectingDriver(3, 'no!')}

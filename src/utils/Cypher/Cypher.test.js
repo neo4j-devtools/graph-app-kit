@@ -50,10 +50,11 @@ it("renders with driver context", () => {
   expect(out.toJSON()).toEqual(null);
 });
 
-it("runs cypher query on mount and not on new props", () => {
+it("runs cypher query on mount and if cTag changes", () => {
   // Given
   const spy = jest.fn((query, params) => Promise.resolve());
-  const query = "RETURN rand()";
+  const query = "RETURN rand() as a";
+  const query2 = "RETURN rand() as b";
 
   // When
   const r = TestRenderer.create(
@@ -66,16 +67,26 @@ it("runs cypher query on mount and not on new props", () => {
   expect(spy).toHaveBeenLastCalledWith(query, undefined);
   expect(spy).toHaveBeenCalledTimes(1);
 
-  // When
+  // When (no cTag change)
   r.update(
     <DriverProvider driver={mockDriver(spy)}>
-      <Cypher query={"xxx"} render={() => null} />
+      <Cypher query={query2} render={() => null} />
     </DriverProvider>
   );
 
   // Then
-  expect(spy).toHaveBeenLastCalledWith(query, undefined);
   expect(spy).toHaveBeenCalledTimes(1);
+
+  // When (cTag has change)
+  r.update(
+    <DriverProvider driver={mockDriver(spy)}>
+      <Cypher cTag={1} query={query2} render={() => null} />
+    </DriverProvider>
+  );
+
+  // Then
+  expect(spy).toHaveBeenLastCalledWith(query2, undefined);
+  expect(spy).toHaveBeenCalledTimes(2);
 });
 
 it("runs cypher query at an interval", () => {
@@ -145,7 +156,7 @@ it("passes result argument to render function", () => {
     result: null,
     tick: 0
   });
-  expect(renderSpy).toHaveBeenCalledTimes(2); // Initial render + pending
+  expect(renderSpy).toHaveBeenCalledTimes(1);
   expect(tree).toMatchSnapshot();
 
   // This is needed to flush the promise chain
@@ -158,7 +169,7 @@ it("passes result argument to render function", () => {
       result: 10,
       tick: 1
     });
-    expect(renderSpy).toHaveBeenCalledTimes(3);
+    expect(renderSpy).toHaveBeenCalledTimes(2);
     expect(tree).toMatchSnapshot();
   });
 });
@@ -187,7 +198,7 @@ it("passes error argument to render function", () => {
   expect(runSpy).toHaveBeenLastCalledWith(query, undefined);
   expect(runSpy).toHaveBeenCalledTimes(1);
   expect(closeSpy).toHaveBeenCalledTimes(0);
-  expect(renderSpy).toHaveBeenCalledTimes(2); // Initial render + pending
+  expect(renderSpy).toHaveBeenCalledTimes(1);
   expect(tree).toMatchSnapshot();
 
   // This is needed to flush the promise chain
@@ -200,7 +211,7 @@ it("passes error argument to render function", () => {
       result: null,
       tick: 1
     });
-    expect(renderSpy).toHaveBeenCalledTimes(3);
+    expect(renderSpy).toHaveBeenCalledTimes(2);
     expect(tree).toMatchSnapshot();
   });
 });
