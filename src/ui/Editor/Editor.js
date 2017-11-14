@@ -12,10 +12,6 @@ import { Render } from "./../Render";
 export class Editor extends Component {
   constructor(props) {
     super(props);
-    this.onExecute = this.props.onExecute || (() => {});
-    this.onFavoriteUpdateClick = this.props.eventHandler
-      ? this.props.eventHandler.onFavoriteUpdateClick || (() => {})
-      : () => {};
     this.schema = {
       consoleCommands: consoleCommands,
       parameters: this.parameters || [],
@@ -34,6 +30,11 @@ export class Editor extends Component {
       procedures: this.props.procedures
         ? this.props.procedures.map(schemaConvert.toProcedure)
         : []
+    };
+    this.eventHandler = this.props.eventHandler || {
+      onExecute: () => {},
+      onFavoriteClick: () => {},
+      onFavoriteUpdateClick: () => {}
     };
     this.state = {
       historyIndex: -1,
@@ -73,9 +74,8 @@ export class Editor extends Component {
   execCurrent() {
     const value = this.getEditorValue();
     if (!value) return;
-    this.onExecute(value);
+    this.eventHandler.onExecute(value);
     this.clearEditor();
-    this.clearHints();
     this.setState({ historyIndex: -1, buffer: null, expanded: false });
   }
 
@@ -132,7 +132,6 @@ export class Editor extends Component {
   }
 
   triggerAutocompletion(cm, changed) {
-    debugger;
     if (changed.text.length !== 1 || !this.props.enableEditorAutocomplete) {
       return;
     }
@@ -162,7 +161,6 @@ export class Editor extends Component {
   }
 
   componentDidMount() {
-    // this.debouncedCheckForHints = debounce(this.checkForHints, 350, this)
     this.codeMirror = this.editor.getCodeMirror();
     this.codeMirror.on("change", this.triggerAutocompletion.bind(this));
 
@@ -201,22 +199,6 @@ export class Editor extends Component {
 
   updateCode(newCode, change, cb = () => {}) {
     const mode = "cypher";
-    this.clearHints();
-    if (
-      mode === "cypher" &&
-      newCode.trim().length > 0 &&
-      !newCode
-        .trimLeft()
-        .toUpperCase()
-        .startsWith("EXPLAIN") &&
-      !newCode
-        .trimLeft()
-        .toUpperCase()
-        .startsWith("PROFILE")
-    ) {
-      // this.debouncedCheckForHints(newCode);
-    }
-
     const lastPosition = change && change.to;
 
     this.setState(
@@ -229,53 +211,6 @@ export class Editor extends Component {
       },
       cb
     );
-  }
-
-  // checkForHints(code) {
-  //   this.props.bus.self(
-  //     CYPHER_REQUEST,
-  //     { query: "EXPLAIN " + code },
-  //     response => {
-  //       if (
-  //         response.success === true &&
-  //         response.result.summary.notifications.length > 0
-  //       ) {
-  //         this.setState({
-  //           notifications: response.result.summary.notifications
-  //         });
-  //       } else {
-  //         this.clearHints();
-  //       }
-  //     }
-  //   );
-  // }
-
-  clearHints() {
-    this.setState({ notifications: [] });
-  }
-
-  setGutterMarkers() {
-    if (this.codeMirror) {
-      this.codeMirror.clearGutter("cypher-hints");
-      this.state.notifications.forEach(notification => {
-        this.codeMirror.setGutterMarker(
-          (notification.position.line || 1) - 1,
-          "cypher-hints",
-          (() => {
-            let gutter = document.createElement("div");
-            gutter.style.color = "#822";
-            gutter.innerHTML =
-              '<i class="fa fa-exclamation-triangle gutter-warning gutter-warning" aria-hidden="true"></i>';
-            gutter.title = `${notification.title}\n${notification.description}`;
-            gutter.onclick = () => {
-              action.forceView = viewTypes.WARNINGS;
-              this.props.bus.send(action.type, action);
-            };
-            return gutter;
-          })()
-        );
-      });
-    }
   }
 
   lineNumberFormatter(line) {
@@ -330,9 +265,6 @@ export class Editor extends Component {
       }
     };
     const updateCode = (val, change) => this.updateCode(val, change);
-
-    this.setGutterMarkers();
-
     return (
       <Container>
         <Container>
@@ -350,7 +282,7 @@ export class Editor extends Component {
           <Render if={this.state.contentId}>
             <Button
               onClick={() =>
-                this.onFavoriteUpdateClick(
+                this.eventHAandler.onFavoriteUpdateClick(
                   this.state.contentId,
                   this.getEditorValue()
                 )
@@ -359,123 +291,20 @@ export class Editor extends Component {
             />
           </Render>
           <Render if={!this.state.contentId}>
-            <Button content="Update favorite" />
+            <Button
+              onClick={() =>
+                this.eventHandler.onFavoriteClick(this.getEditorValue())
+              }
+              content="Update favorite"
+            />
           </Render>
           <Button onClick={() => this.clearEditor()} content="Clear" />
           <Button onClick={() => this.execCurrent()} content="Submit" />
         </Container>
       </Container>
     );
-
-    //   <Container>
-    //   <Render if={this.state.contentId}>
-    //     <EditModeEditorButton
-    //       onClick={() =>
-    //         this.props.onFavoriteUpdateClick(
-    //           this.state.contentId,
-    //           this.getEditorValue()
-    //         )}
-    //       disabled={this.getEditorValue().length < 1}
-    //       color='#ffaf00'
-    //       title='Favorite'
-    //       hoverIcon='&quot;\74&quot;'
-    //       icon='&quot;\25&quot;'
-    //     />
-    //   </Render>
-    //   <Render if={!this.state.contentId}>
-    //     <EditorButton
-    //       onClick={() => {
-    //         this.props.onFavoriteClick(this.getEditorValue())
-    //       }}
-    //       disabled={this.getEditorValue().length < 1}
-    //       title='Update favorite'
-    //       hoverIcon='&quot;\58&quot;'
-    //       icon='&quot;\73&quot;'
-    //     />
-    //   </Render>
-    //   <EditorButton
-    //     data-test-id='clearEditorContent'
-    //     onClick={() => this.clearEditor()}
-    //     disabled={this.getEditorValue().length < 1}
-    //     title='Clear'
-    //     hoverIcon='&quot;\e005&quot;'
-    //     icon='&quot;\5e&quot;'
-    //   />
-    //   <EditorButton
-    //     data-test-id='submitQuery'
-    //     onClick={() => this.execCurrent()}
-    //     disabled={this.getEditorValue().length < 1}
-    //     title='Play'
-    //     hoverIcon='&quot;\e002&quot;'
-    //     icon='&quot;\77&quot;'
-    //   />
-    // </Container>
-    // return (
-    //   <Bar expanded={this.state.expanded} minHeight={this.state.editorHeight}>
-    //     <EditorWrapper>
-    //       expanded={this.state.expanded}
-    //       minHeight={this.state.editorHeight}
-    //     >
-    //       <Codemirror
-    //         ref={ref => {
-    //           this.editor = ref
-    //         }}
-    //         onChange={updateCode}
-    //         options={options}
-    //         schema={this.props.schema}
-    //         initialPosition={this.state.lastPosition}
-    //       />
-    //     </EditorWrapper>
-    //
-    //   </Bar>
-    // )
   }
 }
-
-// const mapDispatchToProps = (dispatch, ownProps) => {
-//   return {
-//     onFavoriteClick: cmd => {
-//       const id = uuid.v4()
-
-//       const addAction = favorites.addFavorite(cmd, id)
-//       ownProps.bus.send(addAction.type, addAction)
-
-//       const updateAction = editContent(id, cmd)
-//       ownProps.bus.send(updateAction.type, updateAction)
-//     },
-//     onFavoriteUpdateClick: (id, cmd) => {
-//       const action = favorites.updateFavorite(id, cmd)
-//       ownProps.bus.send(action.type, action)
-//     },
-//     onExecute: cmd => {
-//       const action = executeCommand(cmd)
-//       ownProps.bus.send(action.type, action)
-//     }
-//   }
-// }
-
-// const mapStateToProps = state => {
-//   return {
-//     enableEditorAutocomplete: shouldEditorAutocomplete(state),
-//     content: null,
-//     history: getHistory(state),
-//     cmdchar: getCmdChar(state),
-//     schema: {
-//       consoleCommands: consoleCommands,
-//       parameters: Object.keys(state.params),
-//       labels: state.meta.labels.map(schemaConvert.toLabel),
-//       relationshipTypes: state.meta.relationshipTypes.map(
-//         schemaConvert.toRelationshipType
-//       ),
-//       propertyKeys: state.meta.properties.map(schemaConvert.toPropertyKey),
-//       functions: [
-//         ...cypherFunctions,
-//         ...state.meta.functions.map(schemaConvert.toFunction)
-//       ],
-//       procedures: state.meta.procedures.map(schemaConvert.toProcedure)
-//     }
-//   }
-// }
 
 Editor.propTypes = {
   expanded: PropTypes.string,
