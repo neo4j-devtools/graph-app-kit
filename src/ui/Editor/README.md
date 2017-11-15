@@ -1,8 +1,7 @@
 Editor component.
 
 ```javascript
-<Editor
-  content="foobar"
-  labels={['about', 'able' ]}
+<CodeMirror
+  value="RETURN 1"
 />
 ```

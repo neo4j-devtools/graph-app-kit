@@ -99,11 +99,9 @@
     "@vx/scale": "^0.0.143",
     "@vx/shape": "0.0.142",
     "ascii-data-table": "^2.1.1",
-<<<<<<< HEAD
     "jest-cli": "^21.2.1",
-=======
+    "codemirror": "^5.29.0",
     "cypher-codemirror": "^1.0.5",
->>>>>>> First commit of Editor component
     "semantic-ui-css": "^2.2.12",
     "semantic-ui-react": "^0.74.2"
   }

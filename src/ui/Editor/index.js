@@ -1,1 +1,1 @@
-import { Editor } from "./Editor";
+import { CodeMirror } from "./CodeMirror";

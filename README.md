@@ -36,10 +36,11 @@ yarn add graph-app-kit --registry https://neo.jfrog.io/neo/api/npm/npm
 ```
 
 ```javascript
-import { Cypher } from "graph-app-kit/utils/Cypher";
-import { DriverProvider } from "graph-app-kit/utils/DriverProvider";
-import { Render } from "graph-app-kit/ui/Render";
-import { Chart } from "graph-app-kit/ui/Chart";
+import 'semantic-ui-css/semantic.min.css'
+import { Cypher } from 'graph-app-kit/utils/Cypher'
+import { DriverProvider } from 'graph-app-kit/utils/DriverProvider'
+import { Render } from 'graph-app-kit/ui/Render'
+import { Chart } from 'graph-app-kit/ui/Chart'
 ```
 
 ## Component playground / library
