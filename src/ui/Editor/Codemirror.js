@@ -21,8 +21,8 @@ export class CodeMirror extends Component {
     };
     this.options = {
       lineNumbers: true,
-      mode: this.props.autoCompleteDisabled ? {} : "cypher",
-      theme: "cypher",
+      mode: this.props.autoCompleteEnabled ? "cypher" : {},
+      theme: this.props.cypherHighlightingEnabled ? "cypher" : "",
       gutters: ["cypher-hints"],
       lineWrapping: true,
       autofocus: true,
@@ -65,7 +65,6 @@ export class CodeMirror extends Component {
 
   componentDidMount() {
     const textareaNode = this.editorReference;
-    console.log("mount", textareaNode);
     const { editor, editorSupport } = createCypherEditor(
       textareaNode,
       this.options
@@ -139,9 +138,10 @@ export class CodeMirror extends Component {
 }
 
 CodeMirror.propTypes = {
-  autoCompleteDisabled: PropTypes.bool,
+  autoCompleteEnabled: PropTypes.bool,
   /** custom syntax highlighting */
   autoCompleteSchema: PropTypes.object,
+  cypherHighlightingEnabled: PropTypes.bool,
   /** returns value as first parameter */
   onValueChange: PropTypes.func,
   /** set intial value */
@@ -149,7 +149,8 @@ CodeMirror.propTypes = {
 };
 
 CodeMirror.defaultProps = {
-  autoCompleteDisabled: false,
+  autoCompleteEnabled: true,
+  cypherHighlightingEnabled: true,
   onValueChange: () => {},
   value: ""
 };
