@@ -82,9 +82,10 @@ test("GraphAppBase exposes 'setCredentials' and tries to connect when called", (
     getContext: () => Promise.resolve(desktopApiContexts.activeGraph)
   };
   let outerSetCredentials;
-  const render = jest.fn(
-    ({ setCredentials }) => (outerSetCredentials = setCredentials)
-  );
+  const render = jest.fn(({ setCredentials }) => {
+    outerSetCredentials = setCredentials;
+    return "In render";
+  });
   const driverMock = mockDriver();
   const driver = jest.fn(() => driverMock);
   const factoryDriver = driverFactory(driver);
