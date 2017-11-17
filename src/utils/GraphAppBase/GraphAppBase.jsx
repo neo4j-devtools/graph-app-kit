@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import * as PropTypes from "prop-types";
-import { DriverProvider } from "../utils/DriverProvider";
+import { DriverProvider } from "../DriverProvider";
 import {
   DesktopIntegration,
   helpers as integrationHelpers
-} from "../utils/DesktopIntegration";
+} from "../DesktopIntegration";
 
 export const CONNECTED = "CONNECTED";
 export const DISCONNECTED = "DISCONNECTED";
@@ -12,39 +12,32 @@ export const DISCONNECTED = "DISCONNECTED";
 export class GraphAppBase extends Component {
   constructor(props) {
     super(props);
-    this.driver = null;
+    this.driver = {};
     this.listeners = {};
   }
   state = {
     driverCredentials: null,
-    connectionState: null
+    connectionState: DISCONNECTED,
+    connectionDetails: null
   };
+  componentDidCatch(e) {}
   onConnectionChange = context => {
     const creds = integrationHelpers.getActiveCredentials("bolt", context);
-    this.setState(
-      state => ({
-        driverCredentials: {
-          host: `bolt://${creds.host}:${creds.port}`,
-          encrypted: creds.tlsLevel === "REQUIRED",
-          username:
-            creds.username ||
-            (state.driverCredentials && state.driverCredentials.username),
-          password:
-            creds.password ||
-            (state.driverCredentials && state.driverCredentials.password)
-        }
-      }),
-      this.connectDriver
-    );
+    const driverCredentials = {
+      host: `bolt://${creds.host}:${creds.port}`,
+      encrypted: creds.tlsLevel === "REQUIRED",
+      username:
+        creds.username ||
+        (this.state.driverCredentials && this.state.driverCredentials.username),
+      password:
+        creds.password ||
+        (this.state.driverCredentials && this.state.driverCredentials.password)
+    };
+    this.connectDriver(driverCredentials);
   };
-  connectDriver = () => {
+  connectDriver = driverCredentials => {
     if (this.driver && this.driver.close) this.driver.close();
-    const {
-      host,
-      username,
-      password,
-      encrypted
-    } = this.state.driverCredentials;
+    const { host, username, password, encrypted } = driverCredentials;
     const auth =
       username && password
         ? this.props.driverFactory.auth.basic(username, password)
@@ -58,13 +51,13 @@ export class GraphAppBase extends Component {
         .then(() => {
           this.setState({
             connectionState: CONNECTED,
-            connectionDetails: null
+            connectionDetails: null,
+            driverCredentials
           });
           tmp.close();
         })
         .catch(this.handleDriverError);
     }
-    this.forceUpdate();
   };
   handleDriverError = e => {
     this.setState({
@@ -73,13 +66,12 @@ export class GraphAppBase extends Component {
     });
   };
   setCredentials = (username, password) => {
-    this.setState(
-      state => ({
-        ...state,
-        driverCredentials: { ...state.driverCredentials, username, password }
-      }),
-      this.connectDriver
-    );
+    const driverCredentials = {
+      ...this.state.driverCredentials,
+      username,
+      password
+    };
+    this.connectDriver(driverCredentials);
   };
   on = (type, fn) => {
     if (typeof this.listeners[type] === "undefined") this.listeners[type] = [];
@@ -101,7 +93,7 @@ export class GraphAppBase extends Component {
     this.listeners = [];
     const { connectionState, connectionDetails } = this.state;
     const { setCredentials, handleEvents, on, off } = this;
-    const app = this.driver ? (
+    const app = (
       <DriverProvider driver={this.driver}>
         {this.props.render({
           connectionState,
@@ -111,21 +103,25 @@ export class GraphAppBase extends Component {
           off
         })}
       </DriverProvider>
-    ) : null;
-    return [
-      <DesktopIntegration
-        integrationPoint={this.props.integrationPoint}
-        onMount={this.onConnectionChange}
-        onGraphActive={(_, context) => this.onConnectionChange(context)}
-        on={handleEvents}
-      />,
-      app
-    ];
+    );
+    return (
+      <KeyFix>
+        <DesktopIntegration
+          integrationPoint={this.props.integrationPoint}
+          onMount={this.onConnectionChange}
+          onGraphActive={(_, context) => this.onConnectionChange(context)}
+          on={handleEvents}
+        />
+        {app}
+      </KeyFix>
+    );
   }
 }
 
 GraphAppBase.propTypes = {
-  integrationPoint: PropTypes.object,
   driverFactory: PropTypes.object.isRequired,
-  render: PropTypes.func.isRequired
+  render: PropTypes.func.isRequired,
+  integrationPoint: PropTypes.object
 };
+
+const KeyFix = ({ children }) => children;

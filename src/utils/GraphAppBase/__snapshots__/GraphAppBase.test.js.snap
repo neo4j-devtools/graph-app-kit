@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GraphAppBase passes connection state and connection details to render prop 1`] = `"Hello from render props (spy)"`;
+
+exports[`GraphAppBase renders 1`] = `"Hello from render prop"`;
