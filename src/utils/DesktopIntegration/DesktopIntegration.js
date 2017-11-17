@@ -7,6 +7,9 @@ export class DesktopIntegration extends Component {
     const { integrationPoint } = this.props;
     if (integrationPoint && integrationPoint.onContextUpdate) {
       integrationPoint.onContextUpdate((event, newContext, oldContext) => {
+        if (this.props.on) {
+          this.props.on(event, newContext, oldContext);
+        }
         const handlerPropName = eventToHandler(event.type);
         if (!handlerPropName) return;
         if (typeof this.props[handlerPropName] === "undefined") return;
@@ -39,6 +42,7 @@ export class DesktopIntegration extends Component {
 DesktopIntegration.propTypes = {
   integrationPoint: PropTypes.object,
   onMount: PropTypes.func,
+  on: PropTypes.func,
   onEventType: PropTypes.func
 };
 
