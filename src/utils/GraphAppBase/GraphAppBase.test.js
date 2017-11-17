@@ -5,6 +5,7 @@ import {
   flushPromises,
   desktopApiContexts
 } from "../../../config/test_helpers";
+import { helpers as integrationHelpers } from "../DesktopIntegration";
 
 import { GraphAppBase, CONNECTED, DISCONNECTED } from "./GraphAppBase";
 
@@ -74,6 +75,59 @@ test("GraphAppBase passes connection state and connection details to render prop
     );
   });
 });
+
+test("GraphAppBase exposes 'setCredentials' and tries to connect when called", () => {
+  // Given
+  const integrationPoint = {
+    getContext: () => Promise.resolve(desktopApiContexts.activeGraph)
+  };
+  let outerSetCredentials;
+  const render = jest.fn(
+    ({ setCredentials }) => (outerSetCredentials = setCredentials)
+  );
+  const driverMock = mockDriver();
+  const driver = jest.fn(() => driverMock);
+  const factoryDriver = driverFactory(driver);
+  const creds = integrationHelpers.getActiveCredentials(
+    "bolt",
+    desktopApiContexts.activeGraph
+  );
+  const host = `bolt://${creds.host}:${creds.port}`;
+  const encrypted = creds.tlsLevel === "REQUIRED";
+  const username = "Stella";
+  const password = "password";
+
+  // When
+  TestRenderer.create(
+    <GraphAppBase
+      driverFactory={factoryDriver}
+      render={render}
+      integrationPoint={integrationPoint}
+    />
+  );
+
+  // Then
+  expect(render).toHaveBeenCalledTimes(1);
+  expect(render).toHaveBeenLastCalledWith(
+    expect.objectContaining({
+      setCredentials: expect.anything()
+    })
+  );
+
+  // When
+  outerSetCredentials(username, password);
+
+  // Then
+  return flushPromises().then(() => {
+    expect(driver).toHaveBeenCalledTimes(2);
+    expect(driver).toHaveBeenLastCalledWith(
+      host,
+      factoryDriver.auth.basic(username, password),
+      { encrypted }
+    );
+  });
+});
+
 // test("GraphAppBase passes connection state to render prop", () => {
 //   // Given
 //   let componentOnContextUpdate;

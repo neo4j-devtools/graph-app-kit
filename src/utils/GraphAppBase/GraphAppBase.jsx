@@ -20,6 +20,12 @@ export class GraphAppBase extends Component {
     connectionState: DISCONNECTED,
     connectionDetails: null
   };
+  shouldComponentUpdate(props, state) {
+    return !(
+      state.connectionState === this.state.connectionState &&
+      state.connectionDetails === this.state.connectionDetails
+    );
+  }
   componentDidCatch(e) {}
   onConnectionChange = context => {
     const creds = integrationHelpers.getActiveCredentials("bolt", context);
@@ -33,11 +39,16 @@ export class GraphAppBase extends Component {
         creds.password ||
         (this.state.driverCredentials && this.state.driverCredentials.password)
     };
-    this.connectDriver(driverCredentials);
+    this.setState({ driverCredentials }, this.connectDriver);
   };
-  connectDriver = driverCredentials => {
+  connectDriver = () => {
     if (this.driver && this.driver.close) this.driver.close();
-    const { host, username, password, encrypted } = driverCredentials;
+    const {
+      host,
+      username,
+      password,
+      encrypted
+    } = this.state.driverCredentials;
     const auth =
       username && password
         ? this.props.driverFactory.auth.basic(username, password)
@@ -51,8 +62,7 @@ export class GraphAppBase extends Component {
         .then(() => {
           this.setState({
             connectionState: CONNECTED,
-            connectionDetails: null,
-            driverCredentials
+            connectionDetails: null
           });
           tmp.close();
         })
@@ -71,7 +81,7 @@ export class GraphAppBase extends Component {
       username,
       password
     };
-    this.connectDriver(driverCredentials);
+    this.setState({ driverCredentials }, this.connectDriver);
   };
   on = (type, fn) => {
     if (typeof this.listeners[type] === "undefined") this.listeners[type] = [];
