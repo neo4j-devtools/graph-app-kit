@@ -84,14 +84,14 @@ export class GraphAppBase extends Component {
     this.setState({ driverCredentials }, this.connectDriver);
   };
   on = (type, fn) => {
-    if (typeof this.listeners[type] === "undefined") this.listeners[type] = [];
+    if (!this.listeners[type]) this.listeners[type] = [];
     this.listeners[type].push(fn);
   };
   off = (type, fn) => {
-    if (typeof this.listeners[type] === "undefined") return;
+    if (!this.listeners[type]) return;
     const index = this.listeners[type].indexOf(fn);
     if (index < 0) return;
-    this.listeners.splice(index, 1);
+    this.listeners[type].splice(index, 1);
   };
   handleEvents = (typeObj, newContext, oldContext) => {
     const { type } = typeObj;

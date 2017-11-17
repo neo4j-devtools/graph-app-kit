@@ -128,44 +128,130 @@ test("GraphAppBase exposes 'setCredentials' and tries to connect when called", (
   });
 });
 
-// test("GraphAppBase passes connection state to render prop", () => {
-//   // Given
-//   let componentOnContextUpdate;
-//   const onContextUpdate = jest.fn();
-//   const getContext = jest.fn(() =>
-//     Promise.resolve(desktopApiContexts.activeGraph)
-//   );
-//   const integrationPoint = {
-//     getContext: () => getContext(),
-//     onContextUpdate: fn => (componentOnContextUpdate = fn)
-//   };
-//   const render = jest.fn(({ on }) => {
-//     on("EVENT", onContextUpdate);
-//     return "Hello from render props (spy)";
-//   });
-//   const runSpy = jest.fn(() => Promise.resolve());
-//   const closeSpy = jest.fn(() => Promise.resolve());
-//   const driver = jest.fn(() => mockDriver(runSpy, closeSpy));
+test("GraphAppBase exposes 'on' so we can listen on events", () => {
+  // Given
+  let componentOnContextUpdate;
+  const integrationPoint = {
+    getContext: () => Promise.resolve(desktopApiContexts.activeGraph),
+    onContextUpdate: fn => (componentOnContextUpdate = fn)
+  };
+  const onContextUpdate = jest.fn();
+  const type = "EVENT";
+  const type2 = "EVENT2";
+  const oldContext = "newContext";
+  const oldContext2 = "newContext2";
+  const newContext = "newContext";
+  const newContext2 = "newContext2";
+  const render = jest.fn(({ on }) => {
+    on(type, onContextUpdate); // Listen
+    on(type2, onContextUpdate); // on two event types
+    return "yo!";
+  });
+  const driver = jest.fn(() => mockDriver());
 
-//   // When
-//   const out = TestRenderer.create(
-//     <GraphAppBase
-//       driverFactory={driverFactory(driver)}
-//       render={render}
-//       integrationPoint={integrationPoint}
-//     />
-//   );
-//   componentOnContextUpdate({ type: "EVENT" }, "x", "y");
+  // When
+  TestRenderer.create(
+    <GraphAppBase
+      driverFactory={driverFactory(driver)}
+      render={render}
+      integrationPoint={integrationPoint}
+    />
+  );
 
-//   // Then
-//   return flushPromises().then(() => {
-//     expect(out.toJSON()).toMatchSnapshot();
-//     expect(driver).toHaveBeenCalledTimes(1);
-//     expect(render).toHaveBeenCalledTimes(3);
-//     expect(render).toHaveBeenLastCalledWith(
-//       expect.objectContaining({ connectionState: CONNECTED })
-//     );
-//   });
+  // Then
+  expect(render).toHaveBeenCalledTimes(1);
+  expect(render).toHaveBeenLastCalledWith(
+    expect.objectContaining({
+      on: expect.anything()
+    })
+  );
 
-//   // When
-// });
+  // When
+  componentOnContextUpdate({ type }, oldContext, newContext);
+
+  // Then
+  return flushPromises().then(() => {
+    expect(driver).toHaveBeenCalledTimes(1);
+    expect(onContextUpdate).toHaveBeenCalledTimes(1);
+    expect(onContextUpdate).toHaveBeenLastCalledWith(
+      type,
+      newContext,
+      oldContext
+    );
+
+    // When
+    componentOnContextUpdate({ type: type2 }, oldContext2, newContext2);
+
+    // Then
+    return flushPromises().then(() => {
+      expect(driver).toHaveBeenCalledTimes(1);
+      expect(onContextUpdate).toHaveBeenCalledTimes(2);
+      expect(onContextUpdate).toHaveBeenLastCalledWith(
+        type2,
+        newContext2,
+        oldContext2
+      );
+    });
+  });
+});
+
+test("GraphAppBase exposes 'off' so we can stop listening on events", () => {
+  // Given
+  let componentOnContextUpdate;
+  const integrationPoint = {
+    getContext: () => Promise.resolve(desktopApiContexts.activeGraph),
+    onContextUpdate: fn => (componentOnContextUpdate = fn)
+  };
+  const onContextUpdate = jest.fn();
+  const type = "EVENT";
+  const type2 = "EVENT2";
+  const oldContext = "newContext";
+  const newContext = "newContext";
+  const render = jest.fn(({ on, off }) => {
+    on(type, onContextUpdate); // Listen on one event
+    on(type2, onContextUpdate);
+    off(type2, onContextUpdate); // Stop listening on second
+    return "yo!";
+  });
+  const driver = jest.fn(() => mockDriver());
+
+  // When
+  TestRenderer.create(
+    <GraphAppBase
+      driverFactory={driverFactory(driver)}
+      render={render}
+      integrationPoint={integrationPoint}
+    />
+  );
+
+  // Then
+  expect(render).toHaveBeenCalledTimes(1);
+  expect(render).toHaveBeenLastCalledWith(
+    expect.objectContaining({
+      off: expect.anything()
+    })
+  );
+
+  // When
+  componentOnContextUpdate({ type }, oldContext, newContext);
+
+  // Then
+  return flushPromises().then(() => {
+    expect(driver).toHaveBeenCalledTimes(1);
+    expect(onContextUpdate).toHaveBeenCalledTimes(1);
+    expect(onContextUpdate).toHaveBeenLastCalledWith(
+      type,
+      newContext,
+      oldContext
+    );
+
+    // When
+    componentOnContextUpdate({ type: type2 }, null, null);
+
+    // Then
+    return flushPromises().then(() => {
+      expect(driver).toHaveBeenCalledTimes(1);
+      expect(onContextUpdate).toHaveBeenCalledTimes(1);
+    });
+  });
+});
