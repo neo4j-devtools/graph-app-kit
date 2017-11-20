@@ -75,7 +75,7 @@ export class CodeMirror extends Component {
     this.codeMirror.on("focus", this.focusChanged.bind(this, true));
     this.codeMirror.on("blur", this.focusChanged.bind(this, false));
     this.codeMirror.on("scroll", this.scrollChanged.bind(this));
-    this.codeMirror.setValue(this.props.value || "");
+    this.codeMirror.setValue(this.props.value);
     this.editorSupport = editorSupport;
     this.editorSupport.setSchema(this.schema);
 
@@ -150,6 +150,7 @@ CodeMirror.propTypes = {
 
 CodeMirror.defaultProps = {
   autoCompleteEnabled: true,
+  autoCompleteSchema: undefined,
   cypherHighlightingEnabled: true,
   onValueChange: () => {},
   value: ""
