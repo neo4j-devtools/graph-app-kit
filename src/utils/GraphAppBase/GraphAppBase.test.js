@@ -70,7 +70,7 @@ test("GraphAppBase passes connection state and connection details to render prop
     expect(render).toHaveBeenLastCalledWith(
       expect.objectContaining({
         connectionState: DISCONNECTED,
-        connectionDetails: "no!"
+        connectionDetails: { message: "no!" }
       })
     );
   });

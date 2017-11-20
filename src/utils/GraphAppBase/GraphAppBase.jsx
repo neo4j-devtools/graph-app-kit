@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import * as PropTypes from "prop-types";
+import { shallowEqual } from "../../helpers";
 import { DriverProvider } from "../DriverProvider";
 import {
   DesktopIntegration,
@@ -23,7 +24,7 @@ export class GraphAppBase extends Component {
   shouldComponentUpdate(props, state) {
     return !(
       state.connectionState === this.state.connectionState &&
-      state.connectionDetails === this.state.connectionDetails
+      shallowEqual(state.connectionDetails, this.state.connectionDetails)
     );
   }
   componentDidCatch(e) {}
@@ -72,7 +73,7 @@ export class GraphAppBase extends Component {
   handleDriverError = e => {
     this.setState({
       connectionState: DISCONNECTED,
-      connectionDetails: e.message
+      connectionDetails: e
     });
   };
   setCredentials = (username, password) => {
