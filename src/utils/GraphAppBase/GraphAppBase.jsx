@@ -104,8 +104,15 @@ export class GraphAppBase extends Component {
     this.listeners = [];
     const { connectionState, connectionDetails } = this.state;
     const { setCredentials, handleEvents, on, off } = this;
-    const app = (
-      <DriverProvider driver={this.driver}>
+    return [
+      <DesktopIntegration
+        key="di"
+        integrationPoint={this.props.integrationPoint}
+        onMount={this.onConnectionChange}
+        onGraphActive={(_, context) => this.onConnectionChange(context)}
+        on={handleEvents}
+      />,
+      <DriverProvider driver={this.driver} key="dp">
         {this.props.render({
           connectionState,
           connectionDetails,
@@ -114,18 +121,7 @@ export class GraphAppBase extends Component {
           off
         })}
       </DriverProvider>
-    );
-    return (
-      <KeyFix>
-        <DesktopIntegration
-          integrationPoint={this.props.integrationPoint}
-          onMount={this.onConnectionChange}
-          onGraphActive={(_, context) => this.onConnectionChange(context)}
-          on={handleEvents}
-        />
-        {app}
-      </KeyFix>
-    );
+    ];
   }
 }
 
@@ -134,5 +130,3 @@ GraphAppBase.propTypes = {
   render: PropTypes.func.isRequired,
   integrationPoint: PropTypes.object
 };
-
-const KeyFix = ({ children }) => children;
