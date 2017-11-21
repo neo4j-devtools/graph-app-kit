@@ -100,7 +100,7 @@ test("GraphAppBase passes the context object to render prop", () => {
   return flushPromises().then(() => {
     expect(render).toHaveBeenLastCalledWith(
       expect.objectContaining({
-        context: desktopApiContexts.activeGraph
+        initialDesktopContext: desktopApiContexts.activeGraph
       })
     );
   });

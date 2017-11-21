@@ -20,7 +20,7 @@ export class GraphAppBase extends Component {
     driverCredentials: null,
     connectionState: DISCONNECTED,
     connectionDetails: null,
-    context: null,
+    initialDesktopContext: null,
     retry: 0
   };
   shouldComponentUpdate(props, state) {
@@ -32,7 +32,7 @@ export class GraphAppBase extends Component {
   }
   componentDidCatch(e) {}
   onDiMount = context => {
-    this.setState({ context });
+    this.setState({ initialDesktopContext: context });
     this.onConnectionChange(context);
   };
   onConnectionChange = context => {
@@ -108,7 +108,6 @@ export class GraphAppBase extends Component {
     this.listeners[type].splice(index, 1);
   };
   handleEvents = (typeObj, newContext, oldContext) => {
-    this.setState({ context: newContext });
     const { type } = typeObj;
     if (this.listeners[type]) {
       this.listeners[type].forEach(fn => fn(type, newContext, oldContext));
@@ -116,7 +115,11 @@ export class GraphAppBase extends Component {
   };
   render() {
     this.listeners = [];
-    const { connectionState, connectionDetails, context } = this.state;
+    const {
+      connectionState,
+      connectionDetails,
+      initialDesktopContext
+    } = this.state;
     const { setCredentials, handleEvents, on, off } = this;
     return [
       <DesktopIntegration
@@ -133,7 +136,7 @@ export class GraphAppBase extends Component {
           setCredentials,
           on,
           off,
-          context
+          initialDesktopContext
         })}
       </DriverProvider>
     ];

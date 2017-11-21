@@ -20,7 +20,7 @@ const MyApp = () => <h2>This is my app!</h2>
 const App = () => (
   <GraphAppBase
     driverFactory={neo4j}
-    render={({ connectionState, connectionDetails, setCredentials, on, off, context }) => (
+    render={({ connectionState, connectionDetails, setCredentials, on, off, initialDesktopContext }) => (
       <MyApp />
     )}
     integrationPoint={integrationPoint}
@@ -54,7 +54,7 @@ export const App = () => (
       setCredentials,
       on,
       off,
-      context
+      initialDesktopContext
     }) => {
       return [
         <ConnectModal
@@ -63,7 +63,7 @@ export const App = () => (
           onSubmit={setCredentials}
           show={connectionState !== CONNECTED}
         />,
-        <MyApp key="app" data={context} />
+        <MyApp key="app" data={initialDesktopContext} />
       ];
     }}
   />
@@ -84,7 +84,7 @@ function render({
   setCredentials: setCredentials,
   on: on,
   off: off,
-  context: context
+  initialDesktopContext: initialDesktopContext
 })
 
 // Type definitions
@@ -119,7 +119,7 @@ function off(eventType: string, cb: eventCallback) {
 
 // Object containing data about the current Neo4j Desktop environment, including all projects etc.
 // See neo4jDesktopApi spec for a complete type definition of this.
-const context = {
+const initialDesktopContext = {
   global: {
     settings: {
 
