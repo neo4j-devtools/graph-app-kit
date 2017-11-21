@@ -1,9 +1,13 @@
-This component saves you from writing boilerplate code to handle active graph connection switches.
-You pass in you application to this components render property function which leaves you in total control your apps behaviour, functionality and looks.  
+This component stitches together the `<DriverProvider />`, `<DesktopIntegration />` and connection handling functionality into one easy-to-use component.
+
 In addition to keeping track of the connection status and reconnect on graph switches this component also adds a `driver` object in application context so it's reachable from all components.
 With this object you can create sessions and send cypher to be executesd on the graph. 
 Components like the `<Cypher>` component uses this driver from the context to run queries and provide you with the result.  
 See the `<DriverProvider>` component for more info on this.
+
+It also provides the ability to listen on events coming from the `neo4jDesktopApi` via the `on` function passed to the render prop function.
+
+You pass in your application to this components render property function which leaves you in total control your apps behaviour, functionality and looks.  
 
 ### Usage
 
