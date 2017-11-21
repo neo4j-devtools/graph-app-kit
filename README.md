@@ -6,7 +6,7 @@ can have breaking changes (i.e. until version `1.0.0` semver does not apply).
 
 Browse source code and read README:s in sub directories for examples and docs.
 
-Check out the [playground](https://styleguide-iqczcouawr.now.sh).
+Check out the [playground](https://styleguide-kmlfcpxobc.now.sh).
 
 ## What's in here (so far)
 
@@ -45,7 +45,7 @@ import { Chart } from "graph-app-kit/ui/Chart";
 ## Component playground / library
 
 There's an interactive playground to view and modify the components.\
-This is temporarily hosted at https://styleguide-iqczcouawr.now.sh.\
+This is temporarily hosted at https://styleguide-kmlfcpxobc.now.sh.\
 Feedback wanted!
 
 To use the playground when developing components: `yarn playground` and to
