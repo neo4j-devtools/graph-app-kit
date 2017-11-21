@@ -3,7 +3,7 @@ import TestRenderer from "react-test-renderer";
 
 import { Component } from "./Component";
 
-test("Component renders", () => {
+test.skip("Component renders", () => {
   const out = TestRenderer.create(<Component />);
   expect(out.toJSON()).toMatchSnapshot();
 });
