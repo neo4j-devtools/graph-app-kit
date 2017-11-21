@@ -145,3 +145,5 @@ GraphAppBase.propTypes = {
   render: PropTypes.func.isRequired,
   integrationPoint: PropTypes.object
 };
+
+export default GraphAppBase;
