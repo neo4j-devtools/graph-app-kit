@@ -37,6 +37,19 @@ function on(eventType: string, cb: eventCallback) {
 function off(eventType: string, cb: eventCallback) {
 }
 
+// Object containing data about the current Neo4j Desktop environment, including all projects etc.
+// See neo4jDesktopApi spec for a complete type definition of this.
+const context = {
+  global: {
+    settings: {
+
+    }
+  },
+  projects: [
+    { graphs: [], id: string, name: string }
+  ]
+}
+
 ```
 
 ### Usage
@@ -50,10 +63,50 @@ const MyApp = () => <h2>This is my app!</h2>
 const App = () => (
   <GraphAppBase
     driverFactory={neo4j}
-    render={({ connectionState, connectionDetails, setCredentials, on, off }) => (
+    render={({ connectionState, connectionDetails, setCredentials, on, off, context }) => (
       <MyApp />
     )}
     integrationPoint={integrationPoint}
+  />
+);
+
+ReactDOM.render(<App />, document.getElementById('root'))
+```
+
+### Username + Password prompt
+For convienience reasons there's a credentials form included in this component which can be used to collect username + password from the user in the cases where Neo4j Desktop does not know about it.  
+Here's example usage code for it:
+
+```javascript static
+const neo4j = require("neo4j-driver/lib/browser/neo4j-web.min.js").v1;
+const integrationPoint = window.neo4jDesktopApi;
+
+const MyApp = ({ data }) => {
+  return <p>Hello</p>;
+};
+
+export const Component = () => (
+  <GraphAppBase
+    driverFactory={neo4j}
+    integrationPoint={integrationPoint}
+    render={({
+      connectionState,
+      connectionDetails,
+      setCredentials,
+      on,
+      off,
+      context
+    }) => {
+      return [
+        <ConnectModal
+          key="modal"
+          errorMsg={connectionDetails ? connectionDetails.message : ""}
+          onSubmit={setCredentials}
+          show={connectionState !== CONNECTED}
+        />,
+        <MyApp key="app" data={context} />
+      ];
+    }}
   />
 );
 

@@ -76,6 +76,36 @@ test("GraphAppBase passes connection state and connection details to render prop
   });
 });
 
+test("GraphAppBase passes the context object to render prop", () => {
+  // Given
+  const integrationPoint = {
+    getContext: () => Promise.resolve(desktopApiContexts.activeGraph)
+  };
+  const render = jest.fn(() => "Hello from render props (spy)");
+  const driverMock = mockDriver();
+  const driver = jest.fn(() => driverMock);
+
+  // When
+  const out = TestRenderer.create(
+    <GraphAppBase
+      driverFactory={driverFactory(driver)}
+      render={render}
+      integrationPoint={integrationPoint}
+    />
+  );
+
+  // Then
+  expect(render).toHaveBeenCalledTimes(1);
+
+  return flushPromises().then(() => {
+    expect(render).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        context: desktopApiContexts.activeGraph
+      })
+    );
+  });
+});
+
 test("GraphAppBase exposes 'setCredentials' and tries to connect when called", () => {
   // Given
   const integrationPoint = {

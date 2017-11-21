@@ -19,15 +19,22 @@ export class GraphAppBase extends Component {
   state = {
     driverCredentials: null,
     connectionState: DISCONNECTED,
-    connectionDetails: null
+    connectionDetails: null,
+    context: null,
+    retry: 0
   };
   shouldComponentUpdate(props, state) {
     return !(
       state.connectionState === this.state.connectionState &&
+      state.retry === this.state.retry &&
       shallowEqual(state.connectionDetails, this.state.connectionDetails)
     );
   }
   componentDidCatch(e) {}
+  onDiMount = context => {
+    this.setState({ context });
+    this.onConnectionChange(context);
+  };
   onConnectionChange = context => {
     const creds = integrationHelpers.getActiveCredentials("bolt", context);
     const driverCredentials = {
@@ -54,7 +61,12 @@ export class GraphAppBase extends Component {
       username && password
         ? this.props.driverFactory.auth.basic(username, password)
         : undefined;
-    this.driver = this.props.driverFactory.driver(host, auth, { encrypted });
+    try {
+      this.driver = this.props.driverFactory.driver(host, auth, { encrypted });
+    } catch (e) {
+      this.handleDriverError(e);
+      return;
+    }
     this.driver.onError = this.handleDriverError;
     const tmp = this.driver.session();
     if (tmp) {
@@ -71,10 +83,11 @@ export class GraphAppBase extends Component {
     }
   };
   handleDriverError = e => {
-    this.setState({
+    this.setState(state => ({
       connectionState: DISCONNECTED,
-      connectionDetails: e
-    });
+      connectionDetails: e,
+      retry: state.retry + 1
+    }));
   };
   setCredentials = (username, password) => {
     const driverCredentials = {
@@ -95,6 +108,7 @@ export class GraphAppBase extends Component {
     this.listeners[type].splice(index, 1);
   };
   handleEvents = (typeObj, newContext, oldContext) => {
+    this.setState({ context: newContext });
     const { type } = typeObj;
     if (this.listeners[type]) {
       this.listeners[type].forEach(fn => fn(type, newContext, oldContext));
@@ -102,13 +116,13 @@ export class GraphAppBase extends Component {
   };
   render() {
     this.listeners = [];
-    const { connectionState, connectionDetails } = this.state;
+    const { connectionState, connectionDetails, context } = this.state;
     const { setCredentials, handleEvents, on, off } = this;
     return [
       <DesktopIntegration
         key="di"
         integrationPoint={this.props.integrationPoint}
-        onMount={this.onConnectionChange}
+        onMount={this.onDiMount}
         onGraphActive={(_, context) => this.onConnectionChange(context)}
         on={handleEvents}
       />,
@@ -118,7 +132,8 @@ export class GraphAppBase extends Component {
           connectionDetails,
           setCredentials,
           on,
-          off
+          off,
+          context
         })}
       </DriverProvider>
     ];
