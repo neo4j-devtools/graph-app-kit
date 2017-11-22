@@ -114,7 +114,6 @@ export class GraphAppBase extends Component {
     }
   };
   render() {
-    this.listeners = [];
     const {
       connectionState,
       connectionDetails,

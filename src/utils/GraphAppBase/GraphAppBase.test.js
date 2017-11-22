@@ -166,6 +166,15 @@ test("GraphAppBase exposes 'on' so we can listen on events", () => {
     getContext: () => Promise.resolve(desktopApiContexts.activeGraph),
     onContextUpdate: fn => (componentOnContextUpdate = fn)
   };
+  class MyApp extends React.Component {
+    componentDidMount() {
+      this.props.on(type, onContextUpdate); // Listen
+      this.props.on(type2, onContextUpdate); // on two event types
+    }
+    render() {
+      return "yo!";
+    }
+  }
   const onContextUpdate = jest.fn();
   const type = "EVENT";
   const type2 = "EVENT2";
@@ -173,11 +182,7 @@ test("GraphAppBase exposes 'on' so we can listen on events", () => {
   const oldContext2 = "newContext2";
   const newContext = "newContext";
   const newContext2 = "newContext2";
-  const render = jest.fn(({ on }) => {
-    on(type, onContextUpdate); // Listen
-    on(type2, onContextUpdate); // on two event types
-    return "yo!";
-  });
+  const render = jest.fn(({ on }) => <MyApp on={on} />);
   const driver = jest.fn(() => mockDriver());
 
   // When
@@ -198,7 +203,7 @@ test("GraphAppBase exposes 'on' so we can listen on events", () => {
   );
 
   // When
-  componentOnContextUpdate({ type }, oldContext, newContext);
+  componentOnContextUpdate({ type }, newContext, oldContext);
 
   // Then
   return flushPromises().then(() => {
@@ -211,7 +216,8 @@ test("GraphAppBase exposes 'on' so we can listen on events", () => {
     );
 
     // When
-    componentOnContextUpdate({ type: type2 }, oldContext2, newContext2);
+    componentOnContextUpdate({ type: type2 }, newContext2, oldContext2);
+    expect(onContextUpdate).toHaveBeenCalledTimes(2);
 
     // Then
     return flushPromises().then(() => {
