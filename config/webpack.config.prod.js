@@ -54,7 +54,7 @@ module.exports = {
   // In production, we only want to load the polyfills and the app code.
   entry: paths.bundleEntries,
   output: {
-    libraryTarget: "commonjs",
+    libraryTarget: "umd",
     // The build folder.
     path: paths.appBuild,
     // Generated JS file names (with nested folders).
@@ -268,6 +268,20 @@ module.exports = {
       reportFilename: "./../bundle-report.html"
     })
   ],
+  externals: {
+    react: {
+      root: "React",
+      commonjs2: "react",
+      commonjs: "react",
+      amd: "react"
+    },
+    "react-dom": {
+      commonjs: "react-dom",
+      commonjs2: "react-dom",
+      amd: "react-dom",
+      root: "ReactDOM"
+    }
+  },
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
   node: {
