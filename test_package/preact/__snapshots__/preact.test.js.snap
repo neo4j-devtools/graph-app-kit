@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AsciiTable works 1`] = `
+"╒═══╕
+│\\"x\\"│
+╞═══╡
+│\\"y\\"│
+└───┘"
+`;
+
+exports[`Chart works 1`] = `
+<div>
+  <div>
+    <undefined></undefined>
+    <div
+      style="display: flex; flex-direction: column;"
+      class="vx-legend"
+    >
+    </div>
+  </div>
+  <h2>Static circular data</h2>
+</div>
+`;
+
+exports[`Cypher works 1`] = `"pending"`;
+
+exports[`DesktopIntegration works 1`] = `null`;
+
+exports[`DriverProvider works 1`] = `"Hello"`;
+
+exports[`Render works 1`] = `<p>Hello</p>`;

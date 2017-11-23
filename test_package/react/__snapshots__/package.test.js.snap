@@ -255,4 +255,8 @@ exports[`DesktopIntegration works 1`] = `null`;
 
 exports[`DriverProvider works 1`] = `"Hello"`;
 
-exports[`Render works 1`] = `"Hello"`;
+exports[`Render works 1`] = `
+<p>
+  Hello
+</p>
+`;

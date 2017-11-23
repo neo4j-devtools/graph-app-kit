@@ -1,0 +1,13 @@
+{
+  "presets": ["env"],
+  "ignore": ["dist/", "coverage/"],
+  "plugins": [
+    "babel-plugin-transform-object-rest-spread",
+    [
+      "transform-react-jsx",
+      {
+        "pragma": "h"
+      }
+    ]
+  ]
+}

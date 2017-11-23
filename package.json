@@ -5,9 +5,14 @@
   "scripts": {
     "build": "node scripts/build.js",
     "test": "npm run dev -- --coverage",
-    "test:package": "yarn build && CI=true node scripts/test.js --env=jsdom test_package",
+    "test:package": "yarn build && yarn test:react && yarn test:preact",
+    "test:react":
+      "CI=true node scripts/test.js --config=config/jest.config.base.js --env=jsdom test_package/react",
+    "test:preact":
+      "CI=true node scripts/test.js --config=config/jest.config.preact.js --env=jsdom test_package/preact",
     "test:all": "yarn test && yarn test:package",
-    "dev": "node scripts/test.js --env=jsdom src",
+    "dev":
+      "node scripts/test.js --config=config/jest.config.base.js --env=jsdom src",
     "lint": "eslint --fix --ext .js --ext .jsx src",
     "precommit": "lint-staged",
     "prepare-dist": "node scripts/release.js",
@@ -18,10 +23,7 @@
     "start": "node scripts/start.js"
   },
   "lint-staged": {
-    "*.{js,jsx,json,css}": [
-      "prettier --write",
-      "git add"
-    ]
+    "*.{js,jsx,json,css}": ["prettier --write", "git add"]
   },
   "license": "Apache-2.0",
   "devDependencies": {
@@ -30,6 +32,7 @@
     "babel-eslint": "7.2.3",
     "babel-jest": "20.0.3",
     "babel-loader": "^7.1.2",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react-app": "^3.0.3",
     "babel-runtime": "6.26.0",
@@ -52,6 +55,9 @@
     "lint-staged": "^4.2.3",
     "postcss-flexbugs-fixes": "^3.2.0",
     "postcss-loader": "^2.0.8",
+    "preact": "^8.2.6",
+    "preact-compat": "^3.17.0",
+    "preact-render-spy": "^1.2.1",
     "prettier": "^1.7.4",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
@@ -73,37 +79,8 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   },
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx}"
-    ],
-    "setupFiles": [
-      "<rootDir>/config/polyfills.js"
-    ],
-    "testEnvironment": "node",
-    "transform": {
-      "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest"
-    },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
-    ],
-    "moduleNameMapper": {
-      "^react-native$": "react-native-web",
-      "^graph-app-kit(.*)": "<rootDir>/src$1"
-    },
-    "moduleFileExtensions": [
-      "web.js",
-      "js",
-      "json",
-      "web.jsx",
-      "jsx",
-      "node"
-    ]
-  },
   "babel": {
-    "presets": [
-      "react-app"
-    ]
+    "presets": ["react-app"]
   },
   "dependencies": {
     "@data-ui/radial-chart": "0.0.11",
