@@ -143,11 +143,4 @@ export class GraphAppBase extends Component {
   }
 }
 
-const Wrapper = () =>
-  (GraphAppBase.propTypes = {
-    driverFactory: PropTypes.object.isRequired,
-    render: PropTypes.func.isRequired,
-    integrationPoint: PropTypes.object
-  });
-
 export default GraphAppBase;

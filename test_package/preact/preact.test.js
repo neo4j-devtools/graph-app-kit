@@ -72,7 +72,6 @@ test("GraphAppBase works", () => {
       driverFactory={{ driver: () => resolvingDriver(0, "yes") }}
     />
   );
-  console.log("context.output(): ", context.output());
   expect(context.output()).toMatchSnapshot();
 });
 
