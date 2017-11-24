@@ -1,3 +1,5 @@
+import React from "react";
+
 export const Render = ({ if: cond, children }) => {
-  return cond ? children : null;
+  return cond ? React.Children.only(children) : null;
 };
