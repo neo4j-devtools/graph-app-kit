@@ -143,4 +143,10 @@ export class GraphAppBase extends Component {
   }
 }
 
+GraphAppBase.propTypes = {
+  driverFactory: PropTypes.object.isRequired,
+  render: PropTypes.func.isRequired,
+  integrationPoint: PropTypes.object
+};
+
 export default GraphAppBase;

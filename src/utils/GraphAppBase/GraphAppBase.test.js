@@ -86,7 +86,7 @@ test("GraphAppBase passes the context object to render prop", () => {
   const driver = jest.fn(() => driverMock);
 
   // When
-  const out = TestRenderer.create(
+  TestRenderer.create(
     <GraphAppBase
       driverFactory={driverFactory(driver)}
       render={render}
