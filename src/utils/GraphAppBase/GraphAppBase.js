@@ -120,32 +120,34 @@ export class GraphAppBase extends Component {
       initialDesktopContext
     } = this.state;
     const { setCredentials, handleEvents, on, off } = this;
-    return [
-      <DesktopIntegration
-        key="di"
-        integrationPoint={this.props.integrationPoint}
-        onMount={this.onDiMount}
-        onGraphActive={(_, context) => this.onConnectionChange(context)}
-        on={handleEvents}
-      />,
-      <DriverProvider driver={this.driver} key="dp">
-        {this.props.render({
-          connectionState,
-          connectionDetails,
-          setCredentials,
-          on,
-          off,
-          initialDesktopContext
-        })}
-      </DriverProvider>
-    ];
+    return (
+      <div>
+        <DesktopIntegration
+          integrationPoint={this.props.integrationPoint}
+          onMount={this.onDiMount}
+          onGraphActive={(_, context) => this.onConnectionChange(context)}
+          on={handleEvents}
+        />
+        <DriverProvider driver={this.driver}>
+          {this.props.render({
+            connectionState,
+            connectionDetails,
+            setCredentials,
+            on,
+            off,
+            initialDesktopContext
+          })}
+        </DriverProvider>
+      </div>
+    );
   }
 }
 
-GraphAppBase.propTypes = {
-  driverFactory: PropTypes.object.isRequired,
-  render: PropTypes.func.isRequired,
-  integrationPoint: PropTypes.object
-};
+const Wrapper = () =>
+  (GraphAppBase.propTypes = {
+    driverFactory: PropTypes.object.isRequired,
+    render: PropTypes.func.isRequired,
+    integrationPoint: PropTypes.object
+  });
 
 export default GraphAppBase;

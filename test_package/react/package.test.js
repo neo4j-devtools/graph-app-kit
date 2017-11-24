@@ -10,7 +10,7 @@ import { Chart } from "../../dist/ui/Chart";
 import { Cypher } from "../../dist/utils/Cypher";
 import { DesktopIntegration } from "../../dist/utils/DesktopIntegration";
 import { DriverProvider } from "../../dist/utils/DriverProvider";
-import { GraphAppBase } from "../dist/utils/GraphAppBase";
+import { GraphAppBase } from "../../dist/utils/GraphAppBase";
 
 // ui/
 test("Render works", () => {
