@@ -20,12 +20,12 @@ Check out the [playground](https://styleguide-cfwhbmcpbf.now.sh).
 
 ### Utility components
 
-| Component                                                                                                       | Description                                                                                                                      |
-| --------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| [&lt;GraphAppBase>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/utils/GraphAppBase) | A base component for apps to reduce the amount of boilerplate code for connection handling. Integrates the app with the Neo4j Desktop API and provides the application with a [`neo4j-driver`](https://github.com/neo4j/neo4j-javascript-driver) in application context. |
-| [&lt;Cypher>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/utils/Cypher)                         | A simple component to execute a Cypher query and return the result to your render function.                                      |
-| [&lt;DesktopIntegration>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/utils/DesktopIntegration) | Easy integration for your app into the Neo4j Desktop API. Subscribe to events etc.                                               |
-| [&lt;DriverProvider>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/utils/DriverProvider)         | Provide your React application with a [`neo4j-driver`](https://github.com/neo4j/neo4j-javascript-driver) in application context. |
+| Component                                                                                                       | Description                                                                                                                                                                                                                                                              |
+| --------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [&lt;GraphAppBase>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/utils/GraphAppBase)             | A base component for apps to reduce the amount of boilerplate code for connection handling. Integrates the app with the Neo4j Desktop API and provides the application with a [`neo4j-driver`](https://github.com/neo4j/neo4j-javascript-driver) in application context. |
+| [&lt;Cypher>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/utils/Cypher)                         | A simple component to execute a Cypher query and return the result to your render function.                                                                                                                                                                              |
+| [&lt;DesktopIntegration>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/utils/DesktopIntegration) | Easy integration for your app into the Neo4j Desktop API. Subscribe to events etc.                                                                                                                                                                                       |
+| [&lt;DriverProvider>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/utils/DriverProvider)         | Provide your React application with a [`neo4j-driver`](https://github.com/neo4j/neo4j-javascript-driver) in application context.                                                                                                                                         |
 
 ## Install and import
 
@@ -45,7 +45,7 @@ import { Chart } from "graph-app-kit/ui/Chart";
 ## Component playground / library
 
 There's an interactive playground to view and modify the components.\
-This is temporarily hosted at https://styleguide-cfwhbmcpbf.now.sh.\
+This is temporarily hosted at https://styleguide-cfwhbmcpbf.now.sh\
 Feedback wanted!
 
 To use the playground when developing components: `yarn playground` and to
