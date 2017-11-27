@@ -45,7 +45,8 @@ import { Chart } from "graph-app-kit/ui/Chart";
 ## Component playground / library
 
 There's an interactive playground to view and modify the components.\
-This is temporarily hosted at https://styleguide-cfwhbmcpbf.now.sh\
+This is temporarily hosted at https://styleguide-cfwhbmcpbf.now.sh
+
 Feedback wanted!
 
 To use the playground when developing components: `yarn playground` and to
