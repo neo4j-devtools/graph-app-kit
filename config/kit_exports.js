@@ -7,10 +7,11 @@ const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
 module.exports = {
-  "ui/Render": resolveApp("src/ui/Render"),
   "ui/AsciiTable": resolveApp("src/ui/AsciiTable"),
   "ui/Chart": resolveApp("src/ui/Chart"),
+  "ui/Render": resolveApp("src/ui/Render"),
   "utils/Cypher": resolveApp("src/utils/Cypher"),
   "utils/DesktopIntegration": resolveApp("src/utils/DesktopIntegration"),
-  "utils/DriverProvider": resolveApp("src/utils/DriverProvider")
+  "utils/DriverProvider": resolveApp("src/utils/DriverProvider"),
+  "utils/GraphAppBase": resolveApp("src/utils/GraphAppBase")
 };

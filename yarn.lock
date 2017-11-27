@@ -5152,6 +5152,12 @@ negotiator@0.6.1:
   version "0.6.1"
   resolved "https://neo.jfrog.io/neo/api/npm/npm/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
 
+neo4j-driver@^1.5.0:
+  version "1.5.0"
+  resolved "https://neo.jfrog.io/neo/api/npm/npm/neo4j-driver/-/neo4j-driver-1.5.0.tgz#bd6f526c434d28a76caf5368ad50f18599181755"
+  dependencies:
+    babel-runtime "^6.18.0"
+
 no-case@^2.2.0:
   version "2.3.2"
   resolved "https://neo.jfrog.io/neo/api/npm/npm/no-case/-/no-case-2.3.2.tgz#60b813396be39b3f1288a4c1ed5d1e7d28b464ac"

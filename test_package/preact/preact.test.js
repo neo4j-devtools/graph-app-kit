@@ -11,6 +11,7 @@ import { Chart } from "../../dist/ui/Chart";
 import { Cypher } from "../../dist/utils/Cypher";
 import { DesktopIntegration } from "../../dist/utils/DesktopIntegration";
 import { DriverProvider } from "../../dist/utils/DriverProvider";
+import { GraphAppBase } from "../../dist/utils/GraphAppBase";
 
 // ui/
 test("Render works", () => {
@@ -60,6 +61,16 @@ test("DesktopIntegration works", () => {
 test("DriverProvider works", () => {
   const context = deep(
     <DriverProvider driver={resolvingDriver(0, "yes")}>Hello</DriverProvider>
+  );
+  expect(context.output()).toMatchSnapshot();
+});
+test("GraphAppBase works", () => {
+  const context = deep(
+    <GraphAppBase
+      integrationPoint={null}
+      render={() => <p>Hello</p>}
+      driverFactory={{ driver: () => resolvingDriver(0, "yes") }}
+    />
   );
   expect(context.output()).toMatchSnapshot();
 });

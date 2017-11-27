@@ -11,3 +11,28 @@ export const mockDriver = (
 export function flushPromises() {
   return new Promise(resolve => setImmediate(resolve));
 }
+
+export const desktopApiContexts = {
+  activeGraph: {
+    projects: [
+      {
+        graphs: [
+          {
+            status: "ACTIVE",
+            connection: {
+              configuration: {
+                protocols: {
+                  bolt: {
+                    host: "localhost",
+                    port: 7687,
+                    tlsLevel: "OPTIONAL"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+};

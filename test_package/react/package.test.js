@@ -10,6 +10,7 @@ import { Chart } from "../../dist/ui/Chart";
 import { Cypher } from "../../dist/utils/Cypher";
 import { DesktopIntegration } from "../../dist/utils/DesktopIntegration";
 import { DriverProvider } from "../../dist/utils/DriverProvider";
+import { GraphAppBase } from "../../dist/utils/GraphAppBase";
 
 // ui/
 test("Render works", () => {
@@ -60,6 +61,16 @@ test("DesktopIntegration works", () => {
 test("DriverProvider works", () => {
   const out = TestRenderer.create(
     <DriverProvider driver={resolvingDriver(0, "yes")}>Hello</DriverProvider>
+  );
+  expect(out.toJSON()).toMatchSnapshot();
+});
+test("GraphAppBase works", () => {
+  const out = TestRenderer.create(
+    <GraphAppBase
+      integrationPoint={null}
+      render={() => "Hello"}
+      driverFactory={{ driver: () => resolvingDriver(0, "yes") }}
+    />
   );
   expect(out.toJSON()).toMatchSnapshot();
 });

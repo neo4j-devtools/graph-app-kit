@@ -176,4 +176,46 @@ describe("<DesktopIntegration>", () => {
     expect(fn).toHaveBeenCalledTimes(2);
     expect(fn).toHaveBeenLastCalledWith(event, newContext, oldContext);
   });
+  test("calls 'on' with data on all events", () => {
+    // Given
+    let componentOnContextUpdate;
+    const fn = jest.fn();
+    const oldContext = { projects: [] };
+    const newContext = { projects: [{ project: {} }] };
+    const event = { type: "XXX" };
+    const event2 = { type: "YYY" };
+    const integrationPoint = {
+      onContextUpdate: fn => (componentOnContextUpdate = fn)
+    };
+    // We want to get called onXxx for XXX type events
+    const props = { integrationPoint, on: fn };
+
+    // When
+    const out = TestRenderer.create(<DesktopIntegration {...props} />);
+
+    // Then
+    expect(out.toJSON()).toEqual(null);
+    expect(fn).toHaveBeenCalledTimes(0);
+
+    // When
+    componentOnContextUpdate(event, newContext, oldContext);
+
+    // Then
+    expect(fn).toHaveBeenCalledTimes(1);
+    expect(fn).toHaveBeenLastCalledWith(event, newContext, oldContext);
+
+    // When
+    componentOnContextUpdate(event2, newContext, oldContext);
+
+    // Then
+    expect(fn).toHaveBeenCalledTimes(2);
+    expect(fn).toHaveBeenLastCalledWith(event2, newContext, oldContext);
+
+    // When
+    componentOnContextUpdate(event, newContext, oldContext);
+
+    // Then
+    expect(fn).toHaveBeenCalledTimes(3);
+    expect(fn).toHaveBeenLastCalledWith(event, newContext, oldContext);
+  });
 });

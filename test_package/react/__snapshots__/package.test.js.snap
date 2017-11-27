@@ -255,6 +255,12 @@ exports[`DesktopIntegration works 1`] = `null`;
 
 exports[`DriverProvider works 1`] = `"Hello"`;
 
+exports[`GraphAppBase works 1`] = `
+<div>
+  Hello
+</div>
+`;
+
 exports[`Render works 1`] = `
 <p>
   Hello
