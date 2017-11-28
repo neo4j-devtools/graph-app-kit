@@ -93,7 +93,7 @@ type connectionState =
   'CONNECTED' |
   'DISCONNECTED'
 
-// If there's an connection error, the error object will be here
+// If there is a connection error, the error object will be here
 const connectionDetails = {
   message: string
 } | null
