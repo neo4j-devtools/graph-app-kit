@@ -1,7 +1,7 @@
 This component stitches together the `<DriverProvider />`, `<DesktopIntegration />` and connection handling functionality into one easy-to-use component.
 
 In addition to keeping track of the connection status and reconnect on graph switches this component also adds a `driver` object in application context so it's reachable from all components.
-With this object you can create sessions and send cypher to be executesd on the graph. 
+With this object you can create sessions and send Cypher to be executed on the graph. 
 Components like the `<Cypher>` component uses this driver from the context to run queries and provide you with the result.  
 See the `<DriverProvider>` component for more info on this.
 
