@@ -31,7 +31,7 @@ ReactDOM.render(<App />, document.getElementById('root'))
 ```
 
 ### Username + Password prompt
-For convienience reasons there's a credentials form included in this component which can be used to collect username + password from the user in the cases where Neo4j Desktop does not know about it.  
+For convenience reasons there's a credentials form included in this component which can be used to collect username + password from the user in the cases where Neo4j Desktop does not know about it.  
 Here's example usage code for it:
 
 ```javascript static
@@ -79,12 +79,12 @@ The render prop function provides one argument object which has these properties
 
 // This is the render prop function signature:
 function render({
-  connectionState: connectionState, 
-  connectionDetails: connectionDetails,
-  setCredentials: setCredentials,
-  on: on,
-  off: off,
-  initialDesktopContext: initialDesktopContext
+  connectionState, 
+  connectionDetails,
+  setCredentials,
+  on,
+  off,
+  initialDesktopContext
 })
 
 // Type definitions
