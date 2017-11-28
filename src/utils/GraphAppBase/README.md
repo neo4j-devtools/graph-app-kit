@@ -1,7 +1,7 @@
 This component stitches together the `<DriverProvider />`, `<DesktopIntegration />` and connection handling functionality into one easy-to-use component.
 
 In addition to keeping track of the connection status and reconnect on graph switches this component also adds a `driver` object in application context so it's reachable from all components.
-With this object you can create sessions and send cypher to be executesd on the graph. 
+With this object you can create sessions and send Cypher to be executed on the graph. 
 Components like the `<Cypher>` component uses this driver from the context to run queries and provide you with the result.  
 See the `<DriverProvider>` component for more info on this.
 
@@ -31,7 +31,7 @@ ReactDOM.render(<App />, document.getElementById('root'))
 ```
 
 ### Username + Password prompt
-For convienience reasons there's a credentials form included in this component which can be used to collect username + password from the user in the cases where Neo4j Desktop does not know about it.  
+For convenience reasons there's a credentials form included in this component which can be used to collect username + password from the user in the cases where Neo4j Desktop does not know about it.  
 Here's example usage code for it:
 
 ```javascript static
@@ -79,12 +79,12 @@ The render prop function provides one argument object which has these properties
 
 // This is the render prop function signature:
 function render({
-  connectionState: connectionState, 
-  connectionDetails: connectionDetails,
-  setCredentials: setCredentials,
-  on: on,
-  off: off,
-  initialDesktopContext: initialDesktopContext
+  connectionState, 
+  connectionDetails,
+  setCredentials,
+  on,
+  off,
+  initialDesktopContext
 })
 
 // Type definitions
@@ -93,7 +93,7 @@ type connectionState =
   'CONNECTED' |
   'DISCONNECTED'
 
-// If there's an connection error, the error object will be here
+// If there is a connection error, the error object will be here
 const connectionDetails = {
   message: string
 } | null
