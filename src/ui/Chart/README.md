@@ -10,7 +10,7 @@ Static data (xy)
   yAxisLabel="Amount"
 />
 ```
-Static data (curcular):
+Static data (circular):
 ```jsx
 <Chart
   data={
