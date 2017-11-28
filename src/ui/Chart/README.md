@@ -25,7 +25,7 @@ Static data (circular):
 />
 ```
 
-By executing Cypher (XY):
+By executing Cypher (xy):
 ```jsx
 const stubCypherResult = {
   records: [
