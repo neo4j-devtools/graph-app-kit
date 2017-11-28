@@ -1,6 +1,6 @@
 Render data in a Chart visualization
 
-Static data (XY)
+Static data (xy)
 ```jsx
 <Chart
   data={[{ x: 1, y: 116 }, { x: 2, y: 145 }, { x: 3, y: 157 }, { x: 4, y: 64 }, { x: 5, y: 152 }]}
@@ -10,7 +10,7 @@ Static data (XY)
   yAxisLabel="Amount"
 />
 ```
-Static data (curcular):
+Static data (circular):
 ```jsx
 <Chart
   data={
@@ -25,7 +25,7 @@ Static data (curcular):
 />
 ```
 
-By executing Cypher (XY):
+By executing Cypher (xy):
 ```jsx
 const stubCypherResult = {
   records: [
