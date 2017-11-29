@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ChartSwitch from "./ChartSwitch";
-import { Cypher } from "../../../utils/Cypher";
+import { Cypher } from "../../Cypher";
 import * as simpleMappers from "../utils/simpleMappers";
 
 class CypherChartWrapper extends Component {

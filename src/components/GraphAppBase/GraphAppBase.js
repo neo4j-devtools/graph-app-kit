@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import * as PropTypes from "prop-types";
-import { shallowEqual } from "../../helpers";
+import { shallowEqual } from "../../utils/helpers";
 import { DriverProvider } from "../DriverProvider";
 import {
   DesktopIntegration,

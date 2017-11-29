@@ -2,18 +2,19 @@ import React from "react";
 import TestRenderer from "react-test-renderer";
 
 // Package exports ui/
-import { Render } from "../../dist/ui/Render";
-import { AsciiTable } from "../../dist/ui/AsciiTable";
-import { Chart } from "../../dist/ui/Chart";
-import { CypherEditor } from "../../dist/ui/Editor";
+import { Render } from "../../dist/components/Render";
+import { AsciiTable } from "../../dist/components/AsciiTable";
+import { Chart } from "../../dist/components/Chart";
+import { Cypher } from "../../dist/components/Cypher";
+import { DesktopIntegration } from "../../dist/components/DesktopIntegration";
+import { DriverProvider } from "../../dist/components/DriverProvider";
+import { CypherEditor } from "../../dist/components/Editor";
+import { GraphAppBase } from "../../dist/components/GraphAppBase";
 
 // Package exports utils/
-import { Cypher } from "../../dist/utils/Cypher";
-import { DesktopIntegration } from "../../dist/utils/DesktopIntegration";
-import { DriverProvider } from "../../dist/utils/DriverProvider";
-import { GraphAppBase } from "../../dist/utils/GraphAppBase";
+import { shallowEqual } from "../../dist/utils/helpers";
 
-// ui/
+// components/
 test("Render works", () => {
   const out = TestRenderer.create(
     <Render if={true}>
@@ -43,8 +44,6 @@ test("CypherEditor works", () => {
   const out = TestRenderer.create(<CypherEditor />);
   expect(out.toJSON()).toMatchSnapshot();
 });
-
-// utils/
 test("Cypher works", () => {
   const out = TestRenderer.create(
     <Cypher
@@ -78,6 +77,11 @@ test("GraphAppBase works", () => {
     />
   );
   expect(out.toJSON()).toMatchSnapshot();
+});
+
+// Utils
+test("shallowEqual works", () => {
+  expect(shallowEqual({ x: 1 }, { x: 1 })).toBeTruthy();
 });
 
 // Helpers

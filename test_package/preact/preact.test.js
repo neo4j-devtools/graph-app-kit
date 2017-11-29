@@ -3,18 +3,19 @@ import { h } from "preact";
 import { deep } from "preact-render-spy";
 
 // Package exports ui/
-import { Render } from "../../dist/ui/Render";
-import { AsciiTable } from "../../dist/ui/AsciiTable";
-import { Chart } from "../../dist/ui/Chart";
-import { CypherEditor } from "../../dist/ui/Editor";
+import { Render } from "../../dist/components/Render";
+import { AsciiTable } from "../../dist/components/AsciiTable";
+import { Chart } from "../../dist/components/Chart";
+import { Cypher } from "../../dist/components/Cypher";
+import { DesktopIntegration } from "../../dist/components/DesktopIntegration";
+import { DriverProvider } from "../../dist/components/DriverProvider";
+import { CypherEditor } from "../../dist/components/Editor";
+import { GraphAppBase } from "../../dist/components/GraphAppBase";
 
 // Package exports utils/
-import { Cypher } from "../../dist/utils/Cypher";
-import { DesktopIntegration } from "../../dist/utils/DesktopIntegration";
-import { DriverProvider } from "../../dist/utils/DriverProvider";
-import { GraphAppBase } from "../../dist/utils/GraphAppBase";
+import { shallowEqual } from "../../dist/utils/helpers";
 
-// ui/
+// components
 test("Render works", () => {
   const context = deep(
     <Render if={true}>
@@ -45,8 +46,6 @@ test("CypherEditor works", () => {
   const context = deep(<CypherEditor />);
   expect(context.output()).toMatchSnapshot();
 });
-
-// utils/
 test("Cypher works", () => {
   const context = deep(
     <Cypher
@@ -78,6 +77,11 @@ test("GraphAppBase works", () => {
     />
   );
   expect(context.output()).toMatchSnapshot();
+});
+
+// Utils
+test("shallowEqual works", () => {
+  expect(shallowEqual({ x: 1 }, { x: 1 })).toBeTruthy();
 });
 
 // Helpers

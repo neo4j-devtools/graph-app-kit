@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import * as PropTypes from "prop-types";
-import { Render } from "../../ui/Render";
+import { Render } from "../Render";
 import { Button, Form, Modal, Message } from "semantic-ui-react";
 
 class ConnectForm extends Component {
