@@ -1,1 +1,1 @@
-export { CodeMirror } from "./CodeMirror";
+export { CypherEditor } from "./CypherEditor";

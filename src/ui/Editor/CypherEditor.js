@@ -13,7 +13,7 @@ import "cypher-codemirror/dist/cypher-codemirror-syntax.css";
 import codemirror from "codemirror";
 import { createCypherEditor } from "cypher-codemirror";
 
-export class CodeMirror extends Component {
+export class CypherEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -137,7 +137,7 @@ export class CodeMirror extends Component {
   }
 }
 
-CodeMirror.propTypes = {
+CypherEditor.propTypes = {
   autoCompleteEnabled: PropTypes.bool,
   /** custom syntax highlighting */
   autoCompleteSchema: PropTypes.object,
@@ -148,7 +148,7 @@ CodeMirror.propTypes = {
   value: PropTypes.string
 };
 
-CodeMirror.defaultProps = {
+CypherEditor.defaultProps = {
   autoCompleteEnabled: true,
   autoCompleteSchema: undefined,
   cypherHighlightingEnabled: true,
@@ -156,4 +156,4 @@ CodeMirror.defaultProps = {
   value: ""
 };
 
-export default CodeMirror;
+export default CypherEditor;

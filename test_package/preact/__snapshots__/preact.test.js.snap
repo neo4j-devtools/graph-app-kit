@@ -22,9 +22,9 @@ exports[`Chart works 1`] = `
 </div>
 `;
 
-exports[`CodeMirror works 1`] = `<div class="ReactCodeMirror"></div>`;
-
 exports[`Cypher works 1`] = `"pending"`;
+
+exports[`CypherEditor works 1`] = `<div class="ReactCodeMirror"></div>`;
 
 exports[`DesktopIntegration works 1`] = `null`;
 

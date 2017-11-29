@@ -4,7 +4,7 @@ space will trigger 'autocomplete').
 ### Basic Usage
 
 ```javascript
-<CodeMirror value="RETURN 1" />;
+<CypherEditor value="RETURN 1" />;
 ```
 
 ### Advanced Usage
@@ -13,7 +13,7 @@ For more advanced usage, the component can also accept a custom schema. This
 adds additional highlighting and autocomplete functionality.
 
 ```javascript
-<CodeMirror
+<CypherEditor
   value=":head"
   autoCompleteSchema={{
     consoleCommands: [

@@ -249,7 +249,7 @@ exports[`Chart works 1`] = `
 </div>
 `;
 
-exports[`CodeMirror works 1`] = `
+exports[`CypherEditor works 1`] = `
 <div
   className="ReactCodeMirror"
 />
