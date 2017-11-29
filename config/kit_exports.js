@@ -9,7 +9,11 @@ const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 module.exports = {
   "ui/AsciiTable": resolveApp("src/ui/AsciiTable"),
   "ui/Chart": resolveApp("src/ui/Chart"),
+<<<<<<< HEAD
   "ui/Render": resolveApp("src/ui/Render"),
+=======
+  "ui/Editor": resolveApp("src/ui/Editor"),
+>>>>>>> Add package tests for CodeMirror component
   "utils/Cypher": resolveApp("src/utils/Cypher"),
   "utils/DesktopIntegration": resolveApp("src/utils/DesktopIntegration"),
   "utils/DriverProvider": resolveApp("src/utils/DriverProvider"),

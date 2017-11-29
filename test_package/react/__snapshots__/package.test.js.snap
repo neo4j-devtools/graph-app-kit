@@ -249,6 +249,12 @@ exports[`Chart works 1`] = `
 </div>
 `;
 
+exports[`CodeMirror works 1`] = `
+<div
+  className="ReactCodeMirror"
+/>
+`;
+
 exports[`Cypher works 1`] = `"pending"`;
 
 exports[`DesktopIntegration works 1`] = `null`;

@@ -6,6 +6,7 @@ import { deep } from "preact-render-spy";
 import { Render } from "../../dist/ui/Render";
 import { AsciiTable } from "../../dist/ui/AsciiTable";
 import { Chart } from "../../dist/ui/Chart";
+import { CodeMirror } from "../../dist/ui/Editor";
 
 // Package exports utils/
 import { Cypher } from "../../dist/utils/Cypher";
@@ -38,6 +39,10 @@ test("Chart works", () => {
       type="json"
     />
   );
+  expect(context.output()).toMatchSnapshot();
+});
+test("CodeMirror works", () => {
+  const context = deep(<CodeMirror />);
   expect(context.output()).toMatchSnapshot();
 });
 

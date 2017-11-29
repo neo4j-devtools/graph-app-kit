@@ -1,7 +1,10 @@
 module.exports = {
   rootDir: "../",
   collectCoverageFrom: ["src/**/*.{js,jsx}"],
-  setupFiles: ["<rootDir>/config/polyfills.js"],
+  setupFiles: [
+    "<rootDir>/config/polyfills.js",
+    "<rootDir>/config/jest.polyfills.js"
+  ],
   testEnvironment: "node",
   transform: {
     "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest"

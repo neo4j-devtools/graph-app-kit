@@ -1,1 +1,1 @@
-import { CodeMirror } from "./CodeMirror";
+export { CodeMirror } from "./CodeMirror";
