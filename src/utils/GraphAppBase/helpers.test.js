@@ -147,7 +147,7 @@ describe("connectriver", () => {
       { encrypted: credentials.encrypted }
     );
     expect(sessionRunSpy).toHaveBeenCalledWith("CALL db.indexes()");
-    flushPromises().then(() => {
+    return flushPromises().then(() => {
       expect(onConnectionSuccessful).toHaveBeenCalledWith(driverMock);
       expect(sessionCloseSpy).toHaveBeenCalled();
     });
@@ -182,7 +182,7 @@ describe("connectriver", () => {
       { encrypted: credentials.encrypted }
     );
     expect(sessionRunSpy).toHaveBeenCalledWith("CALL db.indexes()");
-    flushPromises().then(() => {
+    return flushPromises().then(() => {
       expect(onConnectionFailed).toHaveBeenCalled();
       expect(sessionCloseSpy).toHaveBeenCalled();
     });
