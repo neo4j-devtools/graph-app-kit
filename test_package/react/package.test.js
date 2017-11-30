@@ -11,8 +11,8 @@ import { DriverProvider } from "../../dist/components/DriverProvider";
 import { CypherEditor } from "../../dist/components/Editor";
 import { GraphAppBase } from "../../dist/components/GraphAppBase";
 
-// Package exports utils/
-import { shallowEqual } from "../../dist/utils/helpers";
+// Package exports lib/
+import { shallowEqual } from "../../dist/lib/utils";
 
 // components/
 test("Render works", () => {

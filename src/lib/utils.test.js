@@ -1,4 +1,4 @@
-import * as h from "./helpers";
+import * as h from "./utils";
 
 test("shallowEqual does what it says", () => {
   // Given
