@@ -7,6 +7,7 @@ const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
 module.exports = {
+  components: resolveApp("src/components"),
   "components/AsciiTable": resolveApp("src/components/AsciiTable"),
   "components/Chart": resolveApp("src/components/Chart"),
   "components/Render": resolveApp("src/components/Render"),

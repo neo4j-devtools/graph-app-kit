@@ -1,11 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AsciiTable works 1`] = `
-"╒═══╕
-│\\"x\\"│
-╞═══╡
-│\\"y\\"│
-└───┘"
+<pre>
+  ╒═══╕
+  │&quot;x&quot;│
+  ╞═══╡
+  │&quot;y&quot;│
+  └───┘
+</pre>
+`;
+
+exports[`AsciiTable works 2`] = `
+<pre>
+  ╒═══╕
+  │&quot;x&quot;│
+  ╞═══╡
+  │&quot;y&quot;│
+  └───┘
+</pre>
 `;
 
 exports[`Chart works 1`] = `
@@ -22,18 +34,40 @@ exports[`Chart works 1`] = `
 </div>
 `;
 
-exports[`Cypher works 1`] = `"pending"`;
-
-exports[`CypherEditor works 1`] = `<div class="ReactCodeMirror"></div>`;
-
-exports[`DesktopIntegration works 1`] = `null`;
-
-exports[`DriverProvider works 1`] = `"Hello"`;
-
-exports[`GraphAppBase works 1`] = `
+exports[`Chart works 2`] = `
 <div>
-  <p>Hello</p>
+  <div>
+    <undefined></undefined>
+    <div
+      style="display: flex; flex-direction: column;"
+      class="vx-legend"
+    >
+    </div>
+  </div>
+  <h2>Static circular data</h2>
 </div>
 `;
 
+exports[`Cypher works 1`] = `"pending"`;
+
+exports[`Cypher works 2`] = `"pending"`;
+
+exports[`CypherEditor works 1`] = `<div class="ReactCodeMirror"></div>`;
+
+exports[`CypherEditor works 2`] = `<div class="ReactCodeMirror"></div>`;
+
+exports[`DesktopIntegration works 1`] = `null`;
+
+exports[`DesktopIntegration works 2`] = `null`;
+
+exports[`DriverProvider works 1`] = `"Hello"`;
+
+exports[`DriverProvider works 2`] = `"Hello"`;
+
+exports[`GraphAppBase works 1`] = `<div>Hello</div>`;
+
+exports[`GraphAppBase works 2`] = `<div>Hello</div>`;
+
 exports[`Render works 1`] = `<p>Hello</p>`;
+
+exports[`Render works 2`] = `<p>Hello</p>`;
