@@ -12,13 +12,12 @@ Check out the [playground](https://styleguide-cfwhbmcpbf.now.sh).
 
 ### User interface components
 
-| Component                                                                                    | Description                                                                                    |
-| -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| [&lt;Render>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/ui/Render)         | A declarative toggling component to mount / unmount child components under certain conditions. |
-| [&lt;AsciiTable>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/ui/AsciiTable) | Render your data in an text/ascii table with fixed width font.                                 |
-| [&lt;Chart>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/ui/Chart)           | Render your data in a chart visualization.                                                     |
-| [&lt;CodeMirror>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/ui/CodeMirror) | A cypher editor component with code highlighting and autocomplete functionality.               |
-
+| Component                                                                                        | Description                                                                                    |
+| ------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |
+| [&lt;Render>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/ui/Render)             | A declarative toggling component to mount / unmount child components under certain conditions. |
+| [&lt;AsciiTable>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/ui/AsciiTable)     | Render your data in an text/ascii table with fixed width font.                                 |
+| [&lt;Chart>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/ui/Chart)               | Render your data in a chart visualization.                                                     |
+| [&lt;CypherEditor>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/ui/CypherEditor) | A cypher editor component with code highlighting and autocomplete functionality.               |
 
 ### Utility components
 
@@ -38,12 +37,12 @@ yarn add graph-app-kit --registry https://neo.jfrog.io/neo/api/npm/npm
 ```
 
 ```javascript
-import 'semantic-ui-css/semantic.min.css'
-import { Cypher } from 'graph-app-kit/utils/Cypher'
-import { DriverProvider } from 'graph-app-kit/utils/DriverProvider'
-import { Render } from 'graph-app-kit/ui/Render'
-import { Chart } from 'graph-app-kit/ui/Chart'
-import { CodeMirror } from 'graph-app-kit/ui/CodeMirror'
+import "semantic-ui-css/semantic.min.css";
+import { Cypher } from "graph-app-kit/utils/Cypher";
+import { DriverProvider } from "graph-app-kit/utils/DriverProvider";
+import { Render } from "graph-app-kit/ui/Render";
+import { Chart } from "graph-app-kit/ui/Chart";
+import { CypherEditor } from "graph-app-kit/ui/CypherEditor";
 ```
 
 ## Component playground / library
