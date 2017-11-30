@@ -3,10 +3,10 @@
 exports[`AsciiTable works 1`] = `
 <pre>
   ╒═══╕
-  │"x"│
-  ╞═══╡
-  │"y"│
-  └───┘
+│"x"│
+╞═══╡
+│"y"│
+└───┘
 </pre>
 `;
 
@@ -131,10 +131,10 @@ exports[`Chart works 1`] = `
           type="text/css"
         >
           
-                .vx-arc:hover {
-                  opacity: 0.7;
-                }
-              
+      .vx-arc:hover {
+        opacity: 0.7;
+      }
+    
         </style>
       </div>
     </div>
@@ -249,13 +249,13 @@ exports[`Chart works 1`] = `
 </div>
 `;
 
+exports[`Cypher works 1`] = `"pending"`;
+
 exports[`CypherEditor works 1`] = `
 <div
   className="ReactCodeMirror"
 />
 `;
-
-exports[`Cypher works 1`] = `"pending"`;
 
 exports[`DesktopIntegration works 1`] = `null`;
 
