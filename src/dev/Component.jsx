@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Button } from "semantic-ui-react";
-import { Chart } from "graph-app-kit/ui/Chart"; // This is aliased to the `src/` dir
+import { Chart } from "graph-app-kit/components/Chart"; // This is aliased to the `src/` dir
 
 const KeyFix = ({ children }) => children;
 
