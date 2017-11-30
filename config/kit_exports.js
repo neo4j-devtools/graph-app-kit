@@ -17,5 +17,6 @@ module.exports = {
   "components/DriverProvider": resolveApp("src/components/DriverProvider"),
   "components/GraphAppBase": resolveApp("src/components/GraphAppBase"),
   "components/Editor": resolveApp("src/components/Editor"),
-  "lib/utils": resolveApp("src/lib/utils")
+  "lib/utils": resolveApp("src/lib/utils"),
+  "lib/boltTransforms": resolveApp("src/lib/boltTransforms")
 };
