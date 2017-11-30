@@ -6,6 +6,7 @@ import { deep } from "preact-render-spy";
 import { Render } from "../../dist/ui/Render";
 import { AsciiTable } from "../../dist/ui/AsciiTable";
 import { Chart } from "../../dist/ui/Chart";
+import { CypherEditor } from "../../dist/ui/Editor";
 
 // Package exports utils/
 import { Cypher } from "../../dist/utils/Cypher";
@@ -38,6 +39,10 @@ test("Chart works", () => {
       type="json"
     />
   );
+  expect(context.output()).toMatchSnapshot();
+});
+test("CypherEditor works", () => {
+  const context = deep(<CypherEditor />);
   expect(context.output()).toMatchSnapshot();
 });
 

@@ -5,6 +5,7 @@ import TestRenderer from "react-test-renderer";
 import { Render } from "../../dist/ui/Render";
 import { AsciiTable } from "../../dist/ui/AsciiTable";
 import { Chart } from "../../dist/ui/Chart";
+import { CypherEditor } from "../../dist/ui/Editor";
 
 // Package exports utils/
 import { Cypher } from "../../dist/utils/Cypher";
@@ -36,6 +37,10 @@ test("Chart works", () => {
       type="json"
     />
   );
+  expect(out.toJSON()).toMatchSnapshot();
+});
+test("CypherEditor works", () => {
+  const out = TestRenderer.create(<CypherEditor />);
   expect(out.toJSON()).toMatchSnapshot();
 });
 
