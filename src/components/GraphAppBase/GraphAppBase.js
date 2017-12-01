@@ -2,10 +2,8 @@ import React, { Component } from "react";
 import * as PropTypes from "prop-types";
 import { shallowEqual } from "../../lib/utils";
 import { DriverProvider } from "../DriverProvider";
-import {
-  DesktopIntegration,
-  helpers as integrationHelpers
-} from "../DesktopIntegration";
+import { DesktopIntegration } from "../DesktopIntegration";
+import { connectDriver, getActiveDatabaseCredentials } from "./helpers";
 
 export const CONNECTED = "CONNECTED";
 export const DISCONNECTED = "DISCONNECTED";
@@ -36,52 +34,32 @@ export class GraphAppBase extends Component {
     this.onConnectionChange(context);
   };
   onConnectionChange = context => {
-    const creds = integrationHelpers.getActiveCredentials("bolt", context);
-    const driverCredentials = {
-      host: `bolt://${creds.host}:${creds.port}`,
-      encrypted: creds.tlsLevel === "REQUIRED",
-      username:
-        creds.username ||
-        (this.state.driverCredentials && this.state.driverCredentials.username),
-      password:
-        creds.password ||
-        (this.state.driverCredentials && this.state.driverCredentials.password)
-    };
+    const driverCredentials = getActiveDatabaseCredentials(context);
+    driverCredentials.username =
+      driverCredentials.username ||
+      (this.state.driverCredentials && this.state.driverCredentials.username);
+    driverCredentials.password =
+      driverCredentials.password ||
+      (this.state.driverCredentials && this.state.driverCredentials.password);
     this.setState({ driverCredentials }, this.connectDriver);
   };
   connectDriver = () => {
     if (this.driver && this.driver.close) this.driver.close();
-    const {
-      host,
-      username,
-      password,
-      encrypted
-    } = this.state.driverCredentials;
-    const auth =
-      username && password
-        ? this.props.driverFactory.auth.basic(username, password)
-        : undefined;
-    try {
-      this.driver = this.props.driverFactory.driver(host, auth, { encrypted });
-    } catch (e) {
-      this.handleDriverError(e);
-      return;
-    }
-    this.driver.onError = this.handleDriverError;
-    const tmp = this.driver.session();
-    if (tmp) {
-      tmp
-        .run("CALL db.indexes()")
-        .then(() => {
-          this.setState({
-            connectionState: CONNECTED,
-            connectionDetails: null
-          });
-          tmp.close();
-        })
-        .catch(this.handleDriverError);
-    }
+    const success = driver => {
+      this.driver = driver;
+      this.setState({
+        connectionState: CONNECTED,
+        connectionDetails: null
+      });
+    };
+    connectDriver(
+      this.state.driverCredentials,
+      this.props.driverFactory,
+      success,
+      this.handleDriverError
+    );
   };
+
   handleDriverError = e => {
     this.setState(state => ({
       connectionState: DISCONNECTED,
