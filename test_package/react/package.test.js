@@ -13,6 +13,7 @@ import { GraphAppBase } from "../../dist/components/GraphAppBase";
 
 // Package exports lib/
 import { shallowEqual } from "../../dist/lib/utils";
+import { resultHasRows } from "../../dist/lib/boltTransforms";
 
 // components/
 test("Render works", () => {
@@ -82,6 +83,9 @@ test("GraphAppBase works", () => {
 // Utils
 test("shallowEqual works", () => {
   expect(shallowEqual({ x: 1 }, { x: 1 })).toBeTruthy();
+});
+test("resultHasRows works", () => {
+  expect(resultHasRows({ result: { records: [{ x: 1 }] } })).toBeTruthy();
 });
 
 // Helpers
