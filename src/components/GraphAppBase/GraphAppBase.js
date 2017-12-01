@@ -2,10 +2,7 @@ import React, { Component } from "react";
 import * as PropTypes from "prop-types";
 import { shallowEqual } from "../../lib/utils";
 import { DriverProvider } from "../DriverProvider";
-import {
-  DesktopIntegration,
-  helpers as integrationHelpers
-} from "../DesktopIntegration";
+import { DesktopIntegration } from "../DesktopIntegration";
 import { connectDriver, getActiveDatabaseCredentials } from "./helpers";
 
 export const CONNECTED = "CONNECTED";
