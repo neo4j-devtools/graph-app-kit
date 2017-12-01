@@ -1,18 +1,15 @@
 {
   "name": "graph-app-kit",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "main": "index.js",
   "scripts": {
     "build": "node scripts/build.js",
     "test": "CI=true npm run dev",
     "test:package": "yarn build && yarn test:react && yarn test:preact",
-    "test:react":
-      "CI=true node scripts/test.js --config=config/jest.config.base.js --env=jsdom test_package/react",
-    "test:preact":
-      "CI=true node scripts/test.js --config=config/jest.config.preact.js --env=jsdom test_package/preact",
+    "test:react": "CI=true node scripts/test.js --config=config/jest.config.base.js --env=jsdom test_package/react",
+    "test:preact": "CI=true node scripts/test.js --config=config/jest.config.preact.js --env=jsdom test_package/preact",
     "test:all": "yarn test && yarn test:package",
-    "dev":
-      "node scripts/test.js --config=config/jest.config.base.js --env=jsdom src",
+    "dev": "node scripts/test.js --config=config/jest.config.base.js --env=jsdom src",
     "lint": "eslint --fix --ext .js --ext .jsx src",
     "precommit": "lint-staged",
     "prepare-dist": "node scripts/release.js",
@@ -23,7 +20,10 @@
     "start": "node scripts/start.js"
   },
   "lint-staged": {
-    "*.{js,jsx,json,css}": ["prettier --write", "git add"]
+    "*.{js,jsx,json,css}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "license": "Apache-2.0",
   "devDependencies": {
@@ -83,7 +83,9 @@
     "react-dom": "^16.0.0"
   },
   "babel": {
-    "presets": ["react-app"]
+    "presets": [
+      "react-app"
+    ]
   },
   "dependencies": {
     "@data-ui/radial-chart": "0.0.11",
