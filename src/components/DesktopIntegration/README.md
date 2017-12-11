@@ -1,8 +1,10 @@
-A React component that connects to the Neo4j Desktop API and enabled you to attach properties to it to act on events.  
-See API spec to see the signature for event listener functions and for avaialble events.  
+A React component that connects to the Neo4j Desktop API and enabled you to
+attach properties to it to act on events.\
+See API spec to see the signature for event listener functions and for available
+events.
 
-If event type is `GRAPH_ACTIVE`, the property to attach to the component is `onGraphActive`. 
-Same pattern goes for all event types.
+If event type is `GRAPH_ACTIVE`, the property to attach to the component is
+`onGraphActive`. Same pattern goes for all event types.
 
 ```javascript static
 <DesktopIntegration

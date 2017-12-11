@@ -1,32 +1,24 @@
 ## Graph App Kit
 
-Build Neo4j Graph Apps using components and utilities from this graph app kit.\
-This kit should be considered to be 'under development' and the components in it
-can have breaking changes (i.e. until version `1.0.0` semver does not apply).
+Build Neo4j Graph Apps using components and utilities from this graph app kit.
 
 Browse source code and read README:s in sub directories for examples and docs.
 
-Check out the [playground](https://styleguide-jkvtetyxsx.now.sh).
+Check out the interactive [playground](https://styleguide-cqfmjsxkhp.now.sh) for
+a demo of the components.
 
-## What's in here (so far)
-
-### User interface components
-
-| Component                                                                                                | Description                                                                                    |
-| -------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| [&lt;Render>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/components/Render)             | A declarative toggling component to mount / unmount child components under certain conditions. |
-| [&lt;AsciiTable>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/components/AsciiTable)     | Render your data in an text/ascii table with fixed width font.                                 |
-| [&lt;Chart>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/components/Chart)               | Render your data in a chart visualization.                                                     |
-| [&lt;CypherEditor>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/components/CypherEditor) | A cypher editor component with code highlighting and autocomplete functionality.               |
-
-### Utility components
+## What's in here
 
 | Component                                                                                                            | Description                                                                                                                                                                                                                                                              |
 | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [&lt;GraphAppBase>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/components/GraphAppBase)             | A base component for apps to reduce the amount of boilerplate code for connection handling. Integrates the app with the Neo4j Desktop API and provides the application with a [`neo4j-driver`](https://github.com/neo4j/neo4j-javascript-driver) in application context. |
-| [&lt;Cypher>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/components/Cypher)                         | A simple component to execute a Cypher query and return the result to your render function.                                                                                                                                                                              |
+| [&lt;AsciiTable>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/components/AsciiTable)                 | Render your data in an text/ascii table with fixed width font.                                                                                                                                                                                                           |
+| [&lt;Chart>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/components/Chart)                           | Render your data in a chart visualization.                                                                                                                                                                                                                               |
+| [&lt;Cypher>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/components/Cypher)                         | A simple component to execute a Cypher query and return the result to your render function.                                                                                                                                                                              |  |
+| [&lt;CypherEditor>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/components/CypherEditor)             | A cypher editor component with code highlighting and autocomplete functionality.                                                                                                                                                                                         |
 | [&lt;DesktopIntegration>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/components/DesktopIntegration) | Easy integration for your app into the Neo4j Desktop API. Subscribe to events etc.                                                                                                                                                                                       |
 | [&lt;DriverProvider>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/components/DriverProvider)         | Provide your React application with a [`neo4j-driver`](https://github.com/neo4j/neo4j-javascript-driver) in application context.                                                                                                                                         |
+| [&lt;GraphAppBase>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/components/GraphAppBase)             | A base component for apps to reduce the amount of boilerplate code for connection handling. Integrates the app with the Neo4j Desktop API and provides the application with a [`neo4j-driver`](https://github.com/neo4j/neo4j-javascript-driver) in application context. |
+| [&lt;Render>](https://github.com/neo4j-apps/graph-app-kit/tree/master/src/components/Render)                         | A declarative toggling component to mount / unmount child components under certain conditions.                                                                                                                                                                           |
 
 ## Install and import
 
@@ -48,7 +40,7 @@ import { CypherEditor } from "graph-app-kit/components/CypherEditor";
 ## Component playground / library
 
 There's an interactive playground to view and modify the components.\
-This is temporarily hosted at https://styleguide-jkvtetyxsx.now.sh
+This is temporarily hosted at https://styleguide-cqfmjsxkhp.now.sh
 
 Feedback wanted!
 
@@ -110,6 +102,8 @@ Single run:
 
 ```
 yarn test
+// or for including production bundle tests
+yarn test:all
 ```
 
 Continous testing (watch mode):
