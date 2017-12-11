@@ -6,7 +6,7 @@ can have breaking changes (i.e. until version `1.0.0` semver does not apply).
 
 Browse source code and read README:s in sub directories for examples and docs.
 
-Check out the [playground](https://styleguide-mtlpvavund.now.sh).
+Check out the [playground](https://styleguide-jkvtetyxsx.now.sh).
 
 ## What's in here (so far)
 
@@ -48,7 +48,7 @@ import { CypherEditor } from "graph-app-kit/components/CypherEditor";
 ## Component playground / library
 
 There's an interactive playground to view and modify the components.\
-This is temporarily hosted at https://styleguide-mtlpvavund.now.sh
+This is temporarily hosted at https://styleguide-jkvtetyxsx.now.sh
 
 Feedback wanted!
 

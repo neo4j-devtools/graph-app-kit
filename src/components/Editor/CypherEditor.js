@@ -3,7 +3,6 @@ import classNames from "classnames";
 import * as PropTypes from "prop-types";
 
 import "codemirror/addon/lint/lint";
-import "codemirror/addon/lint/lint";
 import "codemirror/addon/hint/show-hint";
 import "codemirror/addon/hint/show-hint.css";
 import "codemirror/addon/edit/closebrackets";
@@ -21,13 +20,13 @@ export class CypherEditor extends Component {
     };
     this.options = {
       lineNumbers: true,
-      mode: this.props.autoCompleteEnabled ? "cypher" : {},
-      theme: this.props.cypherHighlightingEnabled ? "cypher" : "",
+      mode: "cypher",
+      theme: "cypher",
       gutters: ["cypher-hints"],
       lineWrapping: true,
       autofocus: true,
       smartIndent: false,
-      lineNumberFormatter: this.lineNumberFormatter.bind(this),
+      lineNumberFormatter: this.lineNumberFormatter,
       lint: true,
       extraKeys: {
         "Ctrl-Space": "autocomplete"
@@ -36,12 +35,12 @@ export class CypherEditor extends Component {
         completeSingle: false,
         closeOnUnfocus: false,
         alignWithWord: true,
-
         async: true
       },
       autoCloseBrackets: {
         explode: ""
-      }
+      },
+      ...(this.props.options || {})
     };
     this.schema = this.props.autoCompleteSchema;
   }
@@ -51,13 +50,13 @@ export class CypherEditor extends Component {
     return str.replace(/\r\n|\r/g, "\n");
   }
 
-  lineNumberFormatter(line) {
+  lineNumberFormatter = line => {
     if (!this.codeMirror || this.codeMirror.lineCount() === 1) {
       return "$";
     } else {
       return line;
     }
-  }
+  };
 
   getCodeMirrorInstance() {
     return codemirror;
@@ -71,10 +70,10 @@ export class CypherEditor extends Component {
     );
 
     this.codeMirror = editor;
-    this.codeMirror.on("change", this.codemirrorValueChanged.bind(this));
-    this.codeMirror.on("focus", this.focusChanged.bind(this, true));
-    this.codeMirror.on("blur", this.focusChanged.bind(this, false));
-    this.codeMirror.on("scroll", this.scrollChanged.bind(this));
+    this.codeMirror.on("change", this.codemirrorValueChanged);
+    this.codeMirror.on("focus", () => this.focusChanged(true));
+    this.codeMirror.on("blur", () => this.focusChanged(false));
+    this.codeMirror.on("scroll", this.scrollChanged);
     this.codeMirror.setValue(this.props.value);
     this.editorSupport = editorSupport;
     this.editorSupport.setSchema(this.schema);
@@ -104,22 +103,22 @@ export class CypherEditor extends Component {
     }
   }
 
-  focusChanged(focused) {
+  focusChanged = focused => {
     this.setState({
       isFocused: focused
     });
     this.props.onFocusChange && this.props.onFocusChange(focused);
-  }
+  };
 
-  scrollChanged(cm) {
+  scrollChanged = cm => {
     this.props.onScroll && this.props.onScroll(cm.getScrollInfo());
-  }
+  };
 
-  codemirrorValueChanged(doc, change) {
+  codemirrorValueChanged = (doc, change) => {
     if (this.props.onValueChange && change.origin !== "setValue") {
       this.props.onValueChange(doc.getValue(), change);
     }
-  }
+  };
 
   render() {
     const editorClassNames = classNames(
@@ -138,20 +137,20 @@ export class CypherEditor extends Component {
 }
 
 CypherEditor.propTypes = {
-  autoCompleteEnabled: PropTypes.bool,
-  /** custom syntax highlighting */
+  /** override default options  */
+  options: PropTypes.object,
   autoCompleteSchema: PropTypes.object,
-  cypherHighlightingEnabled: PropTypes.bool,
-  /** returns value as first parameter */
   onValueChange: PropTypes.func,
   /** set intial value */
   value: PropTypes.string
 };
 
 CypherEditor.defaultProps = {
-  autoCompleteEnabled: true,
+  options: {
+    mode: "cypher",
+    theme: "cypher"
+  },
   autoCompleteSchema: undefined,
-  cypherHighlightingEnabled: true,
   onValueChange: () => {},
   value: ""
 };
