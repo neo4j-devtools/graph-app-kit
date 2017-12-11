@@ -1,4 +1,4 @@
-export const getActiveGraph = (context = {}) => {
+export const getActiveProject = (context = {}) => {
   if (!context) return null;
   const { projects } = context;
   if (!Array.isArray(projects)) return null;
@@ -7,6 +7,11 @@ export const getActiveGraph = (context = {}) => {
     if (!(project.graphs && Array.isArray(project.graphs))) return false;
     return project.graphs.find(({ status }) => status === "ACTIVE");
   });
+  return activeProject || null;
+};
+
+export const getActiveGraph = (context = {}) => {
+  const activeProject = getActiveProject(context);
   if (!activeProject) return null;
   return activeProject.graphs.find(({ status }) => status === "ACTIVE");
 };

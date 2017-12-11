@@ -1,10 +1,61 @@
 import {
   getCredentials,
   getActiveGraph,
+  getActiveProject,
   eventToHandler,
   didChangeActiveGraph,
   getActiveCredentials
 } from "./helpers";
+
+test("getActiveProject handles non objects and non-active projects", () => {
+  // Given
+  const contexts = [
+    null,
+    "string",
+    undefined,
+    [1],
+    { project: null },
+    { projects: { x: 1 } },
+    { projects: [null] },
+    { projects: [{ x: 1 }] },
+    { projects: [{ graphs: [{ status: "NOPE" }] }] }
+  ];
+
+  // When && Then
+  contexts.forEach(context => {
+    expect(getActiveProject(context)).toEqual(null);
+  });
+});
+
+test("getActiveProject handles expected objects", () => {
+  // Given
+  const graph = {
+    status: "ACTIVE"
+  };
+  const graph2 = {
+    status: "INACTIVE"
+  };
+  const graph3 = {
+    status: "INACTIVE"
+  };
+
+  const project1 = {
+    graphs: [{ status: "INACTIVE" }]
+  };
+
+  const project2 = {
+    graphs: [{ status: "ACTIVE" }, { status: "INACTIVE" }]
+  };
+  const apiResponse = {
+    projects: [project1, project2]
+  };
+
+  // When
+  const activeProject = getActiveProject(apiResponse);
+
+  // Then
+  expect(activeProject).toEqual(project2);
+});
 
 test("getActiveGraph handles non objects and non-active projects", () => {
   // Given

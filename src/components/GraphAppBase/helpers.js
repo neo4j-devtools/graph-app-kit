@@ -58,8 +58,18 @@ export const subscribeToDatabaseCredentialsForActiveGraph = (
       .getContext()
       .then(context => {
         const credentials = getActiveDatabaseCredentials(context);
+        const activeProject = integrationHelpers.getActiveProject(context);
+        const activeGraph = integrationHelpers.getActiveGraph(context);
         if (credentials) {
-          onNewActiveGraph(credentials);
+          onNewActiveGraph(
+            credentials,
+            { name: activeProject.name, id: activeProject.id },
+            {
+              name: activeGraph.name,
+              id: activeGraph.id,
+              description: activeGraph.description
+            }
+          );
         } else {
           onNoActiveGraph();
         }
@@ -69,8 +79,18 @@ export const subscribeToDatabaseCredentialsForActiveGraph = (
       switch (event.type) {
         case "GRAPH_ACTIVE":
           const credentials = getActiveDatabaseCredentials(newContext);
+          const activeProject = integrationHelpers.getActiveProject(newContext);
+          const activeGraph = integrationHelpers.getActiveGraph(newContext);
           if (credentials) {
-            onNewActiveGraph(credentials);
+            onNewActiveGraph(
+              credentials,
+              { name: activeProject.name, id: activeProject.id },
+              {
+                name: activeGraph.name,
+                id: activeGraph.id,
+                description: activeGraph.description
+              }
+            );
           } else {
             onNoActiveGraph();
           }

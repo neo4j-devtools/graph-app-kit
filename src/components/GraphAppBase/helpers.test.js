@@ -244,26 +244,44 @@ describe("subscribeToDatabaseCredentialsForActiveGraph", () => {
       tlsLevel: "NOT_REQUIRED"
     };
 
-    const context1 = createApiResponse([
-      {
-        status: "ACTIVE",
-        connection: {
-          configuration: {
-            protocols: { bolt: bolt1 }
-          }
+    const graph1 = {
+      name: "graph1",
+      id: Math.random(),
+      description: Math.random().toString(),
+      status: "ACTIVE",
+      connection: {
+        configuration: {
+          protocols: { bolt: bolt1 }
         }
       }
-    ]);
-    const context2 = createApiResponse([
-      {
-        status: "ACTIVE",
-        connection: {
-          configuration: {
-            protocols: { bolt: bolt2 }
-          }
+    };
+    const project1 = {
+      name: "project1",
+      id: Math.random(),
+      graphs: [graph1]
+    };
+    const context1 = {
+      projects: [project1]
+    };
+    const graph2 = {
+      name: "graph2",
+      id: Math.random(),
+      description: Math.random().toString(),
+      status: "ACTIVE",
+      connection: {
+        configuration: {
+          protocols: { bolt: bolt2 }
         }
       }
-    ]);
+    };
+    const project2 = {
+      name: "project2",
+      id: Math.random(),
+      graphs: [graph2]
+    };
+    const context2 = {
+      projects: [project2]
+    };
     var updateFuntion = () => {};
     const integrationPoint = {
       getContext: () => {
@@ -293,12 +311,23 @@ describe("subscribeToDatabaseCredentialsForActiveGraph", () => {
     updateFuntion({ type: "GRAPH_ACTIVE" }, context2, context1);
 
     // Then
-    expect(onNewActiveGraph).toHaveBeenLastCalledWith({
-      host: `bolt://${bolt2.host}:${bolt2.port}`,
-      encrypted: false,
-      username: bolt2.username,
-      password: bolt2.password
-    });
+    expect(onNewActiveGraph).toHaveBeenLastCalledWith(
+      {
+        host: `bolt://${bolt2.host}:${bolt2.port}`,
+        encrypted: false,
+        username: bolt2.username,
+        password: bolt2.password
+      },
+      {
+        name: project2.name,
+        id: project2.id
+      },
+      {
+        name: graph2.name,
+        description: graph2.description,
+        id: graph2.id
+      }
+    );
   });
   test("subscribeToDatabaseCredentialsForActiveGraph calls onNoActiveGraph when integration point update function is called with GRAPH_INACTIVE event", () => {
     // Given
