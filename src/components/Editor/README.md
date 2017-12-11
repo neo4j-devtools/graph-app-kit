@@ -12,9 +12,17 @@ space will trigger 'autocomplete').
 For more advanced usage, the component can also accept a custom schema. This
 adds additional highlighting and autocomplete functionality.
 
+This also overrides the default lineNumberFormatter option to always show the
+line number instead of `$` for single line mode which os the default.
+
 ```javascript
 <CypherEditor
   value=":head"
+  options={{
+    mode: "cypher",
+    theme: "cypher",
+    lineNumberFormatter: line => line
+  }}
   autoCompleteSchema={{
     consoleCommands: [
       // name must start with ':'
