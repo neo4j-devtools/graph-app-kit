@@ -1,6 +1,18 @@
 import React, { Component } from "react";
 import * as PropTypes from "prop-types";
 
+import {
+  Grid,
+  Sidebar as SemanticSidebar,
+  Segment,
+  Button,
+  Menu,
+  Image,
+  Icon,
+  Header
+} from "semantic-ui-react";
+import "semantic-ui-css/semantic.min.css";
+
 const Closing = "CLOSING";
 const Closed = "CLOSED";
 const Open = "OPEN";
@@ -60,7 +72,8 @@ export class Sidebar extends Component {
       const isOpen = item.name.toLowerCase() === selected;
       const icon = item.icon(isOpen);
       return (
-        <div
+        <Menu.Item
+          name={item.name}
           onClick={() => {
             const openDrawer =
               item.name === this.state.openDrawer ? null : item.name;
@@ -69,23 +82,19 @@ export class Sidebar extends Component {
           title={item.title}
           data-test-id={"drawer" + item.name}
           key={index}
-        >
-          <span name={item.name}>{icon}</span>
-        </div>
+          icon={icon}
+        />
       );
     });
   };
 
   render() {
-    const { onNavClick, topNavItems, bottomNavItems } = this.props;
+    const { onNavClick, topNavItems, bottomNavItems, minHeight } = this.props;
     const getContentToShow = openDrawer => {
       if (openDrawer) {
-        const filteredList = [...topNavItems, ...bottomNavItems].filter(
-          item => {
-            return item.name === openDrawer;
-          }
-        );
-        return filteredList[0].content;
+        return [...topNavItems, ...bottomNavItems].find(item => {
+          return item.name === openDrawer;
+        }).content;
       }
       return null;
     };
@@ -100,25 +109,42 @@ export class Sidebar extends Component {
 
     return (
       <div>
-        <div>
-          <div>{renderedtopNavItemsList}</div>
-          <div>{renderedbottomNavItemsList}</div>
-        </div>
         <div
-          open={
-            this.state.transitionState === Open ||
-            this.state.transitionState === Opening
-          }
-          ref={ref => {
-            if (ref) {
-              // Remove old listeners so we don't get multiple callbacks.
-              // This function is called more than once with same html element
-              ref.removeEventListener("transitionend", this._onTransitionEnd);
-              ref.addEventListener("transitionend", this._onTransitionEnd);
-            }
+          style={{
+            width: "86px",
+            float: "left",
+            minHeight: this.props.fullscreenHeight ? "100vh" : "400px",
+            maxHeight: this.props.fullscreenHeight ? "100vh" : "auto"
           }}
         >
-          {getContentToShow(this.state.openDrawer)}
+          <Menu vertical fitted="horizontally" icon="labeled">
+            {renderedtopNavItemsList}
+          </Menu>
+          <Menu vertical fitted="horizontally" icon="labeled">
+            {renderedbottomNavItemsList}
+          </Menu>
+        </div>
+        <div>
+          <SemanticSidebar.Pushable
+            style={{
+              minHeight: this.props.fullscreenHeight ? "100vh" : "400px",
+              maxHeight: this.props.fullscreenHeight ? "100vh" : "auto"
+            }}
+          >
+            <SemanticSidebar
+              as={Menu}
+              animation="push"
+              width="thin"
+              visible={!!this.state.openDrawer}
+              vertical
+            >
+              <SemanticSidebar.Pusher>
+                <Segment basic>
+                  {getContentToShow(this.state.openDrawer)}
+                </Segment>
+              </SemanticSidebar.Pusher>
+            </SemanticSidebar>
+          </SemanticSidebar.Pushable>
         </div>
       </div>
     );
@@ -130,7 +156,8 @@ Sidebar.propTypes = {
   onNavClick: PropTypes.func,
   topNavItems: PropTypes.array,
   bottomNavItems: PropTypes.array,
-  drawerHasChanged: PropTypes.func
+  drawerHasChanged: PropTypes.func,
+  fullscreenHeight: PropTypes.bool
 };
 
 Sidebar.defaultProps = {

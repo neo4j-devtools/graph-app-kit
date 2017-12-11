@@ -6,14 +6,22 @@ Conditinally render child component.
     {
       name: "Tick",
       title: "Tick button",
-      icon: isOpen => <span>{"\u2714"}</span>,
+      icon: isOpen => <div>{"\u2714"}</div>,
       content: <span>Tick</span>
     },
     {
       name: "Cross",
       title: "Cross button",
-      icon: isOpen => <span>{"\u2716"}</span>,
+      icon: isOpen => <div>{"\u2716"}</div>,
       content: <span>Cross</span>
+    }
+  ]}
+  bottomNavItems={[
+    {
+      name: "About",
+      title: "About",
+      icon: isOpen => null,
+      content: <span>Abouta</span>
     }
   ]}
 />;

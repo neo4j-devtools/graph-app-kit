@@ -26,6 +26,10 @@ module.exports = {
           test: /\.css/,
           include: /node_modules/,
           loader: "style-loader!css-loader"
+        },
+        {
+          test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+          loader: "url-loader"
         }
       ]
     }
