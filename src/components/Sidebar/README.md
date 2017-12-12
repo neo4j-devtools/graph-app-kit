@@ -10,7 +10,7 @@ content that is shown in a animated 'drawer'
       name: "Tick",
       title: "Tick button",
       icon: <div>{"\u2714"}</div>,
-      drawerdrawerContent: <span>Tick</span>
+      drawerContent: <span>Tick</span>
     },
     {
       name: "Cross",

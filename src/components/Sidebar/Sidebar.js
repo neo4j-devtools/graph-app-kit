@@ -116,13 +116,22 @@ export class Sidebar extends Component {
 }
 
 Sidebar.propTypes = {
-  _renderItem: PropTypes.func,
   openDrawer: PropTypes.string,
   onNavClick: PropTypes.func,
   topNavItems: PropTypes.array,
   bottomNavItems: PropTypes.array,
   drawerHasChanged: PropTypes.func,
-  fullscreenHeight: PropTypes.bool
+  fullscreenHeight: PropTypes.bool,
+  /** Advanced usage. Calls the function with an object* that can be used for custom button rendering
+   *
+   * \* {
+  name, //from *NavItem
+  title, //from *NavItem
+  icon, //from *NavItem
+  isOpen //bool that returns true when the NavItem's drawerContent is visible
+};
+   */
+  _renderItem: PropTypes.func
 };
 
 Sidebar.defaultProps = {
