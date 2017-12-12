@@ -10,6 +10,7 @@ import { DesktopIntegration } from "../../dist/components/DesktopIntegration";
 import { DriverProvider } from "../../dist/components/DriverProvider";
 import { CypherEditor } from "../../dist/components/Editor";
 import { GraphAppBase } from "../../dist/components/GraphAppBase";
+import { Sidebar } from "../../dist/components/Sidebar";
 
 // Package exports lib/
 import { shallowEqual } from "../../dist/lib/utils";
@@ -75,6 +76,22 @@ test("GraphAppBase works", () => {
       integrationPoint={null}
       render={() => "Hello"}
       driverFactory={{ driver: () => resolvingDriver(0, "yes") }}
+    />
+  );
+  expect(out.toJSON()).toMatchSnapshot();
+});
+test("Sidebar works", () => {
+  const out = TestRenderer.create(
+    <Sidebar
+      openDrawer="Tick"
+      topNavItems={[
+        {
+          name: "Tick",
+          title: "Tick button",
+          icon: <div>{"\u2714"}</div>,
+          drawerContent: <span>Tick</span>
+        }
+      ]}
     />
   );
   expect(out.toJSON()).toMatchSnapshot();

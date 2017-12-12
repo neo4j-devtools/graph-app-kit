@@ -23,7 +23,6 @@ export class Sidebar extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.openDrawer !== this.state.openDrawer) {
       this.props.drawerHasChanged(this.state.openDrawer);
-      this.setState(newState);
     }
   }
 
