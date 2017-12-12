@@ -13,99 +13,57 @@ import {
 } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 
-const Closing = "CLOSING";
-const Closed = "CLOSED";
-const Open = "OPEN";
-const Opening = "OPENING";
-
 export class Sidebar extends Component {
   constructor(props) {
     super(props);
-    this._onTransitionEnd = this.onTransitionEnd.bind(this);
-    this.drawerContent = null;
     this.state = {
-      openDrawer: props.openDrawer,
-      transitionState: Closed
+      openDrawer: props.openDrawer
     };
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.openDrawer !== this.props.openDrawer) {
+    if (nextProps.openDrawer !== this.state.openDrawer) {
       this.props.drawerHasChanged(this.state.openDrawer);
-      var newState = {};
-      if (nextProps.openDrawer) {
-        this.drawerContent = nextProps.openDrawer;
-        if (
-          this.state.transitionState === Closed ||
-          this.state.transitionState === Closing
-        ) {
-          newState.transitionState = Opening;
-        }
-      } else {
-        this.drawerContent = "";
-        if (
-          this.state.transitionState === Open ||
-          this.state.transitionState === Opening
-        ) {
-          newState.transitionState = Closing;
-        }
-      }
       this.setState(newState);
     }
   }
 
-  onTransitionEnd() {
-    if (this.transitionState === Closing) {
-      this.setState({
-        transitionState: Closed,
-        drawerContent: null
-      });
-    }
-    if (this.transitionState === Opening) {
-      this.setState({
-        transitionState: Open
-      });
-    }
-  }
+  renderItem = ({ name, title, icon }, selected, index) => {
+    const isOpen = name === selected;
+    const onClick = () => {
+      const openDrawer = name === this.state.openDrawer ? null : name;
+      this.setState({ openDrawer }, this.props.onNavClick(openDrawer));
+    };
+    return this.props._renderItem ? (
+      <Menu.Item onClick={onClick} key={index}>
+        {this.props._renderItem({ name, title, icon, isOpen })}
+      </Menu.Item>
+    ) : (
+      <Menu.Item
+        onClick={onClick}
+        title={title}
+        data-test-id={"drawer" + name}
+        key={index}
+        icon={icon}
+      />
+    );
+  };
 
   buildNavList = (list, selected) => {
     return list.map((item, index) => {
-      const isOpen = item.name.toLowerCase() === selected;
-      const icon = item.icon(isOpen);
-      return (
-        <Menu.Item
-          name={item.name}
-          onClick={() => {
-            const openDrawer =
-              item.name === this.state.openDrawer ? null : item.name;
-            this.setState({ openDrawer });
-          }}
-          title={item.title}
-          data-test-id={"drawer" + item.name}
-          key={index}
-          icon={icon}
-        />
-      );
+      return this.renderItem(item, selected, index);
     });
   };
 
   render() {
-    const { onNavClick, topNavItems, bottomNavItems, minHeight } = this.props;
+    const { topNavItems, bottomNavItems, minHeight } = this.props;
     const getContentToShow = openDrawer => {
       if (openDrawer) {
         return [...topNavItems, ...bottomNavItems].find(item => {
           return item.name === openDrawer;
-        }).content;
+        }).drawerContent;
       }
       return null;
     };
-    const renderedtopNavItemsList = this.buildNavList(
-      topNavItems,
-      this.drawerContent
-    );
-    const renderedbottomNavItemsList = this.buildNavList(
-      bottomNavItems,
-      this.drawerContent
-    );
 
     return (
       <div>
@@ -114,14 +72,21 @@ export class Sidebar extends Component {
             width: "86px",
             float: "left",
             minHeight: this.props.fullscreenHeight ? "100vh" : "400px",
-            maxHeight: this.props.fullscreenHeight ? "100vh" : "auto"
+            maxHeight: this.props.fullscreenHeight ? "100vh" : "auto",
+            display: "flex",
+            flexDirection: "column"
           }}
         >
           <Menu vertical fitted="horizontally" icon="labeled">
-            {renderedtopNavItemsList}
+            {this.buildNavList(topNavItems, this.state.openDrawer)}
           </Menu>
-          <Menu vertical fitted="horizontally" icon="labeled">
-            {renderedbottomNavItemsList}
+          <Menu
+            style={{ marginTop: "auto" }}
+            vertical
+            fitted="horizontally"
+            icon="labeled"
+          >
+            {this.buildNavList(bottomNavItems, this.state.openDrawer)}
           </Menu>
         </div>
         <div>
@@ -152,6 +117,7 @@ export class Sidebar extends Component {
 }
 
 Sidebar.propTypes = {
+  _renderItem: PropTypes.func,
   openDrawer: PropTypes.string,
   onNavClick: PropTypes.func,
   topNavItems: PropTypes.array,
@@ -164,7 +130,8 @@ Sidebar.defaultProps = {
   openDrawer: null,
   onNavClick: () => {},
   topNavItems: [],
-  bottomNavItems: []
+  bottomNavItems: [],
+  _renderItem: undefined
 };
 
 export default Sidebar;
