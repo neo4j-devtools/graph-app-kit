@@ -1,6 +1,5 @@
-import React, { Component } from "react";
+import React, { Component, Children } from "react";
 import * as PropTypes from "prop-types";
-
 import {
   Grid,
   Sidebar as SemanticSidebar,
@@ -12,134 +11,118 @@ import {
   Header
 } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
+import {
+  SidebarContainer,
+  SidebarItem,
+  SidebarTop,
+  SidebarBottom,
+  SidebarButton,
+  SidebarContent
+} from "./SidebarComponents";
 
-export class Sidebar extends Component {
-  constructor(props) {
-    super(props);
+class Sidebar extends Component {
+  constructor(props, context) {
+    super(props, context);
+    this.initalState = { openDrawer: null, drawerContent: null };
     this.state = {
-      openDrawer: props.openDrawer
+      ...this.initalState,
+      openDrawer: props.defaultOpenDrawer || props.openDrawer || null
     };
   }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.openDrawer !== this.state.openDrawer) {
-      this.props.drawerHasChanged(this.state.openDrawer);
+  getChildContext() {
+    return {
+      openDrawer: this.state.openDrawer,
+      selectDrawer: this.selectDrawer
+    };
+  }
+  selectDrawer = (name, drawerContent) => {
+    if (name !== this.state.openDrawer) {
+      this.setState({
+        openDrawer: name,
+        drawerContent
+      });
+    } else {
+      this.setState({ ...this.initalState });
     }
+  };
+  componentWillReceiveProps(nextProps) {
+    this.setState({ openDrawer: nextProps.openDrawer }),
+      this.props.drawerHasChanged(this.state.openDrawer);
   }
-
-  renderItem = ({ name, title, icon }, selected, index) => {
-    const isOpen = name === selected;
-    const onClick = () => {
-      const openDrawer = name === this.state.openDrawer ? null : name;
-      this.setState({ openDrawer }, this.props.onNavClick(openDrawer));
-    };
-    return this.props._renderItem ? (
-      <Menu.Item onClick={onClick} key={index}>
-        {this.props._renderItem({ name, title, icon, isOpen })}
-      </Menu.Item>
-    ) : (
-      <Menu.Item
-        onClick={onClick}
-        title={title}
-        data-test-id={"drawer" + name}
-        key={index}
-        icon={icon}
-      />
-    );
-  };
-
-  buildNavList = (list, selected) => {
-    return list.map((item, index) => {
-      return this.renderItem(item, selected, index);
-    });
-  };
-
   render() {
-    const { topNavItems, bottomNavItems, minHeight } = this.props;
-    const getContentToShow = openDrawer => {
-      if (openDrawer) {
-        return [...topNavItems, ...bottomNavItems].find(item => {
-          return item.name === openDrawer;
-        }).drawerContent;
-      }
-      return null;
-    };
-
     return (
-      <div>
-        <div
-          style={{
-            width: "86px",
-            float: "left",
-            minHeight: this.props.fullscreenHeight ? "100vh" : "400px",
-            maxHeight: this.props.fullscreenHeight ? "100vh" : "auto",
-            display: "flex",
-            flexDirection: "column"
-          }}
-        >
-          <Menu vertical fitted="horizontally" icon="labeled">
-            {this.buildNavList(topNavItems, this.state.openDrawer)}
-          </Menu>
-          <Menu
-            style={{ marginTop: "auto" }}
-            vertical
-            fitted="horizontally"
-            icon="labeled"
-          >
-            {this.buildNavList(bottomNavItems, this.state.openDrawer)}
-          </Menu>
-        </div>
-        <div>
-          <SemanticSidebar.Pushable
-            style={{
-              minHeight: this.props.fullscreenHeight ? "100vh" : "400px",
-              maxHeight: this.props.fullscreenHeight ? "100vh" : "auto"
-            }}
-          >
-            <SemanticSidebar
-              as={Menu}
-              animation="push"
-              width="thin"
-              visible={!!this.state.openDrawer}
-              vertical
-            >
-              <SemanticSidebar.Pusher>
-                <Segment basic>
-                  {getContentToShow(this.state.openDrawer)}
-                </Segment>
-              </SemanticSidebar.Pusher>
-            </SemanticSidebar>
-          </SemanticSidebar.Pushable>
-        </div>
-      </div>
+      <SidebarComponent
+        {...this.props}
+        openDrawer={this.state.openDrawer}
+        drawerContent={this.state.drawerContent}
+      />
     );
   }
 }
 
-Sidebar.propTypes = {
-  openDrawer: PropTypes.string,
-  onNavClick: PropTypes.func,
-  topNavItems: PropTypes.array,
-  bottomNavItems: PropTypes.array,
-  drawerHasChanged: PropTypes.func,
-  fullscreenHeight: PropTypes.bool,
-  /** Advanced usage. Calls the function with an object* that can be used for custom button rendering
-   *
-   * \* {
-  name, //from *NavItem
-  title, //from *NavItem
-  icon, //from *NavItem
-  isOpen //bool that returns true when the NavItem's drawerContent is visible
+const SidebarComponent = (props, context) => {
+  return (
+    <div>
+      {props.render({
+        selected: props.openDrawer,
+        applySelectedClass: () => {}
+      })}
+      <SemanticSidebar.Pushable
+        style={{
+          minHeight: props.fullscreenHeight ? "100vh" : "400px",
+          maxHeight: props.fullscreenHeight ? "100vh" : "auto"
+        }}
+      >
+        <SemanticSidebar
+          as={Menu}
+          animation="push"
+          visible={!!props.openDrawer}
+          vertical
+        >
+          <SemanticSidebar.Pusher>
+            <Segment basic>{props.drawerContent}</Segment>
+          </SemanticSidebar.Pusher>
+        </SemanticSidebar>
+      </SemanticSidebar.Pushable>
+      <SidebarItem>Hello</SidebarItem>
+    </div>
+  );
 };
-   */
-  _renderItem: PropTypes.func
+
+SidebarComponent.contextTypes = {
+  selected: PropTypes.string,
+  selectDrawer: PropTypes.func
+};
+
+Sidebar.childContextTypes = {
+  openDrawer: PropTypes.string,
+  selectDrawer: PropTypes.func
+};
+
+Sidebar.propTypes = {
+  onChange: PropTypes.func,
+  openDrawer: PropTypes.string,
+  defaultOpenDrawer: PropTypes.string,
+  contentWidth: PropTypes.string,
+  fullscreenHeight: PropTypes.bool,
+  render: PropTypes.func
 };
 
 Sidebar.defaultProps = {
+  onChange: () => {},
   openDrawer: null,
-  onNavClick: () => {},
-  topNavItems: [],
-  bottomNavItems: [],
-  _renderItem: undefined
+  defaultOpenDrawer: null,
+  contentWidth: undefined,
+  fullscreenHeight: false,
+  render: () => {}
 };
 
+Sidebar.Container = SidebarContainer;
+Sidebar.Item = SidebarItem;
+Sidebar.Top = SidebarTop;
+Sidebar.Bottom = SidebarBottom;
+Sidebar.Button = SidebarButton;
+Sidebar.Content = SidebarContent;
+
+export { Sidebar };
 export default Sidebar;

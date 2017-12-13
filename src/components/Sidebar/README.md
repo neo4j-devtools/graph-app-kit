@@ -5,6 +5,33 @@ content that is shown in a animated 'drawer'
 
 ```javascript
 <Sidebar
+  // onChange
+  // openDrawer
+  // defaultOpenDrawer
+  // contentWidth
+  render={({ selected, applySelectedClass }) => (
+    <Sidebar.Container>
+      <Sidebar.Top>
+        <Sidebar.Item name="a">
+          <Sidebar.Button className={applySelectedClass("selected top bar")}>
+            B1
+          </Sidebar.Button>
+          <Sidebar.Content>C1</Sidebar.Content>
+        </Sidebar.Item>
+      </Sidebar.Top>
+      <Sidebar.Bottom>
+        <Sidebar.Item name="b">
+          <Sidebar.Button>B2</Sidebar.Button>
+          <Sidebar.Content>C2</Sidebar.Content>
+        </Sidebar.Item>
+      </Sidebar.Bottom>
+    </Sidebar.Container>
+  )}
+/>;
+```
+
+<!-- ```javascript
+<Sidebar
   topNavItems={[
     {
       name: "Tick",
@@ -68,4 +95,4 @@ Custom button rendering
     }
   ]}
 />;
-```
+``` -->
