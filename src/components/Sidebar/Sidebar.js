@@ -36,11 +36,8 @@ class Sidebar extends Component {
       this.setState({ ...this.initalState });
     }
   };
-  componentWillReceiveProps(nextProps) {
-    this.setState({ openDrawer: nextProps.openDrawer }),
-      this.props.drawerHasChanged(this.state.openDrawer);
-  }
   render() {
+    this.props.onChange(this.state.openDrawer);
     return (
       <SidebarComponent
         {...this.props}
@@ -52,11 +49,12 @@ class Sidebar extends Component {
 }
 
 const SidebarComponent = (props, context) => {
+  const applySelectedClass = () => {};
   return (
     <div>
       {props.render({
         selected: props.openDrawer,
-        applySelectedClass: () => {}
+        applySelectedClass
       })}
       <SemanticSidebar.Pushable
         style={{
