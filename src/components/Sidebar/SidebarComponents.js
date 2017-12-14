@@ -3,7 +3,12 @@ import * as PropTypes from "prop-types";
 import { Segment, Menu } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 
-export const SidebarContainer = ({ fullscreenHeight, children }) => (
+export const SidebarContainer = ({
+  fullscreenHeight,
+  children,
+  style,
+  ...rest
+}) => (
   <div
     style={{
       width: "86px",
@@ -11,8 +16,10 @@ export const SidebarContainer = ({ fullscreenHeight, children }) => (
       minHeight: fullscreenHeight ? "100vh" : "400px",
       maxHeight: fullscreenHeight ? "100vh" : "auto",
       display: "flex",
-      flexDirection: "column"
+      flexDirection: "column",
+      ...style
     }}
+    {...rest}
   >
     {children}
   </div>
