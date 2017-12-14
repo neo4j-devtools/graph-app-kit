@@ -1,15 +1,6 @@
 import React, { Component, Children } from "react";
 import * as PropTypes from "prop-types";
-import {
-  Grid,
-  Sidebar as SemanticSidebar,
-  Segment,
-  Button,
-  Menu,
-  Image,
-  Icon,
-  Header
-} from "semantic-ui-react";
+import { Sidebar as SemanticSidebar, Segment, Menu } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 import {
   SidebarContainer,
