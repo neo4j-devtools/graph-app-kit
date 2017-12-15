@@ -40,40 +40,23 @@ exports[`Render works 1`] = `<p>Hello</p>`;
 
 exports[`Sidebar works 1`] = `
 <div>
-  <div style="width: 86px; float: left; min-height: 400px; max-height: auto; display: flex; flex-direction: column;">
+  <div
+    style="min-height: 300px; max-height: auto;"
+    class="pushable"
+  >
     <div
-      fitted="horizontally"
-      class="ui vertical labeled icon menu"
+      style="width: auto;"
+      class="ui vertical ui push left visible sidebar menu"
     >
-      <a
-        title="Tick button"
-        data-test-id="drawerTick"
-        onClick={[Function anonymous]}
-        class="icon item"
-      >
-        <div>✔</div>
-      </a>
-    </div>
-    <div
-      style="margin-top: auto;"
-      fitted="horizontally"
-      class="ui vertical labeled icon menu"
-    >
-    </div>
-  </div>
-  <div>
-    <div
-      style="min-height: 400px; max-height: auto;"
-      class="pushable"
-    >
-      <div class="ui vertical ui push left thin visible sidebar menu">
-        <div class="pusher">
-          <div class="ui basic segment">
-            <span>Tick</span>
-          </div>
-        </div>
+      <div class="pusher">
+        <div class="ui basic segment"></div>
       </div>
     </div>
   </div>
+  <a
+    onClick={[Function anonymous]}
+    class="item"
+  >
+  </a>
 </div>
 `;

@@ -128,7 +128,7 @@ Sidebar.defaultProps = {
   onChange: () => {},
   openDrawer: null,
   defaultOpenDrawer: null,
-  contentWidth: undefined,
+  contentWidth: "auto",
   fullscreenHeight: false,
   render: () => {}
 };

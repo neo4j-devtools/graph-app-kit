@@ -33,16 +33,28 @@ Will read in `openDrawer` prop and react to any changes to the prop. The `onChan
 
 ```javascript
 <Sidebar
-onChange={(name) => console.log("Name of open drawer:", name)}
-openDrawer='a'
-render={({ selected, applySelectedClass }) => (
+  onChange={name => console.log("Name of open drawer:", name)}
+  openDrawer="a"
+  render={({ selected, applySelectedClass }) => (
     <Sidebar.Container>
       <Sidebar.Top>
         <Sidebar.Item name="a">
           <Sidebar.Button className={applySelectedClass("selected top bar")}>
-            B1
+            <div
+              style={{
+                background: "blue",
+                color: "white",
+                padding: 0,
+                margin: 0
+              }}
+            >
+              Custom Button
+            </div>
           </Sidebar.Button>
-          <Sidebar.Content>C1</Sidebar.Content>
+          <Sidebar.Content>
+            <div>{selected} drawer </div>
+            <button>button</button>
+          </Sidebar.Content>
         </Sidebar.Item>
       </Sidebar.Top>
       <Sidebar.Bottom>
@@ -54,4 +66,5 @@ render={({ selected, applySelectedClass }) => (
     </Sidebar.Container>
   )}
 />;
+
 ```

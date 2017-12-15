@@ -276,69 +276,36 @@ exports[`Render works 1`] = `
 exports[`Sidebar works 1`] = `
 <div>
   <div
+    className="pushable"
     style={
       Object {
-        "display": "flex",
-        "flexDirection": "column",
-        "float": "left",
         "maxHeight": "auto",
-        "minHeight": "400px",
-        "width": "86px",
+        "minHeight": "300px",
       }
     }
   >
     <div
-      className="ui vertical labeled icon menu"
-      fitted="horizontally"
-    >
-      <a
-        className="icon item"
-        data-test-id="drawerTick"
-        onClick={[Function]}
-        title="Tick button"
-      >
-        <div>
-          ✔
-        </div>
-        
-      </a>
-    </div>
-    <div
-      className="ui vertical labeled icon menu"
-      fitted="horizontally"
+      className="ui vertical ui push left visible sidebar menu"
       style={
         Object {
-          "marginTop": "auto",
-        }
-      }
-    />
-  </div>
-  <div>
-    <div
-      className="pushable"
-      style={
-        Object {
-          "maxHeight": "auto",
-          "minHeight": "400px",
+          "width": "auto",
         }
       }
     >
       <div
-        className="ui vertical ui push left thin visible sidebar menu"
+        className="pusher"
       >
         <div
-          className="pusher"
-        >
-          <div
-            className="ui basic segment"
-          >
-            <span>
-              Tick
-            </span>
-          </div>
-        </div>
+          className="ui basic segment"
+        />
       </div>
     </div>
   </div>
+  <a
+    className="item"
+    onClick={[Function]}
+  >
+    
+  </a>
 </div>
 `;
