@@ -1,4 +1,4 @@
-import React, { Component, Children } from "react";
+import React, { Component } from "react";
 import * as PropTypes from "prop-types";
 import { Sidebar as SemanticSidebar, Segment, Menu } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
@@ -14,14 +14,34 @@ import {
 class Sidebar extends Component {
   constructor(props, context) {
     super(props, context);
+    this.selectDrawer = updatedItem => {
+      if (updatedItem.name !== this.state.openDrawer.name) {
+        return this.setState({
+          openDrawer: { ...updatedItem }
+        });
+      }
+      if (!this.state.openDrawer.content) {
+        return this.setState({
+          openDrawer: { ...this.state.openDrawer, content: updatedItem.content }
+        });
+      }
+
+      if (
+        updatedItem.name === this.state.openDrawer.name &&
+        this.state.openDrawer.content
+      ) {
+        return this.setState({ ...this.initalState });
+      }
+    };
     this.initalState = {
-      openDrawer: null,
-      drawerContent: null,
-      defaultOpenDrawer: null
+      openDrawer: {
+        name: null,
+        content: null
+      }
     };
     this.state = {
       ...this.initalState,
-      openDrawer: props.openDrawer,
+      openDrawer: { name: props.openDrawer },
       defaultOpenDrawer: props.defaultOpenDrawer
     };
   }
@@ -32,32 +52,19 @@ class Sidebar extends Component {
       defaultOpenDrawer: this.props.defaultOpenDrawer
     };
   }
-  selectDrawer = (name, drawerContent) => {
-    // if (this.props.defaultOpenDrawer) {
-    //   return this.setState({
-    //     openDrawer: this.props.defaultOpenDrawer,
-    //     drawerContent:
-    //       name === this.props.defaultOpenDrawer
-    //         ? drawerContent
-    //         : this.state.drawerContent
-    //   });
-    // }
-    if (name !== this.state.openDrawer) {
-      return this.setState({
-        openDrawer: name,
-        drawerContent
-      });
-    } else {
-      return this.setState({ ...this.initalState });
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.openDrawer !== this.props.openDrawer) {
+      this.setState({ ...this.initalState, openDrawer: nextProps.openDrawer });
     }
-  };
+  }
   render() {
+    debugger;
     this.props.onChange(this.state.openDrawer);
     return (
       <SidebarComponent
         {...this.props}
-        openDrawer={this.state.openDrawer}
-        drawerContent={this.state.drawerContent}
+        openDrawer={this.state.openDrawer.name}
+        drawerContent={this.state.openDrawer.content}
         contentWidth={this.props.contentWidth}
       />
     );
@@ -75,7 +82,7 @@ const SidebarComponent = (props, context) => {
       })}
       <SemanticSidebar.Pushable
         style={{
-          minHeight: props.fullscreenHeight ? "100vh" : "400px",
+          minHeight: props.fullscreenHeight ? "100vh" : "300px",
           maxHeight: props.fullscreenHeight ? "100vh" : "auto"
         }}
       >
@@ -103,7 +110,7 @@ SidebarComponent.contextTypes = {
 };
 
 Sidebar.childContextTypes = {
-  openDrawer: PropTypes.string,
+  openDrawer: PropTypes.object,
   selectDrawer: PropTypes.func,
   defaultOpenDrawer: PropTypes.string
 };

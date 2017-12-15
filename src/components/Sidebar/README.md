@@ -1,14 +1,11 @@
-Component that create a sidebar that allows configuration of buttons with
+Component that creates a sidebar that allows configuration of buttons with
 content that is shown in a animated 'drawer'
 
-### Basic usage:
+### Simple un-controlled component usage:
 
 ```javascript
 <Sidebar
-  // onChange
-  // openDrawer
-  // defaultOpenDrawer
-  // contentWidth
+  contentWidth="300px"
   render={({ selected, applySelectedClass }) => (
     <Sidebar.Container>
       <Sidebar.Top>
@@ -30,69 +27,31 @@ content that is shown in a animated 'drawer'
 />;
 ```
 
-<!-- ```javascript
-<Sidebar
-  topNavItems={[
-    {
-      name: "Tick",
-      title: "Tick button",
-      icon: <div>{"\u2714"}</div>,
-      drawerContent: <span>Tick</span>
-    },
-    {
-      name: "Cross",
-      title: "Cross button",
-      icon: <div>{"\u2716"}</div>,
-      drawerContent: <span>Cross</span>
-    }
-  ]}
-  bottomNavItems={[
-    {
-      name: "About",
-      title: "About",
-      icon: <div>{"\u2716"}</div>,
-      drawerContent: <span>About</span>
-    }
-  ]}
-/>;
-```
+#### Controlled component usage:
 
-### Advanced usage:
-
-Custom button rendering
+Will read in `openDrawer` prop and react to any changes to the prop. The `onChange` callback will be triggered when a sidebar button is clicked. If `defaultOpenDrawer` prop is set then only that content will be shown.
 
 ```javascript
 <Sidebar
-  openDrawer="Tick"
-  _renderItem={item => {
-    const { name, title, icon, isOpen } = item;
-    return (
-      <div title={title}>
-        {isOpen ? "Open" : name}
-        {icon}
-      </div>
-    );
-  }}
-  topNavItems={[
-    {
-      name: "Tick",
-      title: "Tick button",
-      icon: <div>{"\u2714"}</div>,
-      drawerContent: <span>Tick</span>
-    },
-    {
-      name: "Cross",
-      title: "Cross button",
-      icon: <div>{"\u2716"}</div>,
-      drawerContent: <span>Cross</span>
-    }
-  ]}
-  bottomNavItems={[
-    {
-      name: "About",
-      title: "About",
-      drawerContent: <span>About</span>
-    }
-  ]}
+onChange={(name) => console.log("Name of open drawer:", name)}
+openDrawer='a'
+render={({ selected, applySelectedClass }) => (
+    <Sidebar.Container>
+      <Sidebar.Top>
+        <Sidebar.Item name="a">
+          <Sidebar.Button className={applySelectedClass("selected top bar")}>
+            B1
+          </Sidebar.Button>
+          <Sidebar.Content>C1</Sidebar.Content>
+        </Sidebar.Item>
+      </Sidebar.Top>
+      <Sidebar.Bottom>
+        <Sidebar.Item name="b">
+          <Sidebar.Button>B2</Sidebar.Button>
+          <Sidebar.Content>C2</Sidebar.Content>
+        </Sidebar.Item>
+      </Sidebar.Bottom>
+    </Sidebar.Container>
+  )}
 />;
-``` -->
+```

@@ -1,6 +1,6 @@
-import React, { Component, Children } from "react";
+import React, { Children } from "react";
 import * as PropTypes from "prop-types";
-import { Segment, Menu } from "semantic-ui-react";
+import { Menu } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 
 export const SidebarContainer = ({
@@ -13,7 +13,7 @@ export const SidebarContainer = ({
     style={{
       width: "86px",
       float: "left",
-      minHeight: fullscreenHeight ? "100vh" : "400px",
+      minHeight: fullscreenHeight ? "100vh" : "300px",
       maxHeight: fullscreenHeight ? "100vh" : "auto",
       display: "flex",
       flexDirection: "column",
@@ -25,41 +25,48 @@ export const SidebarContainer = ({
   </div>
 );
 
-const SidebarItem = ({ children, name, ...rest }, context) => {
-  const filteredSidebarButtonChildren = Children.map(children, child => {
-    // const a =
-    //   name === context.openDrawer
-    //     ? {
-    //         className:
-    //           typeof child.props.className === "function"
-    //             ? child.props.className(name)
-    //             : {}
-    //       }
-    //     : {};
-    // debugger;
-    return child.type && child.type.name === "SidebarButton"
+const filterChildrenByType = (children, type) => {
+  return Children.map(children, child => {
+    return child.type && child.type.name === type
       ? React.cloneElement(child)
       : null;
-  }).filter(_ => !!_);
-  const drawerContent = Children.map(children, child => {
-    return child.type && child.type.name === "SidebarContent" ? child : null;
-  }).filter(_ => !!_);
-  const fn = () => {
-    context.selectDrawer(name, drawerContent);
+  });
+};
+const SidebarItem = ({ children, name, ...rest }, context) => {
+  const filteredSidebarButtonChildren = filterChildrenByType(
+    children,
+    "SidebarButton"
+  );
+  const content = filterChildrenByType(children, "SidebarContent");
+  const updateDrawerSelection = () => {
+    context.selectDrawer({ name, content });
   };
-  if (
+
+  const defaultContentSelected =
     context.defaultOpenDrawer &&
     name === context.defaultOpenDrawer &&
-    !context.openDrawer
-  ) {
-    context.selectDrawer(name, drawerContent);
+    !context.openDrawer.content;
+
+  const openDrawerHasNoContent =
+    context.openDrawer &&
+    name === context.openDrawer.name &&
+    !context.openDrawer.content;
+
+  if (defaultContentSelected || openDrawerHasNoContent) {
+    updateDrawerSelection();
   }
 
-  return <Menu.Item onClick={fn}>{filteredSidebarButtonChildren}</Menu.Item>;
+  return (
+    <Menu.Item
+      onClick={!context.defaultOpenDrawer ? updateDrawerSelection : () => {}}
+    >
+      {filteredSidebarButtonChildren}
+    </Menu.Item>
+  );
 };
 
 SidebarItem.contextTypes = {
-  openDrawer: PropTypes.string,
+  openDrawer: PropTypes.object,
   selectDrawer: PropTypes.func,
   defaultOpenDrawer: PropTypes.string
 };
@@ -92,7 +99,7 @@ export const SidebarBottom = ({ children, ...rest }) => {
       fitted="horizontally"
       icon="labeled"
     >
-      {children}
+      {filteredChildren}
     </Menu>
   );
 };
