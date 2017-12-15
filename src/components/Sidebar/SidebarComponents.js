@@ -25,26 +25,36 @@ export const SidebarContainer = ({
   </div>
 );
 
-const SidebarItem = ({ children, name }, context) => {
+const SidebarItem = ({ children, name, ...rest }, context) => {
   const filteredSidebarButtonChildren = Children.map(children, child => {
-    return child.type && child.type.name === "SidebarButton" ? child : null;
+    // const a =
+    //   name === context.openDrawer
+    //     ? {
+    //         className:
+    //           typeof child.props.className === "function"
+    //             ? child.props.className(name)
+    //             : {}
+    //       }
+    //     : {};
+    // debugger;
+    return child.type && child.type.name === "SidebarButton"
+      ? React.cloneElement(child)
+      : null;
   }).filter(_ => !!_);
   const drawerContent = Children.map(children, child => {
     return child.type && child.type.name === "SidebarContent" ? child : null;
   }).filter(_ => !!_);
-  return (
-    <Menu.Item
-      onClick={() => {
-        context.selectDrawer(name, drawerContent);
-      }}
-    >
-      {filteredSidebarButtonChildren}
-    </Menu.Item>
-  );
+  const fn = () => {
+    context.selectDrawer(name, drawerContent);
+  };
+  if (context.defaultOpenDrawer) {
+    fn();
+  }
+  return <Menu.Item onClick={fn}>{filteredSidebarButtonChildren}</Menu.Item>;
 };
 
 SidebarItem.contextTypes = {
-  selected: PropTypes.string,
+  openDrawer: PropTypes.string,
   selectDrawer: PropTypes.func
 };
 
@@ -83,4 +93,6 @@ export const SidebarBottom = ({ children, ...rest }) => {
 
 export const SidebarButton = ({ children, ...rest }) => <div>{children}</div>;
 
-export const SidebarContent = ({ children, ...rest }) => <div>{children}</div>;
+export const SidebarContent = ({ children, ...rest }, context) => (
+  <div {...rest}>{children}</div>
+);

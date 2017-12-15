@@ -27,13 +27,22 @@ class Sidebar extends Component {
     };
   }
   selectDrawer = (name, drawerContent) => {
+    if (this.props.defaultOpenDrawer) {
+      return this.setState({
+        openDrawer: this.props.defaultOpenDrawer,
+        drawerContent:
+          name === this.props.defaultOpenDrawer
+            ? drawerContent
+            : this.state.drawerContent
+      });
+    }
     if (name !== this.state.openDrawer) {
-      this.setState({
+      return this.setState({
         openDrawer: name,
         drawerContent
       });
     } else {
-      this.setState({ ...this.initalState });
+      return this.setState({ ...this.initalState });
     }
   };
   render() {
@@ -43,13 +52,15 @@ class Sidebar extends Component {
         {...this.props}
         openDrawer={this.state.openDrawer}
         drawerContent={this.state.drawerContent}
+        contentWidth={this.props.contentWidth}
       />
     );
   }
 }
 
 const SidebarComponent = (props, context) => {
-  const applySelectedClass = () => {};
+  const applySelectedClass = classNames => name =>
+    props.openDrawer === name ? { className: classNames } : {};
   return (
     <div>
       {props.render({
@@ -67,6 +78,7 @@ const SidebarComponent = (props, context) => {
           animation="push"
           visible={!!props.openDrawer}
           vertical
+          style={{ width: props.contentWidth }}
         >
           <SemanticSidebar.Pusher>
             <Segment basic>{props.drawerContent}</Segment>
