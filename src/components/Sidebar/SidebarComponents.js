@@ -47,15 +47,21 @@ const SidebarItem = ({ children, name, ...rest }, context) => {
   const fn = () => {
     context.selectDrawer(name, drawerContent);
   };
-  if (context.defaultOpenDrawer) {
-    fn();
+  if (
+    context.defaultOpenDrawer &&
+    name === context.defaultOpenDrawer &&
+    !context.openDrawer
+  ) {
+    context.selectDrawer(name, drawerContent);
   }
+
   return <Menu.Item onClick={fn}>{filteredSidebarButtonChildren}</Menu.Item>;
 };
 
 SidebarItem.contextTypes = {
   openDrawer: PropTypes.string,
-  selectDrawer: PropTypes.func
+  selectDrawer: PropTypes.func,
+  defaultOpenDrawer: PropTypes.string
 };
 
 export { SidebarItem };

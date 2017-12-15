@@ -14,28 +14,34 @@ import {
 class Sidebar extends Component {
   constructor(props, context) {
     super(props, context);
-    this.initalState = { openDrawer: null, drawerContent: null };
+    this.initalState = {
+      openDrawer: null,
+      drawerContent: null,
+      defaultOpenDrawer: null
+    };
     this.state = {
       ...this.initalState,
-      openDrawer: props.defaultOpenDrawer || props.openDrawer || null
+      openDrawer: props.openDrawer,
+      defaultOpenDrawer: props.defaultOpenDrawer
     };
   }
   getChildContext() {
     return {
       openDrawer: this.state.openDrawer,
-      selectDrawer: this.selectDrawer
+      selectDrawer: this.selectDrawer,
+      defaultOpenDrawer: this.props.defaultOpenDrawer
     };
   }
   selectDrawer = (name, drawerContent) => {
-    if (this.props.defaultOpenDrawer) {
-      return this.setState({
-        openDrawer: this.props.defaultOpenDrawer,
-        drawerContent:
-          name === this.props.defaultOpenDrawer
-            ? drawerContent
-            : this.state.drawerContent
-      });
-    }
+    // if (this.props.defaultOpenDrawer) {
+    //   return this.setState({
+    //     openDrawer: this.props.defaultOpenDrawer,
+    //     drawerContent:
+    //       name === this.props.defaultOpenDrawer
+    //         ? drawerContent
+    //         : this.state.drawerContent
+    //   });
+    // }
     if (name !== this.state.openDrawer) {
       return this.setState({
         openDrawer: name,
@@ -92,12 +98,14 @@ const SidebarComponent = (props, context) => {
 
 SidebarComponent.contextTypes = {
   selected: PropTypes.string,
-  selectDrawer: PropTypes.func
+  selectDrawer: PropTypes.func,
+  defaultOpenDrawer: PropTypes.string
 };
 
 Sidebar.childContextTypes = {
   openDrawer: PropTypes.string,
-  selectDrawer: PropTypes.func
+  selectDrawer: PropTypes.func,
+  defaultOpenDrawer: PropTypes.string
 };
 
 Sidebar.propTypes = {
