@@ -73,24 +73,14 @@ SidebarItem.contextTypes = {
 };
 
 const SidebarTop = ({ children, ...rest }) => {
-  const filteredChildren = Children.map(children, child => {
-    return child.type && child.type.prototype === SidebarItem.prototype
-      ? child
-      : null;
-  }).filter(_ => !!_);
   return (
     <Menu vertical fitted="horizontally" icon="labeled" {...rest}>
-      {filteredChildren}
+      {filterChildrenByType(children, "SidebarItem")}
     </Menu>
   );
 };
 
 const SidebarBottom = ({ children, ...rest }) => {
-  const filteredChildren = Children.map(children, child => {
-    return child.type && child.type.prototype === SidebarItem.prototype
-      ? child
-      : null;
-  }).filter(_ => !!_);
   return (
     <Menu
       style={{ marginTop: "auto" }}
@@ -98,12 +88,14 @@ const SidebarBottom = ({ children, ...rest }) => {
       fitted="horizontally"
       icon="labeled"
     >
-      {filteredChildren}
+      {filterChildrenByType(children, "SidebarItem")}
     </Menu>
   );
 };
 
-const SidebarButton = ({ children, ...rest }) => <div>{children}</div>;
+const SidebarButton = ({ children, ...rest }) => (
+  <div {...rest}>{children}</div>
+);
 
 const SidebarContent = ({ children, ...rest }, context) => (
   <div {...rest}>{children}</div>

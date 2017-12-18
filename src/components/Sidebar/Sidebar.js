@@ -58,7 +58,6 @@ class Sidebar extends Component {
     }
   }
   render() {
-    debugger;
     this.props.onChange(this.state.openDrawer);
     return (
       <SidebarComponent

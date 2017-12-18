@@ -29,7 +29,9 @@ content that is shown in a animated 'drawer'
 
 #### Controlled component usage:
 
-Will read in `openDrawer` prop and react to any changes to the prop. The `onChange` callback will be triggered when a sidebar button is clicked. If `defaultOpenDrawer` prop is set then only that content will be shown.
+Will read in `openDrawer` prop and react to any changes to the prop. The
+`onChange` callback will be triggered when a sidebar button is clicked. If
+`defaultOpenDrawer` prop is set then only that content will be shown.
 
 ```javascript
 <Sidebar
@@ -66,5 +68,4 @@ Will read in `openDrawer` prop and react to any changes to the prop. The `onChan
     </Sidebar.Container>
   )}
 />;
-
 ```
