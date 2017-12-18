@@ -32,6 +32,7 @@ const filterChildrenByType = (children, type) => {
       : null;
   });
 };
+
 const SidebarItem = ({ children, name, ...rest }, context) => {
   const filteredSidebarButtonChildren = filterChildrenByType(
     children,
@@ -71,9 +72,7 @@ SidebarItem.contextTypes = {
   defaultOpenDrawer: PropTypes.string
 };
 
-export { SidebarItem };
-
-export const SidebarTop = ({ children, ...rest }) => {
+const SidebarTop = ({ children, ...rest }) => {
   const filteredChildren = Children.map(children, child => {
     return child.type && child.type.prototype === SidebarItem.prototype
       ? child
@@ -86,7 +85,7 @@ export const SidebarTop = ({ children, ...rest }) => {
   );
 };
 
-export const SidebarBottom = ({ children, ...rest }) => {
+const SidebarBottom = ({ children, ...rest }) => {
   const filteredChildren = Children.map(children, child => {
     return child.type && child.type.prototype === SidebarItem.prototype
       ? child
@@ -104,8 +103,16 @@ export const SidebarBottom = ({ children, ...rest }) => {
   );
 };
 
-export const SidebarButton = ({ children, ...rest }) => <div>{children}</div>;
+const SidebarButton = ({ children, ...rest }) => <div>{children}</div>;
 
-export const SidebarContent = ({ children, ...rest }, context) => (
+const SidebarContent = ({ children, ...rest }, context) => (
   <div {...rest}>{children}</div>
 );
+
+export {
+  SidebarItem,
+  SidebarButton,
+  SidebarContent,
+  SidebarTop,
+  SidebarBottom
+};
