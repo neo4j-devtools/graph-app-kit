@@ -6,13 +6,11 @@ content that is shown in a animated 'drawer'
 ```javascript
 <Sidebar
   contentWidth="300px"
-  render={({ selected, applySelectedClass }) => (
+  render={({ selected }) => (
     <Sidebar.Container>
       <Sidebar.Top>
         <Sidebar.Item name="a">
-          <Sidebar.Button className={applySelectedClass("selected top bar")}>
-            B1
-          </Sidebar.Button>
+          <Sidebar.Button>B1</Sidebar.Button>
           <Sidebar.Content>C1</Sidebar.Content>
         </Sidebar.Item>
       </Sidebar.Top>
@@ -37,11 +35,11 @@ Will read in `openDrawer` prop and react to any changes to the prop. The
 <Sidebar
   onChange={name => console.log("Name of open drawer:", name)}
   openDrawer="a"
-  render={({ selected, applySelectedClass }) => (
+  render={({ selected }) => (
     <Sidebar.Container>
       <Sidebar.Top>
         <Sidebar.Item name="a">
-          <Sidebar.Button className={applySelectedClass("selected top bar")}>
+          <Sidebar.Button>
             <div
               style={{
                 background: "blue",
