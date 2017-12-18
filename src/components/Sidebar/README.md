@@ -1,7 +1,7 @@
 Component that creates a sidebar that allows configuration of buttons with
 content that is shown in a animated 'drawer'
 
-### Simple un-controlled component usage:
+#### Simple un-controlled component usage:
 
 ```javascript
 <Sidebar
