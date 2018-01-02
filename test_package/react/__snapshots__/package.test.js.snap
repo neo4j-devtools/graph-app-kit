@@ -272,3 +272,40 @@ exports[`Render works 1`] = `
   Hello
 </p>
 `;
+
+exports[`Sidebar works 1`] = `
+<div>
+  <div
+    className="pushable"
+    style={
+      Object {
+        "maxHeight": "auto",
+        "minHeight": "300px",
+      }
+    }
+  >
+    <div
+      className="ui vertical ui push left visible sidebar menu"
+      style={
+        Object {
+          "width": "auto",
+        }
+      }
+    >
+      <div
+        className="pusher"
+      >
+        <div
+          className="ui basic segment"
+        />
+      </div>
+    </div>
+  </div>
+  <a
+    className="item"
+    onClick={[Function]}
+  >
+    
+  </a>
+</div>
+`;

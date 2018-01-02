@@ -37,3 +37,26 @@ exports[`GraphAppBase works 1`] = `
 `;
 
 exports[`Render works 1`] = `<p>Hello</p>`;
+
+exports[`Sidebar works 1`] = `
+<div>
+  <div
+    style="min-height: 300px; max-height: auto;"
+    class="pushable"
+  >
+    <div
+      style="width: auto;"
+      class="ui vertical ui push left visible sidebar menu"
+    >
+      <div class="pusher">
+        <div class="ui basic segment"></div>
+      </div>
+    </div>
+  </div>
+  <a
+    onClick={[Function anonymous]}
+    class="item"
+  >
+  </a>
+</div>
+`;
