@@ -1,6 +1,16 @@
 A component that provides Cypher syntax highlighting and autocompletion (ctrl +
 space will trigger 'autocomplete').
 
+### Styling
+
+Remember to include the required CSS somewhere in your app. Something like:
+
+```javascript
+import "codemirror/lib/codemirror.css";
+import "codemirror/addon/lint/lint.css";
+import "cypher-codemirror/dist/cypher-codemirror-syntax.css";
+```
+
 ### Basic Usage
 
 ```javascript
