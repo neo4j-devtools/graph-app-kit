@@ -8,6 +8,7 @@ Remember to include the required CSS somewhere in your app. Something like:
 ```javascript
 import "codemirror/lib/codemirror.css";
 import "codemirror/addon/lint/lint.css";
+import "codemirror/addon/hint/show-hint.css";
 import "cypher-codemirror/dist/cypher-codemirror-syntax.css";
 ```
 
