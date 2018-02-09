@@ -34,7 +34,7 @@ import { Cypher } from "graph-app-kit/components/Cypher";
 import { DriverProvider } from "graph-app-kit/components/DriverProvider";
 import { Render } from "graph-app-kit/components/Render";
 import { Chart } from "graph-app-kit/components/Chart";
-import { CypherEditor } from "graph-app-kit/components/CypherEditor";
+import { CypherEditor } from "graph-app-kit/components/Editor";
 ```
 
 ## Component playground / library
