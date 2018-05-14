@@ -84,6 +84,14 @@ export class CypherEditor extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value !== this.props.value) {
+      if (this.codeMirror && this.codeMirror.getValue() !== nextProps.value) {
+        this.codeMirror.setValue(nextProps.value);
+      }
+    }
+  }
+
   goToPosition(position) {
     for (let i = 0; i < position.line; i++) {
       this.codeMirror.execCommand("goLineDown");
