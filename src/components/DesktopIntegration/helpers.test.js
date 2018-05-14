@@ -28,17 +28,6 @@ test("getActiveProject handles non objects and non-active projects", () => {
 });
 
 test("getActiveProject handles expected objects", () => {
-  // Given
-  const graph = {
-    status: "ACTIVE"
-  };
-  const graph2 = {
-    status: "INACTIVE"
-  };
-  const graph3 = {
-    status: "INACTIVE"
-  };
-
   const project1 = {
     graphs: [{ status: "INACTIVE" }]
   };
