@@ -1,9 +1,9 @@
 import { stringifyMod, flattenArray } from "./utils";
 
 export const recursivelyExtractGraphItems = (types, item) => {
-  if (item instanceof types.Node) return item;
-  if (item instanceof types.Relationship) return item;
-  if (item instanceof types.Path) return item;
+  if (isGraphItem(types, item)) {
+    return item;
+  }
   if (Array.isArray(item)) {
     return item.map(i => recursivelyExtractGraphItems(types, i));
   }
@@ -32,6 +32,23 @@ export const resultHasNodes = (types, request) => {
       item => item instanceof types.Node || item instanceof types.Path
     );
     if (nodes.length) return true;
+  }
+  return false;
+};
+
+export const resultHasPoints = (types, request) => {
+  if (!request) return false;
+  const { result = {} } = request;
+  if (!result || !result.records) return false;
+  const { records = undefined } = result;
+  if (!records || !records.length) return false;
+  let keys = records[0].keys;
+  for (let i = 0; i < records.length; i++) {
+    const graphItems = keys.map(key => records[i].get(key));
+    const items = recursivelyExtractGraphItems(types, graphItems);
+    const flat = flattenArray(items);
+    const points = flat.filter(item => item instanceof types.Point);
+    if (points.length) return true;
   }
   return false;
 };
@@ -175,7 +192,14 @@ export const isGraphItem = (types, item) => {
     item instanceof types.Node ||
     item instanceof types.Relationship ||
     item instanceof types.Path ||
-    item instanceof types.PathSegment
+    item instanceof types.PathSegment ||
+    item instanceof types.Date ||
+    item instanceof types.DateTime ||
+    item instanceof types.Duration ||
+    item instanceof types.LocalDateTime ||
+    item instanceof types.LocalTime ||
+    item instanceof types.Time ||
+    item instanceof types.Point
   );
 };
 
