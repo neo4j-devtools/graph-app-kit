@@ -193,13 +193,13 @@ export const isGraphItem = (types, item) => {
     item instanceof types.Relationship ||
     item instanceof types.Path ||
     item instanceof types.PathSegment ||
-    item instanceof types.Date ||
-    item instanceof types.DateTime ||
-    item instanceof types.Duration ||
-    item instanceof types.LocalDateTime ||
-    item instanceof types.LocalTime ||
-    item instanceof types.Time ||
-    item instanceof types.Point
+    (types.Date && item instanceof types.Date) ||
+    (types.DateTime && item instanceof types.DateTime) ||
+    (types.Duration && item instanceof types.Duration) ||
+    (types.LocalDateTime && item instanceof types.LocalDateTime) ||
+    (types.LocalTime && item instanceof types.LocalTime) ||
+    (types.Time && item instanceof types.Time) ||
+    (types.Point && item instanceof types.Point)
   );
 };
 
