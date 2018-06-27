@@ -44,7 +44,7 @@ where Neo4j Desktop does not know about it.\
 Here's example usage code for it:
 
 ```javascript static
-import { GraphAppBase, ConnectModal, CONNECTED } from "graph-app-kit/utils/GraphAppBase"
+import { GraphAppBase, ConnectModal, CONNECTED } from "graph-app-kit/components/GraphAppBase"
 
 const neo4j = require("neo4j-driver/lib/browser/neo4j-web.min.js").v1;
 const integrationPoint = window.neo4jDesktopApi;
