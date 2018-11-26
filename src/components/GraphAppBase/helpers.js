@@ -5,7 +5,7 @@ export const connectDriver = (
   driverFactory,
   onConnectionSuccessful,
   onConnectionFailure,
-  settings
+  settings = {}
 ) => {
   const { host, username, password, encrypted } = credentials;
   var driver = null;
