@@ -4,7 +4,8 @@ export const connectDriver = (
   credentials,
   driverFactory,
   onConnectionSuccessful,
-  onConnectionFailure
+  onConnectionFailure,
+  settings = {}
 ) => {
   const { host, username, password, encrypted } = credentials;
   var driver = null;
@@ -13,7 +14,11 @@ export const connectDriver = (
       ? driverFactory.auth.basic(username, password)
       : undefined;
   try {
-    driver = driverFactory.driver(host, auth, { encrypted });
+    driver = driverFactory.driver(host, auth, {
+      connectionTimeout: 5000,
+      ...settings,
+      encrypted
+    });
   } catch (e) {
     onConnectionFailure(e);
     return;
