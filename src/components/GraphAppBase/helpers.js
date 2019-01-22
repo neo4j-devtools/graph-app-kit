@@ -43,7 +43,7 @@ export const getActiveDatabaseCredentials = context => {
   const creds = integrationHelpers.getActiveCredentials("bolt", context);
   if (creds) {
     return {
-      host: `bolt://${creds.host}:${creds.port}`,
+      host: creds.url || `bolt://${creds.host}:${creds.port}`,
       encrypted: creds.tlsLevel === "REQUIRED",
       username: creds.username,
       password: creds.password
