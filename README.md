@@ -62,7 +62,7 @@ The preferred way to develop new components is to either develop it directly in
 `src/dev/Component` or import there.\
 To start dev server on http://localhost:3000/ (loads `src/dev/index.js` in webpack):
 `yarn start`\
-To have continous testing (add tests to `src/dev/Component.test.js`): `yarn dev`
+To have continuous testing (add tests to `src/dev/Component.test.js`): `yarn dev`
 
 ### Exposing components
 
