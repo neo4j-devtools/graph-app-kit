@@ -56,7 +56,8 @@ export const getActiveDatabaseCredentials = context => {
 export const subscribeToDatabaseCredentialsForActiveGraph = (
   integrationPoint,
   onNewActiveGraph,
-  onNoActiveGraph
+  onNoActiveGraph,
+  onError
 ) => {
   if (integrationPoint && integrationPoint.getContext) {
     integrationPoint
@@ -79,7 +80,10 @@ export const subscribeToDatabaseCredentialsForActiveGraph = (
           onNoActiveGraph();
         }
       })
-      .catch(e => {}); // Catch but don't bother
+      .catch(e => {
+        onError && onError(e);
+      });
+
     integrationPoint.onContextUpdate((event, newContext, oldContext) => {
       switch (event.type) {
         case "GRAPH_ACTIVE":
